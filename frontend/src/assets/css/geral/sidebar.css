@@ -1,0 +1,45 @@
+ul{
+    list-style-type: none;
+    height: 100%;
+}
+ul li.item-menu{
+    transition: .1s;
+}
+ul li.ativo{
+    background-color: rgb(98, 25, 165);
+}
+ul li.item-menu:hover{
+    background: blueviolet;
+}
+ul li.item-menu a{
+    color:#fff;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 20px 4%;
+    display: flex;
+    line-height: 40px;
+}
+ul li.item-menu a .txt-link{
+    margin-left: 20px;
+    transition: 1s;
+    opacity: 0;
+}
+
+ 
+ul li.item-menu .icon > i{
+    font-size: 30px;
+    padding-left: 10px;
+    
+}
+ 
+.main{
+    display: flex;
+}
+
+.menu-horizontal > h1{
+    color: #fff;
+    font-size: 24px;
+    cursor: pointer;
+    left: 80%;
+    
+}

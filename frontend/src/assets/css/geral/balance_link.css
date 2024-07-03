@@ -1,0 +1,93 @@
+.apagar_link{
+    color: #ffff ;
+}
+.container-cards_regist.balance .card .box .content.balance p{
+    color: #ffffff;
+}
+.container-cards_regist.balance.read {
+    margin-left: 30%;
+}
+.container-cards_regist.balance .card .box .content.balance .conteiner_for_btn{
+    display: flex;
+    justify-content: space-between;
+    
+
+}
+.container-cards_regist.balance .card .box .content.balance .conteiner_div_for_btn .link{
+    padding: 10px 10px;
+    background: linear-gradient(40deg, #0d1212, #3da077, #0d1212);
+    margin: 10px;
+    display: flex;
+    color: azure;
+}
+#corpo > div > main > div > div > div > div > div > div > div > a.link.apagar {
+    padding: 10px 10px;
+    background: linear-gradient(40deg, #0d1212, #a03d3d, #0d1212);
+    margin: 10px;
+    display: flex;
+    color: azure;
+}
+#corpo > div.container_partial.base > main > div > div:nth-child(2) > div > div > div > div > a{
+    padding: 10px 10px;
+    background: linear-gradient(140deg, #0d1212, #3da077, #0d1212);
+    margin: 10px;
+    display: flex;
+    color: azure;  
+}
+#corpo > div.container_partial.base > main > div > div:nth-child(2) > div > div > div > div > a:hover{
+    background: linear-gradient(40deg, #0d1212, #3da077, #0d1212); 
+    transform: scale(0.9); 
+}
+#corpo > div > main > div > div > div > div > div > div > div > a.link.apagar:hover {
+    padding: 10px 10px;
+    background: linear-gradient(140deg, #0d1212, #a03d3d, #0d1212);
+    margin: 10px;
+    display: flex;
+    color: azure;
+}
+    .container-cards_regist.balance .card .box .content.balance .conteiner_div_for_btn .link:hover{
+        padding: 10px 10px;
+        background: linear-gradient(140deg, #0d1212, #3da077, #0d1212);
+        font-weight: bold;
+         
+ }
+ .link.edit{
+     padding: 1px 16px;
+    background: linear-gradient(40deg, #0d1212, #3da077, #0d1212);
+    margin: 5px;
+    border-radius: 5px;
+    color: azure;
+    text-align: justify; }
+    .link.edit:hover{
+        background: linear-gradient(140deg, #0d1212, #3da077, #0d1212);
+    }
+    .link.delete{
+        padding: 1px 16px;
+       background: linear-gradient(40deg, #0d1212, #a03d3d, #0d1212);
+       margin: 5px;
+       border-radius: 5px;
+       color: azure;
+       text-align: justify; 
+    }
+    .paragrafo_link{
+            margin-bottom: 20px;
+    }
+       .link.delete:hover{
+       background: linear-gradient(140deg, #0d1212, #a03d3d, #0d1212);
+
+       }
+    .container-cards_regist.balance .card .box .content.balance .conteiner_div_for_btn .link:hover{
+        padding: 10px 10px;
+        background: linear-gradient(140deg, #0d1212, #3da077, #0d1212);
+        font-weight: bold;
+         
+ }
+ .section-title{
+    color: rgb(151, 152, 199);
+ }
+
+ .list_balance{
+    overflow: hidden;
+    overflow-y: auto;
+     max-height: 295px;
+ }

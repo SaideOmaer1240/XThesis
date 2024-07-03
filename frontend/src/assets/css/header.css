@@ -1,0 +1,102 @@
+@media (max-width: 1024px){
+    .banner{
+        margin-right: 2px;
+        overflow: hidden;
+    }
+    .banner-image{
+        margin-right: 10px;  
+        max-width: 90%;
+    }
+} 
+span.text{
+    color: white;
+}
+#root > div > header > div.conteiner_list > ul > li.logout > a{
+    text-decoration:none; 
+    color: #ffffff; 
+    background:red ;
+    border-radius: 5px;
+}
+#root > div > header > div.conteiner_list > ul > li.logout > a > span{
+    padding: 10px !important;
+    padding-top: 0p !important;
+    padding-bottom: 0 !important;
+}
+#root > div > header > div.conteiner_list > ul > li.logout{
+    text-decoration: none !important;
+    font-size: 26px; 
+    
+  }
+@media (max-width: 912px) {
+    .banner{
+        flex-direction: column-reverse;
+        min-height: calc(100vh - 503px);
+        padding-top: 40px;
+        display: flex;
+        margin: 20px;
+        margin-top: 0;
+    }
+    .heading__2 {
+        padding-top: 0;
+        font-weight: 700;
+        color: var(--primary-color);
+    }
+    .headline{
+        padding-top: 0;
+        margin-top: 0;
+    }
+    .banner-content p {
+        font-size: 2rem;
+    } 
+}
+@media (max-width: 853px) {
+    .saiba-mais {
+        margin-left: 70%;
+    }  
+}
+@media(max-width: 540px){
+    h1{
+        font-size: 20px;
+    }
+    .banner{
+        flex-direction: column-reverse;
+    }
+    .imagem1{
+        display: none;
+    }
+    .banner-image {
+        margin-right: 1px;
+        max-width: 100%;
+    }
+    .imagem2 {
+        max-width: 100%;
+        max-height: 100%;
+        margin-top: 2%;
+    }
+    .saiba-mais {
+        margin-left: 40%;
+    }
+    .toggleMenu{
+        font-size: 20px;
+    }
+}
+@media (max-width: 280px) {
+    .banner .banner-content h1 {
+        font-size: 2rem;
+        font-weight: 400;
+        line-height: 2.2rem;
+         
+    }
+    .heading__2 {
+        padding-top: 0;
+        font-weight: 200;
+        color: var(--primary-color);
+    }
+    .banner-content p {
+        font-size: 1.50rem;
+    }
+    .saiba-mais {
+        margin-left: 20%;
+    }
+    
+}

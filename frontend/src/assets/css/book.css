@@ -1,0 +1,155 @@
+/* Estilo para a div wrapper */
+#downloadBtn {
+	position: fixed;
+	top: 72px;  
+    margin-right: 140px;
+	right: 20px; /* ajuste conforme necessário */
+	/*gradient para botao*/
+	background: -webkit-linear-gradient( #5c48ee, #9b8eff);
+	background: -moz-linear-gradient( #5c48ee,#9b8eff);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5c48ee', endColorstr='#9b8eff');
+	text-decoration: none;
+	 
+	color: #fff; /* cor do texto */
+	
+	padding: 10px 20px; /* preenchimento interno */
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+	z-index: 1000; /* para garantir que esteja sempre na parte superior */
+  }
+  
+  #downloadBtn:hover{
+	background: -webkit-linear-gradient( #9b8eff, #5c48ee );
+	background: -moz-linear-gradient(  #9b8eff, #5c48ee);
+  }
+  
+/* Estilo para a div wrapper */
+.papel{
+	height: calc(100vh - 56px);
+	overflow-y: auto;
+}
+.conteudo-wrapper {
+	box-shadow:  1px 1px 20px 3px #5c48ee;
+	margin-top: 20px;
+	margin-left: 20%;
+	margin-right: 20%;
+	background-color: white;
+	background-image: none;
+	box-sizing: initial;
+	padding-left: 80px;
+	padding-top: 16px;
+	padding-right: 50px; 
+    padding-bottom: 40px;  
+    
+	
+
+}
+
+
+  
+  /* Estilo para o título do tema */
+  .titulo-tema {
+	font-size: 24px;
+	margin-bottom: 20px;
+	text-align: center; /* Centraliza o texto */
+  }
+  
+  /* Estilo para a lista de títulos */
+  .lista-titulos {
+	list-style: none;
+	padding: 0;
+  }
+  
+  /* Estilo para cada item de título */
+  .item-titulo {
+	margin-bottom: 10px;
+	text-align: center; /* Centraliza o texto */
+  }
+  
+  /* Estilo para o título de cada item */
+  .titulo {
+	display: flex;
+	flex-wrap: wrap;
+	font-size: 20px;
+	color: #3a3a3a;
+	font: 20px 'Lato', sans-serif;
+	margin: 0px 0px 1px;
+	text-shadow: 2px 2px 4px rgba(77, 77, 77, 0.5);
+	font-weight: bold;
+  }
+  
+  /* Estilo para o texto de cada item */
+  .texto {
+	font-size: 16px;
+	color: #4b4f58;
+	font: 16px lora, serif;
+	margin: 0px 0px 1px;
+	line-height: 1.8;
+  }
+  
+  /* Outros estilos do seu CSS */
+  @media(max-width: 430px) {
+	.conteudo-wrapper {
+		box-shadow:  1px 1px 20px 3px #5c48ee;
+		margin-top: 20px;
+		width: 85%;
+	    margin: 0;
+		margin-left: 10px;
+		margin-right: 0;
+		padding-left: 30px;
+		padding-top: 16px;
+		padding-right: 20px; 
+		padding-bottom: 40px; 
+	}
+	#downloadBtn {  
+		margin-right: 1px;
+		right: 5px;
+	}
+  }
+
+  @media(max-width: 820px){
+	.conteudo-wrapper {
+		box-shadow:  1px 1px 20px 3px #5c48ee;
+		margin-top: 20px;
+		width: 85%;
+	    margin: 0;
+		margin-left: 10px;
+		margin-right: 10px;
+		padding-left: 20px;
+		padding-top: 16px;
+		padding-right: 20px; 
+		padding-bottom: 40px; 
+	}
+	#downloadBtn {  
+		margin-right: 1px;
+		right: 5px;
+	}
+  }
+  @media(max-width: 1024px){
+	#downloadBtn {  
+		margin-right: 1px;
+		right: 5px;
+	}
+  }
+  @media (max-width: 280px) {
+	.conteudo-wrapper {
+		box-shadow:  1px 1px 20px 3px #5c48ee;
+		margin-top: 20px;
+		width: 85%;
+	    margin: 0;
+		margin-left: 0;
+		margin-right: 0;
+		padding-left: 30px;
+		padding-top: 16px;
+		padding-right: 20px; 
+		padding-bottom: 40px; 
+	}
+	#downloadBtn {  
+		margin-right: 1px;
+		right: 4px;
+	}
+  }
+  
+  
+  

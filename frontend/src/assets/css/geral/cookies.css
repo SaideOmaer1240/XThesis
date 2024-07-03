@@ -1,0 +1,41 @@
+.mesageCookie{
+ width: 80%;
+ background-color: #ffffff;
+ position: fixed;
+ bottom: 3%;
+ left: 50%;
+ transform: translate(-50%);
+ border-radius: 6px;
+ display: none;
+}
+.mesageCookie.mostrar{
+    display: block;
+}
+.mesageCookie .cookie-txt{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    text-align: justify;
+    padding: 20px;
+}
+.mesageCookie .cookie-txt .cookies-btn{
+  margin-left: 30px;
+
+}
+.mesageCookie .cookie-txt .cookies-btn button{
+        margin: 5px;
+        padding: 5px 20px;
+        left: 1px;
+        font-family: "Poppins", sans-serif;
+        font-size: 20px;
+        background: linear-gradient(40deg, #0d1212, #3da077, #0d1212);
+        border-radius: 6px;
+        color: white;
+        border: none; 
+        cursor: pointer;
+}
+    
+.mesageCookie .cookie-txt .cookies-btn button:hover{
+    transform: scale(.9);
+        background: linear-gradient(180deg, #0d1212, #3da077, #0d1212);
+    }

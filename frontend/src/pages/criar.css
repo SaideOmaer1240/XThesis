@@ -1,0 +1,102 @@
+.p-6{
+  overflow: scroll !important;
+}
+  .adicionar-tema {
+    background-color: var(--white);
+    border-radius: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px; 
+    width: 100% !important;
+    height: 100%; 
+    text-align: center !important;
+
+  }
+  .progress-bar {
+    width: 100%;
+    background-color: #e0e0e0;
+    border-radius: 25px;
+    margin-top: 20px;
+}
+
+.progress-bar-fill {
+    height: 20px;
+    background-color: #76c7c0;
+    border-radius: 25px;
+    transition: width 0.5s;
+}
+
+  .adicionar-tema.expandir {
+    width: 100% !important;
+  }
+  .views_info{
+    width: calc(100% - 40px) !important;
+    height: 80% !important; 
+    max-height: 80% !important;
+    box-sizing: border-box;
+    border: 1px solid var(--cor-fndo-claro);
+    margin-left: 20px !important; 
+    align-items: center !important;
+    direction: center !important;
+    margin-bottom: 1px !important;
+  }
+  .technicalError{ 
+    margin-left: 20px !important; 
+    align-items: center !important;
+    direction: center !important;
+    overflow: auto !important; 
+    max-height: 400px !important;
+    
+  }
+  .adicionar-tema h2 {
+    color: var(--primary-color-dark) !important;
+    margin-bottom: 20px;
+  }
+  .form{
+    display: flex;
+    width: 100%;
+  }
+  .form-group {
+    display: flex !important;
+    width: 100% !important;
+    margin-bottom: 15px !important;
+    text-align: left !important;
+    margin-bottom: 20px !important;
+  }
+   
+  
+  .form-group input {
+    border-bottom-right-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    margin-left: 20px !important;
+    width: calc(100% - 20px);
+    padding-left: 20px !important;
+    padding: 10px 20px !important; 
+    margin-bottom: 0 !important;
+    border: 1px solid var(--cor-fndo-claro);
+    border-radius: 5px;
+    box-sizing: border-box;
+  }
+  
+  .form-group input::placeholder {
+    color: var(--claro-color);
+  }
+  
+  button[type="submit"] {
+    margin-right: 20px !important;
+    border-top-left-radius: 0 !important;
+    border-bottom-left-radius: 0 !important;
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px !important;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 18px !important;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: var(--primary-color-dark);
+  }
+  

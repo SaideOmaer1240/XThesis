@@ -1,0 +1,232 @@
+:root {
+    --primary-color: #5c48ee;
+    --fundo-color: #c0b8ff;
+    --cor-fndo-claro: #dedaff;
+    --claro-color: #9b8eff;
+    --primary-color-dark: #0f1e6a;
+    --secondary-color: #f9fafe;
+    --text-color: #333333;
+    --white: #ffffff;
+    --max-width: 1200px;
+ 
+
+  }
+  
+  
+  /* Estilos para o skeleton loading */
+ 
+  
+  .card.skeleton *::after {
+    content: '';
+    position: absolute;
+    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height:  100%;
+    animation: gradientChange 1s infinite;/* Adiciona a animação ao elemento principal */
+  }
+  @keyframes gradientChange {
+    0% { background: linear-gradient(to right, var(--claro-color), var(--fundo-color)); }
+    50% { background: linear-gradient(to right, var(--fundo-color), var(--cor-fndo-claro)); }
+    100% { background: linear-gradient(to right, var(--cor-fndo-claro), var(--claro-color)); }
+}
+
+  @keyframes bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+  
+  .card.skeleton {
+    content: '';
+    position: relative;
+  }
+  
+
+  
+/* Funciona no Firefox */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(166, 166, 194) var(--primary-color);
+}
+body{
+  overflow: hidden;
+}
+/* Funciona no Chrome, Edge e Safari */
+*::-webkit-scrollbar {
+    width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: rgb(64, 126, 241);
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: blue;
+    border-radius: 20px;
+    border: none;
+}
+
+
+.container-book{
+    display: flex;
+}
+
+.titulo-trabalho{
+    width: 100%;
+   
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 7px;
+    align-items: center;
+    text-align: center;
+}
+.trabalho-vazio{
+  text-align: center;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 20px;
+  background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 10px;
+  
+}
+:-webkit-scrollbar {
+  width: 12px; /* Largura da barra de rolagem */
+}
+
+  .main-book{
+    display: flex;
+   padding-left: 20px;
+   width: 100%;
+   height: 90%;
+
+
+  }
+  /* Personalizar bara de rolagem */
+:-webkit-scrollbar-track {
+    background: #5c48ee; /* Cor do fundo da barra de rolagem} */}
+/* Estilo para os cards */
+.cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    
+    height:calc(100vh - 56px)
+     
+  }
+  
+  /* Estilo para cada card */
+  .card {
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    padding-bottom: 10px;
+    width: 100%; 
+    margin-right: 2px;
+  }
+  
+  /* Estilo para o título do tema */
+  .card .livro {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 10px;
+  }
+  
+  /* Estilo para o link do tema */
+  .card .livro .link-livro {
+    text-decoration: none;
+    color: #000;
+  }
+  
+  .card .livro .link-livro:hover {
+    color: #666; /* Cor do texto do link ao passar o mouse */
+  }
+  
+  /* Estilo para a data de criação */
+  .card .data-criado {
+    font-size: 14px;
+    color: #999;
+  }
+
+  .visualize{
+    justify-content: space-between;
+    flex-wrap: wrap;
+    padding-top: 20px;
+  }
+  .vista{
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: white;
+    font-weight: 800;
+    border-radius: 6px;
+    text-decoration: none;
+    background: -webkit-linear-gradient( #5c48ee, #9b8eff);
+	background: -moz-linear-gradient( #5c48ee,#9b8eff);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+  .vista:hover{
+    background: -webkit-linear-gradient( #9b8eff, #5c48ee );
+	background: -moz-linear-gradient(  #9b8eff, #5c48ee);
+  }
+  
+  .apagar:hover{
+    background: -webkit-linear-gradient( #ff8e8e, #ee4848 );
+    background: -moz-linear-gradient(  #ff8e8e, #ee4848);
+  }
+  .apagar{
+    margin-right: 20px;
+    border: none;
+    padding: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    color: white;
+    font-weight: 800;
+    border-radius: 6px;
+    text-decoration: none;
+    background: -webkit-linear-gradient( #ee4848, #ff8e8e);
+	background: -moz-linear-gradient( #ee4848,#ff8e8e);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+ 
+
+  
+  
+  
+  @media(max-width: 1024px){
+    .trabalho-vazio{
+      margin-left: 1%;
+      margin-right: 1%;
+    }
+  }
+
+  @media (max-width: 540px){
+    .titulo-trabalho {
+      width: 95%;
+      margin-right: 10px;
+      
+  }
+  
+  .card {
+    width: 100%;
+    margin-right: 10px;
+  }
+  .sidebar{
+    display: none;
+  }
+  }
+  @media (max-width: 430px){
+      .main-book{
+        padding-left: 2%;
+        display: flex;
+      }
+  }

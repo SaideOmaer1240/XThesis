@@ -1,0 +1,45 @@
+/* src/pages/LandingPage.css */
+.landing-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: var(--fundo-color);
+  text-align: center;
+  padding: 20px;
+}
+
+.landing-page h1 {
+  font-size: 3rem;
+  color: var(--primary-color);
+}
+
+.ds.landingpage {
+  font-family: "Georgia", serif !important;
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+  font-size: 28px !important;
+  line-height: 1.6 !important;
+  margin-left: 10px !important;
+  color: azure !important;
+  text-align: justify !important;
+  margin: 20px 5px !important;
+  font-size: 1.5rem; 
+  
+}
+
+.experimentar-button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: var(--white);
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.experimentar-button:hover {
+  background-color: var(--primary-color-dark);
+}

@@ -1,0 +1,29 @@
+.progress-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.progress-container h2 {
+    margin-bottom: 10px;
+    font-size: 1.5em;
+    color: #333;
+}
+
+.progress-container ul {
+    list-style: none;
+    padding: 0;
+}
+
+.progress-container li {
+    background-color: #e1f5fe;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 3px;
+}
+
+.error-message {
+    color: #ff0000;
+    font-weight: bold;
+}

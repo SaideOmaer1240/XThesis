@@ -1,0 +1,20 @@
+/* Adicione isso ao arquivo CSS relevante */
+.progress-container {
+    margin-top: 20px;
+    width: 100%;
+    background-color: #f3f3f3;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 25px;
+    background-color: #4caf50;
+    width: 0;
+    transition: width 0.4s ease;
+}
+
+.progress-container p {
+    text-align: center;
+    margin-top: 5px;
+}
