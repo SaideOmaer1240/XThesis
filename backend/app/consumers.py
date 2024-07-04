@@ -156,22 +156,24 @@ class ScribConsumer(AsyncWebsocketConsumer):
 
             ---
 
-            Tenha em mente que a seção apresentada anteriormente é apenas um modelo para você seguir. Agora, desenvolva a seção para este titulo: {question}""",
+            Tenha em mente que a seção apresentada anteriormente é apenas um modelo para você seguir. Agora, apresento a voce o meu esboço da minha verdadeira tese:{indice} desenvolva a seção para este titulo: {question}""",
             "Referências": """Crie a referência bibliográfica seguindo esse conteúdo context: {question}""",
             "Conclusão": """"Você é um assistente criador de tese. Sua tarefa é redigir uma conclusão para uma tese seguindo o formato da APA 7ª edição. A conclusão deve ser escrita de forma acadêmica e formal, e deve incluir citações de autores da seguinte maneira: "Segundo Fulano (2000), [informação]."
         Sua tarefa inicial é desenvolver estritamente apenas a conclusão. Está proibido desenvolver outras seções sem que eu mencione.
         Veja o exemplo a seguir de uma conclusão sobre conjuntivite:
+            <di>
+                    <h2>Conclusão</h2>
+                
 
-        <h2>Conclusão</h2>
-        <p>A conjuntivite, em suas diferentes formas – alérgica, aguda e bacteriana – é uma condição oftalmológica comum que afeta uma ampla faixa da população. Através deste trabalho, foi possível explorar de maneira detalhada os conceitos, a etiologia, o quadro clínico, os meios auxiliares de diagnóstico, o diagnóstico diferencial, as condutas terapêuticas e as estratégias de prevenção relacionados a cada tipo de conjuntivite.
 
-        A compreensão das características específicas de cada tipo de conjuntivite é essencial para um diagnóstico preciso e um tratamento eficaz. Segundo Johnson (2019), a distinção entre conjuntivite viral, bacteriana e alérgica, por meio de uma avaliação clínica cuidadosa e, quando necessário, exames laboratoriais, permite a implementação de estratégias terapêuticas direcionadas que melhoram os resultados para os pacientes.
+            <p> Ao longo deste trabalho, exploramos a fotossíntese em seus diversos aspectos. Definimos a fotossíntese como um processo vital para a conversão de energia solar em energia química, essencial para a vida na Terra. Descrevemos as etapas da fase clara e da fase escura, discutimos os fatores que influenciam o processo, como luz, água, dióxido de carbono e temperatura, e analisamos a estrutura das plantas, especialmente os cloroplastos e os pigmentos fotossintéticos. Além disso, abordamos a importância ecológica e econômica da fotossíntese, destacando sua contribuição para a produção de oxigênio, a base das cadeias alimentares e o ciclo do carbono. Revisamos experimentos clássicos e discutimos avanços tecnológicos, como a fotossíntese artificial e a engenharia genética.</p>
 
-        As medidas preventivas, incluindo práticas de higiene pessoal, controle de alérgenos, uso adequado de lentes de contato, vacinação e campanhas de conscientização, desempenham um papel crucial na redução da incidência e na propagação da conjuntivite. Segundo Thompson (2020), a educação contínua e a adoção de políticas preventivas em ambientes coletivos são fundamentais para controlar surtos e proteger a saúde ocular da comunidade.
+            <p>
+            A fotossíntese continua sendo um tema central na biologia e nas ciências ambientais devido à sua relevância para a sustentabilidade do planeta. Compreender a fotossíntese é crucial para enfrentar desafios globais, como a mudança climática e a segurança alimentar. A capacidade das plantas de absorver dióxido de carbono e liberar oxigênio é fundamental para mitigar os efeitos das emissões de gases de efeito estufa. Além disso, a pesquisa em fotossíntese artificial e a otimização genética das plantas podem levar a inovações significativas na produção de energia renovável e na agricultura.</p>
 
-        Esta pesquisa contribui para o entendimento aprofundado da conjuntivite e fornece uma base sólida de conhecimento que pode ser utilizada por profissionais de saúde na prática clínica diária. A identificação das lacunas no conhecimento atual e a sugestão de áreas para futuras pesquisas também são aspectos importantes desta tese, incentivando o contínuo avanço no diagnóstico, tratamento e prevenção da conjuntivite.</p>
+            <p> Chegando ao fim do trabalho, conclui que a fotossíntese é um processo essencial que sustenta a vida na Terra, desempenhando um papel crucial na manutenção do equilíbrio ecológico e no fornecimento de energia para quase todos os organismos. </p> </div>
 
-        ---
+                    ---
 
         Tenha em mente que a conclusão apresentada anteriormente é apenas um modelo para você seguir. Agora, desenvolva a conclusão para este tema:{question}
                     
@@ -202,22 +204,74 @@ Tenha em mente que a bibliografia apresentada anteriormente é apenas um modelo 
         O índice deve ser escrito de forma acadêmica e formal, utilizando tópicos hierarquicamente organizados. Está proibido desenvolver outras seções sem que eu mencione.
         Veja o exemplo a seguir de um índice:
 
-        topicos = [
-            "Introdução", 
-            "Objetivo Geral",
-            "Objetivos Específicos",
-            "A diarreia crônica Estádio IV",
-            "A diarreia crônica no estádio IV nos pacientes com HIV",
-            "O tratamento da diarreia crônica",
-            "Critérios de diagnósticos",
-            "Síndrome de caquexia",
-            "Tratamento da Síndrome de Caquexia com Eritromicina",
-            "Evidências Clínicas",
-            "Estudos e Resultados",
-            "Índice de Massa Corporal (IMC)",
-            "Conclusão",
-            "Referências"
+        esboco_fotossintese = [
+    "1. Introdução",
+    [
+        "1.1 Apresentação do tema.",
+        "1.2 Importância da fotossíntese para a vida na Terra.",
+        "1.3 Objetivo do trabalho."
+    ],
+    "2. Conceito de Fotossíntese",
+    [
+        "2.1 Definição de fotossíntese.",
+        "2.2 Descoberta e história do estudo da fotossíntese."
+    ],
+    "3. O Processo da Fotossíntese",
+    [
+        "3.1 Descrição das etapas do processo:",
+        [
+            "3.1.1 Fase clara (fase luminosa).",
+            "3.1.2 Fase escura (ciclo de Calvin)."
+        ],
+        "3.2 Equação geral da fotossíntese."
+    ],
+    "4. Estrutura das Plantas Relacionada à Fotossíntese",
+    [
+        "4.1 Cloroplastos e sua função.",
+        "4.2 Pigmentos fotossintéticos, principalmente a clorofila.",
+        "4.3 Estrutura das folhas e sua relação com a fotossíntese:",
+        [
+            "4.3.1 Estômatos.",
+            "4.3.2 Mesófilo."
         ]
+    ],
+    "5. Fatores que Influenciam a Fotossíntese",
+    [
+        "5.1 Luz.",
+        "5.2 Água.",
+        "5.3 Dióxido de carbono (CO₂).",
+        "5.4 Temperatura."
+    ],
+    "6. Importância Ecológica e Econômica da Fotossíntese",
+    [
+        "6.1 Produção de oxigênio.",
+        "6.2 Base das cadeias alimentares.",
+        "6.3 Importância na agricultura e na produção de alimentos.",
+        "6.4 Ciclo do carbono e impacto nas mudanças climáticas."
+    ],
+    "7. Experimentos Clássicos sobre Fotossíntese",
+    [
+        "7.1 Experimento de Jan Ingenhousz.",
+        "7.2 Experimento de Joseph Priestley.",
+        "7.3 Experimento de Melvin Calvin."
+    ],
+    "8. Fotossíntese em Diferentes Organismos",
+    [
+        "8.1 Plantas.",
+        "8.2 Algas.",
+        "8.3 Cianobactérias."
+    ],
+    "9. Tecnologias e Avanços Relacionados à Fotossíntese",
+    [
+        "9.1 Fotossíntese artificial.",
+        "9.2 Engenharia genética para melhorar a eficiência fotossintética."
+    ],
+     
+    "11. Referências",
+    
+]
+ 
+
 
         ---
 
@@ -285,7 +339,7 @@ Tenha em mente que a bibliografia apresentada anteriormente é apenas um modelo 
                 else:
                     for texto in pretextual:
                         if titulo.lower() != texto.lower():
-                            response = await sync_to_async(chain.invoke)({"question": titulo})
+                            response = await sync_to_async(chain.invoke)({"question": titulo, 'indice': indice})
                         elif titulo.lower() == texto.lower():
                             response = await sync_to_async(chain.invoke)({"question": tema})
 

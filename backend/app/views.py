@@ -11,7 +11,7 @@ from datetime import datetime
 from .models import Thesis
 from .serializers import ThesisSerializer
 from .permissions import IsAuthor 
-
+import re
 
     
 class TopicViewSet(viewsets.ModelViewSet):
@@ -51,6 +51,44 @@ class ThesisViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
     def add_formatted_text(self, paragraph, text):
+        # Expressão regular para encontrar texto entre <h2> e </h2>
+        h2_pattern = re.compile(r'<h2>(.*?)</h2>')
+        h2_matches = h2_pattern.findall(text)
+        
+        for i, part  in enumerate(h2_matches):
+                if i % 2 == 1:  
+                    run = paragraph.add_run(part)
+                    run.bold = True
+                else:   
+                    paragraph.add_run(part)
+                    
+        # Expressão regular para encontrar texto entre <p> e </p>
+        p_pattern = re.compile(r'<p>(.*?)</p>')
+        p_matches = p_pattern.findall(text)
+        
+        for p_match in p_matches:
+           
+            # Expressão regular para encontrar texto entre <strong> e </strong>
+            strong_pattern = re.compile(r'<strong>(.*?)</strong>')
+            parts = strong_pattern.split(p_match)
+            
+            for i, part in enumerate(parts):
+                if i % 2 == 1:  # Textos entre <strong> tags
+                    run = paragraph.add_run(part)
+                    run.bold = True
+                else:  # Textos fora das <strong> tags
+                    paragraph.add_run(part)
+        
+        # Expressão regular para encontrar texto entre <li> e </li>
+        li_pattern = re.compile(r'<li>(.*?)</li>')
+        li_matches = li_pattern.findall(text)
+        
+        for li_match in li_matches:
+            # Adiciona o texto encontrado como item de lista com estilo 'List Bullet'
+           
+            run = paragraph.add_run(li_match)
+    
+    def add_formatted_title(self, paragraph, text):
         parts = text.split('**')
         for i, part in enumerate(parts):
             if i % 2 == 1:
@@ -58,7 +96,7 @@ class ThesisViewSet(viewsets.ModelViewSet):
                 run.bold = True
             else:
                 paragraph.add_run(part)
-
+                
     def add_table(self, doc, text):
         rows = text.strip().split('\n')
         headers = rows[0].split('|')[1:-1]
@@ -180,12 +218,12 @@ class ThesisViewSet(viewsets.ModelViewSet):
         )
         
         self.replace_text(doc, credentials)
-        
-        self.add_formatted_text(doc.add_paragraph(), f'**Tópico: {topic_name}**')
+         
         
         for thesis in theses:
-            self.add_formatted_text(doc.add_paragraph(), f'**{thesis.title}**')
-            paragraphs = thesis.text.split('\n\n')
+             
+            self.add_formatted_title(doc.add_paragraph(), f'**{thesis.title}**')
+            paragraphs = thesis.text.split('\n\n') 
             for paragraph in paragraphs:
                 if '|' in paragraph and '\n' in paragraph:
                     self.add_table(doc, paragraph)
