@@ -48,19 +48,43 @@ class ThesisViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+    def copiar_estilos(self, origem, destino):
+        destino.style = origem.style
+        destino.paragraph_format.alignment = origem.paragraph_format.alignment
+        destino.paragraph_format.left_indent = origem.paragraph_format.left_indent
+        destino.paragraph_format.right_indent = origem.paragraph_format.right_indent
+        destino.paragraph_format.first_line_indent = origem.paragraph_format.first_line_indent
+        destino.paragraph_format.keep_together = origem.paragraph_format.keep_together
+        destino.paragraph_format.keep_with_next = origem.paragraph_format.keep_with_next
+        destino.paragraph_format.page_break_before = origem.paragraph_format.page_break_before
+        destino.paragraph_format.widow_control = origem.paragraph_format.widow_control
+        destino.paragraph_format.space_before = origem.paragraph_format.space_before
+        destino.paragraph_format.space_after = origem.paragraph_format.space_after
+        destino.paragraph_format.line_spacing = origem.paragraph_format.line_spacing
+        destino.paragraph_format.line_spacing_rule = origem.paragraph_format.line_spacing_rule
+
+    def localizar_paragrafo(self, document, texto):
+        for paragraph in document.paragraphs:
+            if texto in paragraph.text:
+                return paragraph
+        return None
+    
+    # Função para remover um parágrafo de um documento
+    def remover_paragrafo(self, doc, paragrafo):
+        p = paragrafo._element
+        p.getparent().remove(p)
+        p._element = p._p = None
+
     def add_formatted_text(self, paragraph, text):
-        # Processa o texto para aplicar formatação de acordo com as tags encontradas
         def apply_formatting(part, bold=False):
             run = paragraph.add_run(part)
             run.bold = bold
 
-        # Processar <h2> tags
         h2_pattern = re.compile(r'<h2>(.*?)</h2>')
         h2_matches = h2_pattern.findall(text)
         for i, part in enumerate(h2_matches):
             apply_formatting(part, bold=True if i % 2 == 1 else False)
 
-        # Processar <p> tags
         p_pattern = re.compile(r'<p>(.*?)</p>')
         p_matches = p_pattern.findall(text)
         for p_match in p_matches:
@@ -69,40 +93,29 @@ class ThesisViewSet(viewsets.ModelViewSet):
             for i, part in enumerate(parts):
                 apply_formatting(part, bold=True if i % 2 == 1 else False)
 
-        # Processar <li> tags
         li_pattern = re.compile(r'<li>(.*?)</li>')
         li_matches = li_pattern.findall(text)
         for li_match in li_matches:
             apply_formatting(li_match)
 
-    def add_formatted_title(self, paragraph, text):
-        parts = text.split('**')
-        for i, part in enumerate(parts):
-            run = paragraph.add_run(part)
-            run.bold = (i % 2 == 1)
-
     def add_table(self, doc, text):
         rows = text.strip().split('\n')
         headers = rows[0].split('|')[1:-1]
         
-        # Filtrar linhas de cabeçalho de separação
         data = [row.split('|')[1:-1] for row in rows[1:] if '---' not in row]
 
         table = doc.add_table(rows=len(data) + 1, cols=len(headers))
         table.style = 'Table Grid'
         
-        # Adicionar cabeçalhos
         hdr_cells = table.rows[0].cells
         for i, header in enumerate(headers):
             hdr_cells[i].text = header.strip()
 
-        # Adicionar dados
         for row_idx, row_data in enumerate(data):
             row_cells = table.rows[row_idx + 1].cells
-            for col_idx, cell_data in enumerate(row_data):
+            for col_idx, cell_data in row_data:
                 row_cells[col_idx].text = cell_data.strip()
 
-        # Opcional: Adicionar estilização à tabela (bordas, sombreamento, etc.)
         for cell in table.rows[0].cells:
             cell._element.get_or_add_tcPr().append(parse_xml(r'<w:shd {} w:fill="A7BFDE"/>'.format(nsdecls('w'))))
 
@@ -165,7 +178,6 @@ class ThesisViewSet(viewsets.ModelViewSet):
         if not topic_name:
             return Response({'error': 'O parâmetro topic_name é obrigatório.'}, status=400)
         
-        # Obter a primeira tese com base no nome do tópico para obter as credenciais
         first_thesis = self.get_queryset().filter(topic=topic_name).first()
         
         if first_thesis:
@@ -198,7 +210,14 @@ class ThesisViewSet(viewsets.ModelViewSet):
         self.replace_text(doc, credentials)
         
         for thesis in theses:
-            self.add_formatted_title(doc.add_paragraph(), f'**{thesis.title}**')
+            paragrafo_origem = self.localizar_paragrafo(doc, 'Copiar parágrafo')
+            if paragrafo_origem:
+                paragrafo_destino = doc.add_paragraph()
+                self.copiar_estilos(paragrafo_origem, paragrafo_destino)
+                paragrafo_destino.text = {thesis.title}
+            else:
+                self.add_formatted_text(doc.add_paragraph(), f'**{thesis.title}**')
+                
             paragraphs = thesis.text.split('\n\n')
             for paragraph in paragraphs:
                 if '|' in paragraph and '\n' in paragraph:
@@ -206,6 +225,7 @@ class ThesisViewSet(viewsets.ModelViewSet):
                 else:
                     self.add_formatted_text(doc.add_paragraph(), paragraph)
         
+        self.remover_paragrafo(doc, paragrafo_origem)
         directory = os.path.join(settings.MEDIA_ROOT, 'documents')
         if not os.path.exists(directory):
             os.makedirs(directory)
@@ -216,3 +236,4 @@ class ThesisViewSet(viewsets.ModelViewSet):
         
         file_url = os.path.join(settings.MEDIA_URL, 'documents', file_name)
         return Response({'file_url': file_url})
+
