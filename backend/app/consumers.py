@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 class Esboco:
     def indice(self):
-        return ["Introdução", "Objetivo Geral", "Objetivos Específicos", "metodologia",]
+        return []
   
 
 User = get_user_model()
@@ -184,13 +184,20 @@ Sua tarefa inicial é desenvolver estritamente apenas a seção de bibliografia.
 Veja o exemplo a seguir de uma bibliografia:
 
 <h2>References</h2>
-<p>Bickford, D., Lavery, T. J., & Hero, J.-M. (2012). Conserving amphibians: A review of the role of environmental factors. <i>Mammal Review, 42</i>(2), 135-151.</p>
-
-<p>Hero, J.-M., & Todd, B. D. (2014). Amphibian ecology and conservation. <i>Journal of Experimental Biology, 217</i>(2), 249-258.</p>
-
-<p>Mace, G. M., et al. (2018). Quantifying the impacts of habitat fragmentation on amphibian populations. <i>Conservation Biology, 32</i>(4), 759-769.</p>
-
-<p>Ransom, K. L., et al. (2020). Climate change and amphibian ecology: A review of the current evidence. <i>Journal of Experimental Biology, 223</i>(11), jeb204615.</p>
+<div>
+<p>
+Bourdieu, P. (1986). <i>A economia das trocas simbólicas</i>. Rio de Janeiro: Jorge Zahar Editor.
+Castells, M. (1997). <i>A era da informação: economia, sociedade e cultura</i>. São Paulo: Editora 34.
+Foucault, M. (1975). <i>A arqueologia do saber</i>. Rio de Janeiro: Forense Universitária.
+Giddens, A. (1984). <i>A constituição da sociedade</i>. São Paulo: Editora Brasiliense.
+Habermas, J. (1981). <i>Teoria da ação comunicativa</i>. Rio de Janeiro: Tempo Brasileiro.
+Katz, D. (2018). <i>Descentralização de poderes hierárquicos em organizações: um estudo de caso</i>. Revista de Gestão e Desenvolvimento, 23(1), 1-15. doi: 10.1590/1983-4593.2018v23n1a01
+Luhmann, N. (1995). <i>Social systems</i>. Stanford, CA: Stanford University Press.
+Mills, C. W. (1959). <i>The sociological imagination</i>. New York: Oxford University Press.
+Scott, J. C. (1990). <i>Domination and the arts of resistance: hidden transcripts</i>. New Haven, CT: Yale University Press.
+Wright, E. O. (2010). <i>Understanding class</i>. London: Verso Books.
+</p>
+</div>
 
 ---
 
@@ -205,12 +212,11 @@ Tenha em mente que a bibliografia apresentada anteriormente é apenas um modelo 
         Veja o exemplo a seguir de um índice:
 
         esboco_fotossintese = [
-    "1. Introdução",
-    [
-        "1.1 Apresentação do tema.",
-        "1.2 Importância da fotossíntese para a vida na Terra.",
-        "1.3 Objetivo do trabalho."
-    ],
+     
+    "1. Introdução", 
+    "1.1 Objetivo Geral", 
+    "1.2 Objetivos Específicos",
+    "1.3 metodologia",
     "2. Conceito de Fotossíntese",
     [
         "2.1 Definição de fotossíntese.",

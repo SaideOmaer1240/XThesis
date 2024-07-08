@@ -1,5 +1,4 @@
-
-from rest_framework import viewsets, permissions 
+from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.conf import settings
@@ -10,10 +9,9 @@ import os
 from datetime import datetime
 from .models import Thesis
 from .serializers import ThesisSerializer
-from .permissions import IsAuthor 
+from .permissions import IsAuthor
 import re
 
-    
 class TopicViewSet(viewsets.ModelViewSet):
     serializer_class = ThesisSerializer
     permission_classes = [permissions.IsAuthenticated, IsAuthor]
@@ -51,52 +49,38 @@ class ThesisViewSet(viewsets.ModelViewSet):
         serializer.save(author=self.request.user)
 
     def add_formatted_text(self, paragraph, text):
-        # Expressão regular para encontrar texto entre <h2> e </h2>
+        # Processa o texto para aplicar formatação de acordo com as tags encontradas
+        def apply_formatting(part, bold=False):
+            run = paragraph.add_run(part)
+            run.bold = bold
+
+        # Processar <h2> tags
         h2_pattern = re.compile(r'<h2>(.*?)</h2>')
         h2_matches = h2_pattern.findall(text)
-        
-        for i, part  in enumerate(h2_matches):
-                if i % 2 == 1:  
-                    run = paragraph.add_run(part)
-                    run.bold = True
-                else:   
-                    paragraph.add_run(part)
-                    
-        # Expressão regular para encontrar texto entre <p> e </p>
+        for i, part in enumerate(h2_matches):
+            apply_formatting(part, bold=True if i % 2 == 1 else False)
+
+        # Processar <p> tags
         p_pattern = re.compile(r'<p>(.*?)</p>')
         p_matches = p_pattern.findall(text)
-        
         for p_match in p_matches:
-           
-            # Expressão regular para encontrar texto entre <strong> e </strong>
             strong_pattern = re.compile(r'<strong>(.*?)</strong>')
             parts = strong_pattern.split(p_match)
-            
             for i, part in enumerate(parts):
-                if i % 2 == 1:  # Textos entre <strong> tags
-                    run = paragraph.add_run(part)
-                    run.bold = True
-                else:  # Textos fora das <strong> tags
-                    paragraph.add_run(part)
-        
-        # Expressão regular para encontrar texto entre <li> e </li>
+                apply_formatting(part, bold=True if i % 2 == 1 else False)
+
+        # Processar <li> tags
         li_pattern = re.compile(r'<li>(.*?)</li>')
         li_matches = li_pattern.findall(text)
-        
         for li_match in li_matches:
-            # Adiciona o texto encontrado como item de lista com estilo 'List Bullet'
-           
-            run = paragraph.add_run(li_match)
-    
+            apply_formatting(li_match)
+
     def add_formatted_title(self, paragraph, text):
         parts = text.split('**')
         for i, part in enumerate(parts):
-            if i % 2 == 1:
-                run = paragraph.add_run(part)
-                run.bold = True
-            else:
-                paragraph.add_run(part)
-                
+            run = paragraph.add_run(part)
+            run.bold = (i % 2 == 1)
+
     def add_table(self, doc, text):
         rows = text.strip().split('\n')
         headers = rows[0].split('|')[1:-1]
@@ -107,18 +91,18 @@ class ThesisViewSet(viewsets.ModelViewSet):
         table = doc.add_table(rows=len(data) + 1, cols=len(headers))
         table.style = 'Table Grid'
         
-        # Add headers
+        # Adicionar cabeçalhos
         hdr_cells = table.rows[0].cells
         for i, header in enumerate(headers):
             hdr_cells[i].text = header.strip()
 
-        # Add data
+        # Adicionar dados
         for row_idx, row_data in enumerate(data):
             row_cells = table.rows[row_idx + 1].cells
             for col_idx, cell_data in enumerate(row_data):
                 row_cells[col_idx].text = cell_data.strip()
 
-        # Optional: Add some styling to the table (borders, shading, etc.)
+        # Opcional: Adicionar estilização à tabela (bordas, sombreamento, etc.)
         for cell in table.rows[0].cells:
             cell._element.get_or_add_tcPr().append(parse_xml(r'<w:shd {} w:fill="A7BFDE"/>'.format(nsdecls('w'))))
 
@@ -157,19 +141,22 @@ class ThesisViewSet(viewsets.ModelViewSet):
         return credentials
 
     def replace_text(self, doc, replacements):
-        for paragraph in doc.paragraphs:
+        def replace_in_paragraph(paragraph):
             for key, value in replacements.items():
                 if key in paragraph.text:
                     inline = paragraph.runs
                     for i in range(len(inline)):
                         if key in inline[i].text:
-                            text = inline[i].text.replace(key, str(value))
-                            inline[i].text = text
+                            inline[i].text = inline[i].text.replace(key, str(value))
+        
+        for paragraph in doc.paragraphs:
+            replace_in_paragraph(paragraph)
+
         for table in doc.tables:
             for row in table.rows:
                 for cell in row.cells:
                     self.replace_text(cell, replacements)
-    
+
     @action(detail=False, methods=['get'], url_path='gerar_documento')
     def gerar_documento(self, request):
         user = request.user
@@ -178,30 +165,21 @@ class ThesisViewSet(viewsets.ModelViewSet):
         if not topic_name:
             return Response({'error': 'O parâmetro topic_name é obrigatório.'}, status=400)
         
+        # Obter a primeira tese com base no nome do tópico para obter as credenciais
+        first_thesis = self.get_queryset().filter(topic=topic_name).first()
         
-        try:
-            # Filtra as teses com base no nome do tópico e pega a primeira tese
-            first_thesis = self.get_queryset().filter(topic=topic_name).first()
-            # Verifica se a tese existe e imprime o título
-            if first_thesis:
-                cidade = first_thesis.cidade
-                disciplina = first_thesis.disciplina
-                institute = first_thesis.institute
-                instructor = first_thesis.instructor
-                student = first_thesis.student
-                
-            else:
-                cidade='Quelimane',
-                disciplina='Quimica',
-                institute='Escola Secundária Geral de Quelimane',
-                instructor='Antonio',
-                student='Saíde Omar Saíde',
-        except:
-            cidade='Quelimane',
-            disciplina='Quimica',
-            institute ='Escola Secundária Geral de Quelimane',
-            instructor='Antonio',
-            student='Saíde Omar Saíde',
+        if first_thesis:
+            cidade = first_thesis.cidade
+            disciplina = first_thesis.disciplina
+            institute = first_thesis.institute
+            instructor = first_thesis.instructor
+            student = first_thesis.student
+        else:
+            cidade = 'Quelimane'
+            disciplina = 'Quimica'
+            institute = 'Escola Secundária Geral de Quelimane'
+            instructor = 'Antonio'
+            student = 'Saíde Omar Saíde'
             
         theses = self.get_queryset().filter(topic=topic_name)
         if not theses.exists():
@@ -218,12 +196,10 @@ class ThesisViewSet(viewsets.ModelViewSet):
         )
         
         self.replace_text(doc, credentials)
-         
         
         for thesis in theses:
-             
             self.add_formatted_title(doc.add_paragraph(), f'**{thesis.title}**')
-            paragraphs = thesis.text.split('\n\n') 
+            paragraphs = thesis.text.split('\n\n')
             for paragraph in paragraphs:
                 if '|' in paragraph and '\n' in paragraph:
                     self.add_table(doc, paragraph)
