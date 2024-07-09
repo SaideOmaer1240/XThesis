@@ -15,7 +15,7 @@ const LandingPage = () => {
         <nav className="navbar landingpage">
           <div className="logo landingpage" > 
             <Link to="/" className="marca landingpage">
-              <h1 className="landingpage">Mindjob</h1>
+              <h1 className="landingpage">XThesis</h1>
             </Link>
           </div>
           <ul className="menu-itens landingpage"> 

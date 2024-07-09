@@ -1,27 +1,24 @@
 /* Estilo para a div wrapper */
-#downloadBtn {
-	position: fixed;
-	top: 72px;  
-    margin-right: 140px;
-	right: 20px; /* ajuste conforme necessário */
-	/*gradient para botao*/
-	background: -webkit-linear-gradient( #5c48ee, #9b8eff);
-	background: -moz-linear-gradient( #5c48ee,#9b8eff);
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5c48ee', endColorstr='#9b8eff');
-	text-decoration: none;
-	 
-	color: #fff; /* cor do texto */
+.downloadBtn{
+	position: fixed !important;
+	top: 72px !important;   
+	right: 20px !important; 
+	margin-right: 13px !important;
+	background: linear-gradient(#5c48ee, #9b8eff ) !important; 
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#5c48ee', endColorstr='#9b8eff') !important;
+	text-decoration: none !important; 
+	color: #fff !important; /* cor do texto */
 	
-	padding: 10px 20px; /* preenchimento interno */
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-	z-index: 1000; /* para garantir que esteja sempre na parte superior */
+	padding: 10px 20px !important; /* preenchimento interno */
+	border: none !important;
+	border-radius: 5px !important;
+	cursor: pointer !important;
+	z-index: 1000 !important; /* para garantir que esteja sempre na parte superior */
   }
   
-  #downloadBtn:hover{
-	background: -webkit-linear-gradient( #9b8eff, #5c48ee );
-	background: -moz-linear-gradient(  #9b8eff, #5c48ee);
+  .downloadBtn:hover{
+	
+	background: linear-gradient(#9b8eff, #5c48ee ) !important; 
   }
   
 /* Estilo para a div wrapper */
@@ -102,9 +99,9 @@
 		padding-right: 20px; 
 		padding-bottom: 40px; 
 	}
-	#downloadBtn {  
-		margin-right: 1px;
-		right: 5px;
+	.downloadBtn {  
+		margin-right: 1px !important;
+		right: 5px !important;
 	}
   }
 
@@ -121,15 +118,12 @@
 		padding-right: 20px; 
 		padding-bottom: 40px; 
 	}
-	#downloadBtn {  
-		margin-right: 1px;
-		right: 5px;
-	}
+	 
   }
   @media(max-width: 1024px){
-	#downloadBtn {  
-		margin-right: 1px;
-		right: 5px;
+	.downloadBtn {  
+		margin-right: 1px !important;
+		right: 5px !important;
 	}
   }
   @media (max-width: 280px) {
@@ -145,8 +139,8 @@
 		padding-right: 20px; 
 		padding-bottom: 40px; 
 	}
-	#downloadBtn {  
-		margin-right: 1px;
+	.downloadBtn {  
+		margin-right: 1px !important;
 		right: 4px;
 	}
   }

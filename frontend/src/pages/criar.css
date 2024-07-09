@@ -99,4 +99,41 @@
   button[type="submit"]:hover {
     background-color: var(--primary-color-dark);
   }
-  
+  @media(max-width: 1024px){
+    .form-group {
+      display: flex !important;
+      flex-direction: column !important;
+
+      width: 100% !important;
+      margin-bottom: 15px !important;
+      text-align: left !important;
+      margin-bottom: 20px !important;
+    }
+    .form{
+      display: flex;
+      flex-direction: column !important;
+      width: 100%;
+    }
+    .views_info {
+      width: calc(100% - 40px) !important;
+      height: 30% !important;
+      max-height: 75% !important;
+      box-sizing: border-box;
+      border: 1px solid var(--cor-fndo-claro);
+      margin-left: 20px !important;
+      align-items: center !important;
+      direction: center !important;
+      margin-bottom: 1px !important;
+  }
+  button[type="submit"] { 
+    margin-left: 20px !important;  
+    border-top-left-radius: 5px !important;
+    border-bottom-left-radius: 5px !important;
+     
+}
+.form-group input { 
+  margin-left: 10px !important;
+  margin-right: 2px !important; 
+}
+  }
+   

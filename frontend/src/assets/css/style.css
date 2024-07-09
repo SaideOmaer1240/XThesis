@@ -381,3 +381,16 @@ footer {
 .not-found-text {
   font-size: 24px;
 }
+@media(max-width: 1024px){
+  .views_info {
+    width: calc(100% - 40px) !important;
+    height: 30% !important;
+    max-height: 75% !important;
+    box-sizing: border-box;
+    border: 1px solid var(--cor-fndo-claro);
+    margin-left: 20px !important;
+    align-items: center !important;
+    direction: center !important;
+    margin-bottom: 1px !important;
+}
+}

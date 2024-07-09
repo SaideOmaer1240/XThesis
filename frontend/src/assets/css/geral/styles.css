@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300&display=swap');
-@import url('sidebar.css');
-@import url('propriedades.css');
+@import url('sidebar.css'); 
 @import url('cards.css');
 @import url('conta.css');
 @import url('balance_link.css');
@@ -9,7 +8,7 @@
 /* Funciona no Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgb(167, 167, 224) var(--primary-color);
+  scrollbar-color: rgb(167, 167, 224) var(--primary-color) !important;
 }
 
 /* Funciona no Chrome, Edge e Safari */
@@ -22,7 +21,7 @@
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: blueviolet;
+  background: rgb(199, 206, 218);
   border-radius: 20px;
   border: none;
 }
@@ -97,8 +96,8 @@ body {
 
 .navbar .logo h1 {
   margin: 0 !important;
-  font-size: larger !important;
-  font-weight: 700 !important;
+  font-size: auto !important;
+  font-weight: bold !important;
 }
 
 .navbar .conteiner_list {
@@ -222,4 +221,15 @@ body {
 
 .container_partial.expandir .sidebar .txt-link {
   opacity: 0 !important;
+}
+@media(max-width: 1020px){
+  .layout {
+    display: grid !important;
+    grid-template-areas:
+        "header header"
+        "sidebar main" !important;
+    grid-template-columns: 0px 1fr !important;
+    grid-template-rows: auto 1fr !important;
+    min-height: 100vh !important;
+}
 }

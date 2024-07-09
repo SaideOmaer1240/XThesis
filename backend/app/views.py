@@ -21,7 +21,7 @@ class TopicViewSet(viewsets.ModelViewSet):
         
         unique_titles = set()
         unique_queryset = []
-
+     
         for thesis in queryset:
             if thesis.topic not in unique_titles:
                 unique_titles.add(thesis.topic)
@@ -84,14 +84,19 @@ class ThesisViewSet(viewsets.ModelViewSet):
         h2_matches = h2_pattern.findall(text)
         for i, part in enumerate(h2_matches):
             apply_formatting(part, bold=True if i % 2 == 1 else False)
+         
 
         p_pattern = re.compile(r'<p>(.*?)</p>')
         p_matches = p_pattern.findall(text)
         for p_match in p_matches:
             strong_pattern = re.compile(r'<strong>(.*?)</strong>')
             parts = strong_pattern.split(p_match)
+
             for i, part in enumerate(parts):
                 apply_formatting(part, bold=True if i % 2 == 1 else False)
+
+                
+            
 
         li_pattern = re.compile(r'<li>(.*?)</li>')
         li_matches = li_pattern.findall(text)
@@ -236,4 +241,3 @@ class ThesisViewSet(viewsets.ModelViewSet):
         
         file_url = os.path.join(settings.MEDIA_URL, 'documents', file_name)
         return Response({'file_url': file_url})
-

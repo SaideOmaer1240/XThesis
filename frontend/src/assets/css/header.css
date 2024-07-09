@@ -14,11 +14,17 @@ span.text{
 #root > div > header > div.conteiner_list > ul > li.logout > a{
     text-decoration:none; 
     color: #ffffff; 
-    background:red ;
+    background:rgb(146, 40, 40) ;
+    border-radius: 5px;
+}
+#root > div > header > div.conteiner_list > ul > li.logout > a:hover{
+    text-decoration:none; 
+    color: #ffffff; 
+    background:rgb(218, 73, 73) ;
     border-radius: 5px;
 }
 #root > div > header > div.conteiner_list > ul > li.logout > a > span{
-    padding: 10px !important;
+    padding: 5px !important;
     padding-top: 0p !important;
     padding-bottom: 0 !important;
 }

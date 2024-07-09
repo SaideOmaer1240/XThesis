@@ -5,7 +5,7 @@ import api from '../api';
 import '../assets/css/criar.css';
 import '../assets/css/geral/styles.css';
 import '../assets/css/style.css';
-import './criar.css';
+import './criar.css'; 
 import '../assets/css/progresso.css';
 
 const Rewrite = () => {
@@ -70,7 +70,7 @@ const Rewrite = () => {
                 setProgress(data.progress);  // Atualiza o progresso
             }
         };
-
+         
         ws.onerror = (error) => {
             console.error('WebSocket error:', error);
             setLoading(false);  // Para o carregamento em caso de erro

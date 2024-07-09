@@ -354,6 +354,7 @@ Tenha em mente que a bibliografia apresentada anteriormente é apenas um modelo 
                 regex = r'<div\b[^>]*>(.*?)<\/div>'
                 resultados = re.findall(regex, response, re.DOTALL)
                 results = ' '.join(resultados)
+                 
 
                 # Salvar no banco de dados
                 await self.save_thesis_content(user, tema, titulo, results, institute, disciplina, student, instructor, cidade)

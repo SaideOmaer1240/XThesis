@@ -67,7 +67,7 @@ body{
 }
 
 *::-webkit-scrollbar-thumb {
-    background-color: blue;
+  background: rgb(199, 206, 218);
     border-radius: 20px;
     border: none;
 }
@@ -110,7 +110,7 @@ body{
   }
   /* Personalizar bara de rolagem */
 :-webkit-scrollbar-track {
-    background: #5c48ee; /* Cor do fundo da barra de rolagem} */}
+  background: rgb(199, 206, 218);}
 /* Estilo para os cards */
 .cards.olds {
     display: flex;

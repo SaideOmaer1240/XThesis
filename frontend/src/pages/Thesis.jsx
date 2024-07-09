@@ -1,6 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import Header from '../components/Header';
+import SideBar from '../components/SideBar';
 import api from '../api';
+import '../assets/css/criar.css';
+import '../assets/css/geral/styles.css';
+import '../assets/css/style.css';
+import './criar.css';
+import '../assets/css/progresso.css'; 
+import { useParams } from 'react-router-dom'; 
 import '../assets/css/book.css';
 
 function Thesis() {
@@ -42,6 +49,13 @@ function Thesis() {
   };
 
   return (
+    <div className="layout">
+        <Header />
+        <SideBar />
+         <main className="main-content">
+         <div className="adicionar-tema">
+         <div className="views_info">
+            
     <div className="papel">
       <h2 className="text-2xl font-bold mb-6 text-center">Teses Relacionadas ao Tópico: {topicName}</h2>
       <div className="conteudo-wrapper">
@@ -58,11 +72,16 @@ function Thesis() {
       </div>
 
       <div className="text-center mt-6">
-        <button onClick={handleDownload} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Gerar e Baixar Documento
+        <button onClick={handleDownload} className="downloadBtn">
+        <span><i className="fa-solid fa-download" style={{ fontSize: '25px' }}></i></span> 
         </button>
       </div>
     </div>
+    </div>
+    </div>
+    </main>
+    </div>
+
   );
 }
 

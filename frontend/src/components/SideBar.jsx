@@ -1,17 +1,38 @@
-// SideBar.jsx
-import React, { lazy } from 'react';
+// SideBar.jsx 
 import { Link } from 'react-router-dom';
-import '../assets/css/geral/styles.css'; 
-import '../assets/css/style.css';  
-import '../assets/css/base.css'; 
-import '../assets/css/book.css';  
-import '../assets/css/geral/card_olds.css';
-import '../assets/css/geral/styles.css'; 
+//import '../assets/css/geral/styles.css'; 
+//import '../assets/css/style.css';  
+//import '../assets/css/base.css'; 
+//import '../assets/css/book.css';  
+//import '../assets/css/geral/card_olds.css';
+//import '../assets/css/geral/styles.css'; 
+import api from '../api';
+import React, { useState, useEffect } from 'react';
 
 function SideBar() {
+  
+  const [user_info, setUserInfo] = useState([]);
+  useEffect(()=>{
+    const fetchUserInfo = async() => {
+      const token = localStorage.getItem('token');
+      try {
+        const response = await api.get('/api/user/info/', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setUserInfo(response.data);
+      } catch (error){
+        console.error('Erro ao obter dados do usuario:', error);
+      }
+    };
+    fetchUserInfo();
+  }, []);
+
   const toggleSidebar = () => {
     // Adicione a lógica de expandir/retrair sidebar aqui
   };
+
 
   return (
     <aside className="sidebar">
@@ -20,45 +41,22 @@ function SideBar() {
       </div>
       <ul>
         <li className="item-menu">
-          <Link to="/my_works">
+          <Link to="/topic">
             <span className="icon">
-              <i className="fa-solid fa-house" style={{ fontSize: '25px' }}></i>
+              <i className="fa-solid fa-book" style={{ fontSize: '25px' }}></i>
             </span>
-            <span className="txt-link">Home</span>
+            <span className="txt-link">Trabalhos</span>
           </Link>
         </li>
+         
         <li className="item-menu">
-          <Link to="/criar_trabalho">
+          <Link to="/rewrite">
             <span className="icon">
-              <i className="fa-solid fa-gear" style={{ fontSize: '25px' }}></i>
+              <i className="fa-solid fa-pen" style={{ fontSize: '25px' }}></i>
             </span>
-            <span className="txt-link">Criar Trabalho</span>
+            <span className="txt-link">Escrever</span>
           </Link>
-        </li>
-        <li className="item-menu">
-          <Link to="/sobre">
-            <span className="icon">
-              <i className="fa-solid fa-user-circle" style={{ fontSize: '25px' }}></i>
-            </span>
-            <span className="txt-link">Sobre Nós</span>
-          </Link>
-        </li>
-        <li className="item-menu">
-          <Link to="/login">
-            <span className="icon">
-              <i className="fa-solid fa-sign-in-alt" style={{ fontSize: '25px' }}></i>
-            </span>
-            <span className="txt-link">Login</span>
-          </Link>
-        </li>
-        <li className="item-menu">
-          <Link to="/registro">
-            <span className="icon">
-              <i className="fa-solid fa-user-plus" style={{ fontSize: '25px' }}></i>
-            </span>
-            <span className="txt-link">Registrar</span>
-          </Link>
-        </li>
+        </li> 
       </ul>
     </aside>
   );
