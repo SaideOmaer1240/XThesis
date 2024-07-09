@@ -1,0 +1,79 @@
+:root {
+    --primary-color: #6653f8;
+    --fundo-color: #c0b8ff;
+    --cor-fndo-claro: #dedaff;
+    --claro-color: #9b8eff;
+    --primary-color-dark: #0f1e6a;
+    --secondary-color: #f9fafe;
+    --text-color: #333333;
+    --white: #ffffff;
+    --max-width: 1200px;
+}
+#modal{
+    background-color: #d9d7ec;
+    position: absolute;
+    left: 50%;
+    top: 20px;
+    transform: translate(-50%);
+    width: 500px;
+    max-width: 90vw;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    box-shadow: rgb(0, 0, 0, 0.1) 0px 4px 12px;
+    z-index: 200;
+    animation: modalIn 0.5s;
+    display: none;
+}
+
+.modal header{
+     
+    background: rgb(231, 157, 157);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 10px 70px !important; 
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.55em;
+    font-weight: 700;
+    color: var(--primary-color-dark);
+    
+} 
+.modal footer button{
+    background: #2c1061;
+    padding: 10px 20px !important;
+    border: 1px solid gray;
+    border-radius: 5px;
+    cursor: pointer;
+    opacity: 0.9;
+}
+.modal footer button:hover{
+    opacity: 0.5;
+}
+#modalShadows{
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.486);
+    z-index: 100;
+    display: none;
+}
+@keyframes modalIn {
+    from{
+        transform: translate(-50%, 110%);
+    }
+    to{
+        transform: translate(-50%, 0);
+    }
+    
+}
+@keyframes modalOut {
+    from{
+        transform: translate(-50%, 0);
+    }
+    to{
+        
+        transform: translate(-50%, 110%);
+    }
+    
+}

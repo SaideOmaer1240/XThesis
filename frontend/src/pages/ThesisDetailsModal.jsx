@@ -37,6 +37,13 @@ function Thesis() {
       const { file_url } = response.data;
       window.open(file_url); // Abre o link em uma nova aba para download
     } catch (error) {
+      const modal = document.getElementById("modal");
+      const mbody = document.getElementById("mBody");
+      const modalShadows = document.getElementById("modalShadows");
+      
+      modal.style.display = "flex";
+      modalShadows.style.display = "block";
+      mbody.innerHTML = `<p>Erro ao baixar documento:${error}</p>`;
       console.error('Erro ao baixar documento:', error);
     }
   };

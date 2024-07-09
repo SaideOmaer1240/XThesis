@@ -1,15 +1,15 @@
-import React from 'react';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Home from './pages/Container';
-import Rewrite from './pages/RewriteJob';
-import LandingPage from './pages/LandingPage';
-import NotFound from './pages/NotFound';
-import ProtectedRoute from './components/ProtectedRoute';
-import TopicList from './pages/TopicList';
-import Thesis from './pages/Thesis';
+import React from "react";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Home from "./pages/Container";
+import Rewrite from "./pages/RewriteJob";
+import LandingPage from "./pages/LandingPage";
+import NotFound from "./pages/NotFound";
+import ProtectedRoute from "./components/ProtectedRoute";
+import TopicList from "./pages/TopicList";
+import Thesis from "./pages/Thesis";
 
 function Logout() {
   localStorage.clear();
@@ -29,16 +29,16 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />
-        
-        <Route 
-          path="/rewrite" 
+
+        <Route
+          path="/rewrite"
           element={
             <ProtectedRoute>
               <Rewrite />
             </ProtectedRoute>
-          } 
+          }
         />
-        
+
         <Route
           path="/workspace"
           element={
@@ -47,7 +47,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        
+
         <Route
           path="/topic"
           element={
@@ -56,7 +56,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        
+
         <Route
           path="/thesis/:topicName"
           element={
@@ -65,7 +65,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

@@ -91,17 +91,14 @@ class ThesisViewSet(viewsets.ModelViewSet):
         for p_match in p_matches:
             strong_pattern = re.compile(r'<strong>(.*?)</strong>')
             parts = strong_pattern.split(p_match)
-
             for i, part in enumerate(parts):
-                apply_formatting(part, bold=True if i % 2 == 1 else False)
-
-                
-            
+                apply_formatting(part, bold=True if i % 2 == 1 else False) 
 
         li_pattern = re.compile(r'<li>(.*?)</li>')
         li_matches = li_pattern.findall(text)
         for li_match in li_matches:
             apply_formatting(li_match)
+            
 
     def add_table(self, doc, text):
         rows = text.strip().split('\n')
