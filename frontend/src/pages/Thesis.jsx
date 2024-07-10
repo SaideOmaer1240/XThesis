@@ -107,20 +107,28 @@ function Thesis() {
             </div>
             <div className="modalShadows" id="modalShadows"></div>
             <div className="papel">
-              <h2 className="text-2xl font-bold mb-6 text-center">
-                Teses Relacionadas ao Tópico: {topicName}
-              </h2>
+               
               <div className="capax">
                   <div className="conteiner content">
                   <div className="conteiner duble">
-                      <h2> {credentials.institute} </h2>    
+                      <h2> {credentials.institute} </h2> 
+                      <h2>Trabalho de {credentials.disciplina} </h2>  
+                      <h2>Tema: {credentials.topic} </h2>  
+                      <div>
+                      <h2>Discente: {credentials.student} </h2>
+                      <h2>Docente: {credentials.instructor} </h2>
+                      </div>
+                      <h2>{credentials.city}, {credentials.month} de {credentials.year}</h2>
                   </div>
                   </div>
                 </div>
-              <div className="conteudo-wrapper">
+              
                 
                 {thesis.length > 0 ? (
                   thesis.map((t) => (
+                    <div className="conteudo-wrapper">
+
+                      <div className="papel-wrapper">
                     <div key={t.id} className="r">
                       <h3 className="text-2xl font-bold mb-4">{t.title}</h3>
                       <p
@@ -128,13 +136,16 @@ function Thesis() {
                         dangerouslySetInnerHTML={{ __html: t.text }}
                       ></p>
                     </div>
+                    </div>
+
+                    </div>
                   ))
                 ) : (
                   <p className="text-center text-gray-700">
                     Nenhuma tese encontrada para este tópico.
                   </p>
                 )}
-              </div>
+              
 
               <div className="text-center mt-6">
                 <button onClick={handleDownload} className="downloadBtn">

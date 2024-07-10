@@ -24,6 +24,7 @@
 	margin-bottom: 8px !important;  
   }
   #root > div > main > div > div.papel > div.conteudo-wrapper, .capax{
+	margin-top: 30px !important;
 	margin-right: 90px !important;
 	margin-left: 80px !important;
 	padding: 40px !important;
@@ -42,27 +43,55 @@
       border: 2px solid rgb(109, 108, 108); 
 	height: 120vh;
   }
-  .conteiner.duble{ 
+  .conteiner.duble, .papel-wrapper{ 
 	margin-left: 0 !important;
 	margin-right: 0 !important; 
 	margin-top: 0 !important;
+	padding: 0 !important;
 	background: white !important;
 	height: 118.7vh !important;
   }
-  #root > div > main > div > div.papel > div.capax > div > div > h2{
+  .papel-wrapper{
+	margin-left: 0 !important;
+	margin-right: 0 !important; 
+	margin-top: 60px !important;
+	padding: 0 !important;
+	background: white !important;
+	height: 190vh !important;
+  }
+  #root > div > main > div > div.papel > div.capax > div > div > h2, div > h2{
 	align-items: center;
 	text-align: center;
+	padding: 2px !important;
+	
 	font-family: 'Times New Roman', Times, serif;
-	font-size: 22px;
+	font-size: 20px;
 	font-weight: bold;
   }
-  #root > div > main > div > div.papel > div.conteudo-wrapper > div:nth-child(1){
-    padding-top: 60px !important;
+  #root > div > main > div > div.papel > div.capax > div > div > h2:nth-child(1){
+	padding-top: 20px !important; 
+  } 
+  #root > div > main > div > div.papel > div.capax > div > div > h2:nth-child(2), h2:nth-child(3) {
+	padding-top: 30px !important; 
+  } 
+  #root > div > main > div > div.papel > div.capax > div > div > div{
+	display: flex;
+	margin-top: 220px !important;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+  } 
+
+  #root > div > main > div > div.papel > div.capax > div > div > div > h2 {
+	font-size: 18px !important;
+  }
+  #root > div > main > div > div.papel > div.capax > div > div > h2:nth-child(5){
+	font-size: 18px !important;
+	margin-top: 290px !important;
   }
 
-  #root > div > main > div > div.papel > div.conteudo-wrapper > div> p > ul > li,
-  #root > div > main > div > div.papel > div.conteudo-wrapper > div > h3,
-  #root > div > main > div > div.papel > div.conteudo-wrapper > div > p > p {
+  #root > div > main > div > div.papel > div.conteudo-wrapper > div > div> p > ul > li,
+  #root > div > main > div > div.papel > div.conteudo-wrapper > div > div > h3,
+  #root > div > main > div > div.papel > div.conteudo-wrapper > div > div > p > p{
 	padding-left: 80px !important; 
 	padding-right: 60px !important;
 	padding-bottom: 25px !important;
@@ -70,11 +99,11 @@
 	font-family: 'Times New Roman', Times, serif !important;
 	line-height: 32px !important;
 	font-size: 20px !important;
-  }  
-  #root > div > main > div > div.papel > div.conteudo-wrapper > div > h3{
+  }   
+  #root > div > main > div > div.papel > div.conteudo-wrapper > div > div > h3{
 	padding-bottom: 5px !important;
   }
-  #root > div > main > div > div.papel > div.conteudo-wrapper > div > p > p > strong{
+  #root > div > main > div > div.papel > div.conteudo-wrapper > div > div > p > p > strong{
     font-size: 16px !important;
   }
 /* Estilo para a div wrapper */
@@ -93,7 +122,7 @@
 	padding-left: 80px;
 	padding-top: 16px;
 	padding-right: 50px; 
-    padding-bottom: 40px;  
+    padding-bottom: 40px; 
     
 	
 

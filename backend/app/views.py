@@ -5,11 +5,11 @@ from django.conf import settings
 from docx import Document
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
-import os
-from datetime import datetime
+import os 
 from .models import Thesis
 from .serializers import ThesisSerializer
 from .permissions import IsAuthor
+from accounts.datetime import DateTime
 import re
 
 class TopicViewSet(viewsets.ModelViewSet):
@@ -122,27 +122,8 @@ class ThesisViewSet(viewsets.ModelViewSet):
             cell._element.get_or_add_tcPr().append(parse_xml(r'<w:shd {} w:fill="A7BFDE"/>'.format(nsdecls('w'))))
 
     def variable_content(self, institute, student, instructor, disciplina, topic, cidade):
-        year = datetime.now().year
-        
-        def get_month():
-            current_month = datetime.now().month    
-            months = {
-                1 : 'Janeiro',
-                2 : 'Fevereiro',
-                3 : 'Março',
-                4 : 'Abril',
-                5 : 'Maio',
-                6 : 'Junho',
-                7 : 'Julho',
-                8 : 'Agosto',
-                9 : 'Setembro',
-                10 : 'Outubro',
-                11 : 'Novembro',
-                12 : 'Dezembro',
-            }
-            return months.get(current_month)
-        
-        mes = get_month()
+        year = DateTime.year()
+        mes = DateTime.get_month()
         credentials = {
             'ISaideOmar': institute,
             'CadeiroModuloDisciplina': disciplina,
