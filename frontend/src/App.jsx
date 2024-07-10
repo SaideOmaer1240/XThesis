@@ -10,6 +10,7 @@ import NotFound from "./pages/NotFound";
 import ProtectedRoute from "./components/ProtectedRoute";
 import TopicList from "./pages/TopicList";
 import Thesis from "./pages/Thesis";
+import Plan from "./components/plan";
 
 function Logout() {
   localStorage.clear();
@@ -55,6 +56,14 @@ function App() {
               <TopicList />
             </ProtectedRoute>
           }
+        />
+        <Route 
+         path="/plan"
+         element={
+          <ProtectedRoute>
+            <Plan/>
+          </ProtectedRoute>
+         }
         />
 
         <Route

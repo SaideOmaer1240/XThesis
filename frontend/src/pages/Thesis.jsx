@@ -74,7 +74,7 @@ function Thesis() {
           <div className="views_info A4">
             <div className="modal" id="modal">
               <header className="mHeader" id="mHeader">
-                {" "}
+                 
                 <i className="fa fa-exclamation-triangle"></i>
                 <p>Token de acesso expirado</p>
               </header>

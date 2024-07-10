@@ -116,7 +116,7 @@ const Rewrite = () => {
             <main className="main-content">
                 <div className="adicionar-tema">
                     {/* Mantém o tema enviado no título */}
-                    <h2>{temaEnviado ? temaEnviado : 'Adicione o Tema da Monografia'}</h2>
+                    <h2>{temaEnviado ? temaEnviado : 'Adicione o Tema da Monografia'} </h2>
                     <div className="views_info">
                         <div className="progress-container">
                             {/* Barra de progresso */}

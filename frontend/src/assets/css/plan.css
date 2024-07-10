@@ -1,0 +1,62 @@
+:root {
+    --primary-color: #6653f8;
+    --fundo-color: #c0b8ff;
+    --cor-fndo-claro: #dedaff;
+    --claro-color: #9b8eff;
+    --primary-color-dark: #0f1e6a;
+    --secondary-color: #f9fafe;
+    --text-color: #333333;
+    --white: #ffffff;
+    --max-width: 1200px;
+}
+.plan.conteiner{
+    display: flex;  
+    flex-wrap: wrap;
+    align-items: center;
+    justify-items: center;
+    
+}
+.plan.conteiner .plan{
+    margin-left: 5px !important; 
+    margin-right: 5px !important;
+    margin-top: 10px !important;
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2), inset -5px -5px 15px rgba(255, 255, 255, 0.1), 5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.1) !important;
+} 
+.plan.conteiner header{
+    background: linear-gradient(42deg, rgba(58, 133, 194, 0.473), rgba(0, 255, 106, 0.507));
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 10px 70px !important; 
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.5em;
+    font-weight: 700;
+    color: var(--primary-color-dark);
+
+}
+.plan.conteiner .body p{
+    padding: 15px !important;  
+    text-align: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+}
+.plan.conteiner footer h2{
+    font-size: 30px !important;
+}
+.plan.conteiner footer{
+    margin-bottom: 10px !important;
+}
+.plan.conteiner footer .btn{
+    font-size: 20px !important;
+    background: linear-gradient(84deg, rgba(58, 133, 194, 0.473), rgba(0, 255, 106, 0.507));
+    border-radius: 5px;
+    padding: 5px 20px !important;
+    margin-bottom: 10px !important;
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2), inset -5px -5px 15px rgba(255, 255, 255, 0.1), 5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.1) !important;
+    
+}
+.plan.conteiner footer .btn:hover{
+    transform: scale(.9) !important;
+}

@@ -35,15 +35,15 @@
 	padding-right: 60px !important;
 	padding-bottom: 25px !important;
 	text-align: justify !important;
-	font-family: 'Times New Roman', Times, serif;
+	font-family: 'Times New Roman', Times, serif !important;
 	line-height: 32px !important;
-	font-size: 20px;
+	font-size: 20px !important;
   }  
   #root > div > main > div > div.papel > div.conteudo-wrapper > div > h3{
 	padding-bottom: 5px !important;
   }
   #root > div > main > div > div.papel > div.conteudo-wrapper > div > p > p > strong{
-    font-size: 16px;
+    font-size: 16px !important;
   }
 /* Estilo para a div wrapper */
 .papel{
@@ -107,10 +107,7 @@
 	font: 16px lora, serif;
 	margin: 0px 0px 1px;
 	line-height: 1.8;
-  }
-  #root > div > main > div > div.papel > div.conteudo-wrapper > div> p > ul > li{
-	
-  }
+  } 
   /* Outros estilos do seu CSS */
   @media(max-width: 430px) {
 	.conteudo-wrapper {

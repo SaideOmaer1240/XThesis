@@ -1,11 +1,5 @@
 // SideBar.jsx 
-import { Link } from 'react-router-dom';
-//import '../assets/css/geral/styles.css'; 
-//import '../assets/css/style.css';  
-//import '../assets/css/base.css'; 
-//import '../assets/css/book.css';  
-//import '../assets/css/geral/card_olds.css';
-//import '../assets/css/geral/styles.css'; 
+import { Link } from 'react-router-dom'; 
 import api from '../api';
 import React, { useState, useEffect } from 'react';
 
@@ -58,6 +52,16 @@ function SideBar() {
           </Link>
         </li> 
       </ul>
+      <div className='settings account plan'>
+      <li className="item-menu">
+          <Link to="/plan">
+            <span className="icon">
+              <i className="fa-solid fa-gear" style={{ fontSize: '25px' }}></i>
+            </span>
+            <span className="txt-link">Definições</span>
+          </Link>
+        </li> 
+      </div>
     </aside>
   );
 }
