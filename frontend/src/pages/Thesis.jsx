@@ -9,13 +9,31 @@ import "../assets/css/style.css";
 import "./criar.css";
 import "./modal.css";
 import "../assets/css/progresso.css";
-import "../assets/css/book.css";
-
+import "../assets/css/book.css"; 
 function Thesis() {
   const { topicName } = useParams();
   const [thesis, setThesis] = useState([]);
+  const [credentials, setCredentials] = useState([]);
 
   useEffect(() => {
+    const fechCredentials = async() =>{
+      /* Obter token de acesso */
+      const token = localStorage.getItem('token');
+      /* Tentar receber uma resposta */
+      try{
+        const response = await api.get(
+          `/api/author/credentials/?topic_name=${encodeURIComponent(topicName)}`,{
+            headers:{
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        setCredentials(response.data);
+      } catch(error){
+        console.error("Erro ao buscar credencias do trabalho:", error);
+      }
+    };
+    fechCredentials();
     const fetchThesis = async () => {
       const token = localStorage.getItem("token");
       try {
@@ -71,7 +89,7 @@ function Thesis() {
       <SideBar />
       <main className="main-content">
          
-          <div className="views_info A4">
+          <div className="views_info A4"> 
             <div className="modal" id="modal">
               <header className="mHeader" id="mHeader">
                  
@@ -92,7 +110,15 @@ function Thesis() {
               <h2 className="text-2xl font-bold mb-6 text-center">
                 Teses Relacionadas ao Tópico: {topicName}
               </h2>
+              <div className="capax">
+                  <div className="conteiner content">
+                  <div className="conteiner duble">
+                      <h2> {credentials.institute} </h2>    
+                  </div>
+                  </div>
+                </div>
               <div className="conteudo-wrapper">
+                
                 {thesis.length > 0 ? (
                   thesis.map((t) => (
                     <div key={t.id} className="r">

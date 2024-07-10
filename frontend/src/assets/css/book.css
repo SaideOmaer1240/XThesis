@@ -20,9 +20,41 @@
 	
 	background: linear-gradient(#9b8eff, #5c48ee ) !important; 
   }
-  #root > div > main > div > div.papel > div.conteudo-wrapper{
-	margin-right: 80px !important;
-	margin-left: 70px !important;
+  .capax{
+	margin-bottom: 8px !important;  
+  }
+  #root > div > main > div > div.papel > div.conteudo-wrapper, .capax{
+	margin-right: 90px !important;
+	margin-left: 80px !important;
+	padding: 40px !important;
+  }
+    
+ .conteiner.content, .conteiner.duble{ 
+	margin-left: 80px !important;
+	margin-right: 50px !important; 
+	margin-top: 60px !important;
+	margin-bottom: 60px !important;
+
+	padding: 2px !important;
+	
+	background: linear-gradient(46deg, rgb(233, 255, 246), rgb(185, 157, 189));
+	box-sizing: border-box;
+      border: 2px solid rgb(109, 108, 108); 
+	height: 120vh;
+  }
+  .conteiner.duble{ 
+	margin-left: 0 !important;
+	margin-right: 0 !important; 
+	margin-top: 0 !important;
+	background: white !important;
+	height: 118.7vh !important;
+  }
+  #root > div > main > div > div.papel > div.capax > div > div > h2{
+	align-items: center;
+	text-align: center;
+	font-family: 'Times New Roman', Times, serif;
+	font-size: 22px;
+	font-weight: bold;
   }
   #root > div > main > div > div.papel > div.conteudo-wrapper > div:nth-child(1){
     padding-top: 60px !important;
@@ -50,7 +82,7 @@
 	height: calc(100vh - 56px);
 	overflow-y: auto;
 }
-.conteudo-wrapper {
+.conteudo-wrapper, .capax{
 	box-shadow:  1px 1px 20px 3px #ceced8;
 	margin-top: 20px;
 	margin-left: 20%;
@@ -108,6 +140,7 @@
 	margin: 0px 0px 1px;
 	line-height: 1.8;
   } 
+  
   /* Outros estilos do seu CSS */
   @media(max-width: 430px) {
 	.conteudo-wrapper {
