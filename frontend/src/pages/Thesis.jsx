@@ -70,8 +70,8 @@ function Thesis() {
       <Header />
       <SideBar />
       <main className="main-content">
-        <div className="adicionar-tema">
-          <div className="views_info">
+         
+          <div className="views_info A4">
             <div className="modal" id="modal">
               <header className="mHeader" id="mHeader">
                 {" "}
@@ -122,7 +122,7 @@ function Thesis() {
               </div>
             </div>
           </div>
-        </div>
+         
       </main>
     </div>
   );
