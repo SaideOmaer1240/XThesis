@@ -157,7 +157,34 @@ class ScribConsumer(AsyncWebsocketConsumer):
             ---
 
             Tenha em mente que a seção apresentada anteriormente é apenas um modelo para você seguir. Agora, apresento a voce o meu esboço da minha verdadeira tese:{indice} desenvolva a seção para este titulo: {question}""",
-            "Referências": """Crie a referência bibliográfica seguindo esse conteúdo context: {question}""",
+            "Referências": """Você é um assistente criador de tese. Sua tarefa é redigir uma seção de bibliografia seguindo o formato da APA 7ª edição. 
+                A bibliografia deve ser escrita de forma acadêmica e formal, listando todas as referências usadas na tese. 
+                Sua tarefa inicial é desenvolver estritamente apenas a seção de bibliografia. Está proibido desenvolver outras seções sem que eu mencione.
+                Veja o exemplo a seguir de uma bibliografia:
+
+                <h2>References</h2>
+                <div>
+                <p>
+                Bourdieu, P. (1986). <i>A economia das trocas simbólicas</i>. Rio de Janeiro: Jorge Zahar Editor.
+                Castells, M. (1997). <i>A era da informação: economia, sociedade e cultura</i>. São Paulo: Editora 34.
+                Foucault, M. (1975). <i>A arqueologia do saber</i>. Rio de Janeiro: Forense Universitária.
+                Giddens, A. (1984). <i>A constituição da sociedade</i>. São Paulo: Editora Brasiliense.
+                Habermas, J. (1981). <i>Teoria da ação comunicativa</i>. Rio de Janeiro: Tempo Brasileiro.
+                Katz, D. (2018). <i>Descentralização de poderes hierárquicos em organizações: um estudo de caso</i>. Revista de Gestão e Desenvolvimento, 23(1), 1-15. doi: 10.1590/1983-4593.2018v23n1a01
+                Luhmann, N. (1995). <i>Social systems</i>. Stanford, CA: Stanford University Press.
+                Mills, C. W. (1959). <i>The sociological imagination</i>. New York: Oxford University Press.
+                Scott, J. C. (1990). <i>Domination and the arts of resistance: hidden transcripts</i>. New Haven, CT: Yale University Press.
+                Wright, E. O. (2010). <i>Understanding class</i>. London: Verso Books.
+                </p>
+                </div>
+                volto a
+                ---
+
+                Tenha em mente que a bibliografia apresentada anteriormente é apenas um modelo para você seguir. Agora, desenvolva a bibliografia para as seguinte tema:{question}
+
+                        
+                        """,
+        
             "Conclusão": """"Você é um assistente criador de tese. Sua tarefa é redigir uma conclusão para uma tese seguindo o formato da APA 7ª edição. A conclusão deve ser escrita de forma acadêmica e formal, e deve incluir citações de autores da seguinte maneira: "Segundo Fulano (2000), [informação]."
         Sua tarefa inicial é desenvolver estritamente apenas a conclusão. Está proibido desenvolver outras seções sem que eu mencione.
         Veja o exemplo a seguir de uma conclusão sobre conjuntivite:
@@ -177,106 +204,52 @@ class ScribConsumer(AsyncWebsocketConsumer):
 
         Tenha em mente que a conclusão apresentada anteriormente é apenas um modelo para você seguir. Agora, desenvolva a conclusão para este tema:{question}
                     
-                    """,
-        "Referências": """Você é um assistente criador de tese. Sua tarefa é redigir uma seção de bibliografia seguindo o formato da APA 7ª edição. 
-A bibliografia deve ser escrita de forma acadêmica e formal, listando todas as referências usadas na tese. 
-Sua tarefa inicial é desenvolver estritamente apenas a seção de bibliografia. Está proibido desenvolver outras seções sem que eu mencione.
-Veja o exemplo a seguir de uma bibliografia:
-
-<h2>References</h2>
-<div>
-<p>
-Bourdieu, P. (1986). <i>A economia das trocas simbólicas</i>. Rio de Janeiro: Jorge Zahar Editor.
-Castells, M. (1997). <i>A era da informação: economia, sociedade e cultura</i>. São Paulo: Editora 34.
-Foucault, M. (1975). <i>A arqueologia do saber</i>. Rio de Janeiro: Forense Universitária.
-Giddens, A. (1984). <i>A constituição da sociedade</i>. São Paulo: Editora Brasiliense.
-Habermas, J. (1981). <i>Teoria da ação comunicativa</i>. Rio de Janeiro: Tempo Brasileiro.
-Katz, D. (2018). <i>Descentralização de poderes hierárquicos em organizações: um estudo de caso</i>. Revista de Gestão e Desenvolvimento, 23(1), 1-15. doi: 10.1590/1983-4593.2018v23n1a01
-Luhmann, N. (1995). <i>Social systems</i>. Stanford, CA: Stanford University Press.
-Mills, C. W. (1959). <i>The sociological imagination</i>. New York: Oxford University Press.
-Scott, J. C. (1990). <i>Domination and the arts of resistance: hidden transcripts</i>. New Haven, CT: Yale University Press.
-Wright, E. O. (2010). <i>Understanding class</i>. London: Verso Books.
-</p>
-</div>
-
----
-
-Tenha em mente que a bibliografia apresentada anteriormente é apenas um modelo para você seguir. Agora, desenvolva a bibliografia para as seguinte tema:{question}
-
-        
-        """
+                    """
         }
-
         prompt_template = """Você é um assistente criador de indice de tese. Sua tarefa é redigir um índice para uma tese, o indice deve estar em uma lista python. 
         O índice deve ser escrito de forma acadêmica e formal, utilizando tópicos hierarquicamente organizados. Está proibido desenvolver outras seções sem que eu mencione.
         Veja o exemplo a seguir de um índice:
 
         esboco_fotossintese = [
-     
-    "1. Introdução", 
-    "1.1 Objetivo Geral", 
-    "1.2 Objetivos Específicos",
-    "1.3 metodologia",
-    "2. Conceito de Fotossíntese",
-    [
-        "2.1 Definição de fotossíntese.",
-        "2.2 Descoberta e história do estudo da fotossíntese."
-    ],
-    "3. O Processo da Fotossíntese",
-    [
-        "3.1 Descrição das etapas do processo:",
-        [
-            "3.1.1 Fase clara (fase luminosa).",
-            "3.1.2 Fase escura (ciclo de Calvin)."
-        ],
-        "3.2 Equação geral da fotossíntese."
-    ],
-    "4. Estrutura das Plantas Relacionada à Fotossíntese",
-    [
-        "4.1 Cloroplastos e sua função.",
-        "4.2 Pigmentos fotossintéticos, principalmente a clorofila.",
-        "4.3 Estrutura das folhas e sua relação com a fotossíntese:",
-        [
-            "4.3.1 Estômatos.",
-            "4.3.2 Mesófilo."
-        ]
-    ],
-    "5. Fatores que Influenciam a Fotossíntese",
-    [
-        "5.1 Luz.",
-        "5.2 Água.",
-        "5.3 Dióxido de carbono (CO₂).",
-        "5.4 Temperatura."
-    ],
-    "6. Importância Ecológica e Econômica da Fotossíntese",
-    [
-        "6.1 Produção de oxigênio.",
-        "6.2 Base das cadeias alimentares.",
-        "6.3 Importância na agricultura e na produção de alimentos.",
-        "6.4 Ciclo do carbono e impacto nas mudanças climáticas."
-    ],
-    "7. Experimentos Clássicos sobre Fotossíntese",
-    [
-        "7.1 Experimento de Jan Ingenhousz.",
-        "7.2 Experimento de Joseph Priestley.",
-        "7.3 Experimento de Melvin Calvin."
-    ],
-    "8. Fotossíntese em Diferentes Organismos",
-    [
-        "8.1 Plantas.",
-        "8.2 Algas.",
-        "8.3 Cianobactérias."
-    ],
-    "9. Tecnologias e Avanços Relacionados à Fotossíntese",
-    [
-        "9.1 Fotossíntese artificial.",
-        "9.2 Engenharia genética para melhorar a eficiência fotossintética."
-    ],
-     
-    "11. Referências",
-    
-]
  
+   " 1. Introdução",  
+
+    "2.1 Objetivo Geral",
+        
+    "2.2 Objetivos Específicos", 
+
+   "3. Problema",
+    "3.1 Limitações da abordagem comportamental",
+    "3.1.1 Foco restrito no comportamento observável",
+    "3.1.2 Negligência dos processos internos, como pensamentos e emoções",
+
+    "4. Justificativa",
+    
+    "5. Revisão de Literatura",
+    "5.1 Principais Teorias",
+        "5.1.1 Condicionamento Clássico (Pavlov)",
+       " 5.1.2 Condicionamento Operante (Skinner)",
+       " 5.1.3 Teoria da Aprendizagem Social (Bandura)",
+   " 5.2 Estudos Empíricos e Experimentos Clássicos",
+        "5.2.1 Experimento de Pavlov com cães",
+        "5.2.2 Experimento da Caixa de Skinner",
+       " 5.2.3 Experimento do pequeno Albert (Watson e Rayner)",
+    "5.3 Aplicações Práticas",
+       " 5.3.1 Modificação de comportamento em terapia",
+        "5.3.2 Implementação de sistemas de reforço em ambientes educacionais",
+        "5.3.3 Uso de condicionamento operante em ambientes organizacionais",
+    "6. Metodologia", 
+
+    "7. Resultados",
+   " 7.1 Síntese dos principais achados teóricos e empíricos",
+    "7.2 Identificação de padrões e tendências na aplicação das teorias comportamentais",
+    "7.3 Avaliação crítica das limitações e benefícios das intervenções comportamentais",
+
+    "8. Conclusão",
+
+    "9. Referências Bibliográficas"
+     ]
+
 
 
         ---
@@ -326,35 +299,49 @@ Tenha em mente que a bibliografia apresentada anteriormente é apenas um modelo 
             )
 
             try:
-                pretextual = ["Introdução", "Objetivo Geral", "Objetivos Específicos", "metodologia",]
-                if titulo.lower() == "bibliografia":
-                    response = await sync_to_async(chain.invoke)({"context": "conteúdo de exemplo"})
-                 
-                elif titulo.lower() == 'introdução':
-                    response = await sync_to_async(chain.invoke)({"question": tema})
-                elif titulo.lower() == 'objetivo geral':
-                    response = await sync_to_async(chain.invoke)({"question": tema})
-                elif titulo.lower() == 'objetivos específicos':
-                    response = await sync_to_async(chain.invoke)({"question": tema})
-                elif titulo.lower() == 'metodologia':
-                    response = await sync_to_async(chain.invoke)({"question": tema})
-                elif titulo.lower() == 'conclusão':
-                    response = await sync_to_async(chain.invoke)({"question": tema})
-                elif titulo.lower() == 'referências':
-                    response = await sync_to_async(chain.invoke)({"question": tema})
+                if "introdução" in titulo.lower():
+                    response = await sync_to_async(chain.invoke)({"question": tema, "indice" : indice})
+                    
+                elif "objetivo geral" in titulo.lower():
+                    response = await sync_to_async(chain.invoke)({"question": tema, "indice" : indice})
+                    
+                elif "problema" in titulo.lower(): 
+                    response = await sync_to_async(chain.invoke)({"question": tema, "indice" : indice})
+                     
+                elif "justificativa" in titulo.lower(): 
+                    response = await sync_to_async(chain.invoke)({"question": tema, "indice" : indice}) 
+                    
+                elif "revisão de literatura" in titulo.lower(): 
+                    response = await sync_to_async(chain.invoke)({"question": tema, "indice" : indice})
+                    
+                elif "revisão de literatura" in titulo.lower(): 
+                    response = await sync_to_async(chain.invoke)({"question": tema, "indice" : indice})
+                    
+                elif "revisão de literatura" in titulo.lower(): 
+                    response = await sync_to_async(chain.invoke)({"question": tema, "indice" : indice})
+                    
+                elif "pretextual ou postextual" not in titulo.lower(): 
+                     response = await sync_to_async(chain.invoke)({"question": titulo, "indice" : indice})
+                     
+                elif "metodologia" in titulo.lower():  
+                      response = await sync_to_async(chain.invoke)({"question": tema,"indice" : indice})
+                      
+                elif "resultados" in titulo.lower():  
+                      response = await sync_to_async(chain.invoke)({"question": tema, "indice" : indice})
+                      
+                elif "conclusão" in titulo.lower():  
+                      response = await sync_to_async(chain.invoke)({"question": tema, "indice" : indice})
+                      
+                elif "referências" in titulo.lower():  
+                      response = await sync_to_async(chain.invoke)({"question": tema, "indice" : indice})
                 else:
-                    for texto in pretextual:
-                        if titulo.lower() != texto.lower():
-                            response = await sync_to_async(chain.invoke)({"question": titulo, 'indice': indice})
-                        elif titulo.lower() == texto.lower():
-                            response = await sync_to_async(chain.invoke)({"question": tema})
+                    pass
 
                 logger.info('Processo concluido com sucesso da tarefa %s: %s', titulo)
                 
                 regex = r'<div\b[^>]*>(.*?)<\/div>'
                 resultados = re.findall(regex, response, re.DOTALL)
                 results = ' '.join(resultados)
-                 
 
                 # Salvar no banco de dados
                 await self.save_thesis_content(user, tema, titulo, results, institute, disciplina, student, instructor, cidade)

@@ -1,5 +1,5 @@
 /* Adicione isso ao arquivo CSS relevante */
-.progress-container {
+#root > div > main > div > div.progress-container {
     margin-top: 20px;
     width: 100%;
     background-color: #f3f3f3;
@@ -7,14 +7,24 @@
     overflow: hidden;
 }
 
-.progress-bar {
-    height: 25px;
-    background-color: #4caf50;
+#root > div > main > div > div.progress-container > div {
+    height: 35px;
+    background: linear-gradient(42deg,  rgba(158, 33, 241, 0.226), rgba(105, 78, 201, 0.425));
     width: 0;
+    margin-left: 20px !important;
+    margin-right: 20px !important;
+    margin-top: 2px !important;
     transition: width 0.4s ease;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    justify-items: center !important;
+    
 }
-
-.progress-container p {
-    text-align: center;
-    margin-top: 5px;
+#root > div > main > div > div.progress-container > div > h2,
+.progress-container div  p {
+    text-align: center !important; 
+    margin-left: 20px !important;
+    font-weight: bold !important;
+    color: blueviolet !important;
 }

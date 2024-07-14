@@ -32,8 +32,7 @@
     width: calc(100% - 40px) !important;
     height: 80% !important; 
     max-height: 80% !important;
-    box-sizing: border-box;
-    border: 1px solid var(--cor-fndo-claro);
+    box-sizing: border-box; 
     margin-left: 20px !important; 
     align-items: center !important;
     direction: center !important;
@@ -51,11 +50,11 @@
     color: var(--primary-color-dark) !important;
     margin-bottom: 20px;
   }
-  .form{
-    display: flex;
-    width: 100%;
+  #root > div > main > div > form{
+    display: flex !important;
+    width: 100%; 
   }
-  .form-group {
+  #root > div > main > div > form > div {
     display: flex !important;
     width: 100% !important;
     margin-bottom: 15px !important;
@@ -64,10 +63,9 @@
   }
    
   
-  .form-group input {
+  #root > div > main > div > form > div input {
     border-bottom-right-radius: 0 !important;
-    border-top-right-radius: 0 !important;
-    margin-left: 20px !important;
+    border-top-right-radius: 0 !important; 
     width: calc(100% - 20px);
     padding-left: 20px !important;
     padding: 10px 20px !important; 
@@ -75,13 +73,15 @@
     border: 1px solid var(--cor-fndo-claro);
     border-radius: 5px;
     box-sizing: border-box;
+    height: 50px;
+    outline-color: var(--primary-color)
   }
   
   .form-group input::placeholder {
     color: var(--claro-color);
   }
   
-  button[type="submit"] {
+  #root > div > main > div > form > div > button {
     margin-right: 20px !important;
     border-top-left-radius: 0 !important;
     border-bottom-left-radius: 0 !important;
@@ -91,13 +91,48 @@
     border-radius: 5px;
     padding: 10px 20px !important;
     font-size: 16px;
+    height: 50px;
     cursor: pointer;
     margin-bottom: 18px !important;
     transition: background-color 0.3s ease;
   }
   
-  button[type="submit"]:hover {
+  #root > div > main > div > form > div > button:hover {
     background-color: var(--primary-color-dark);
+    border: none;
+  }
+
+  #root > div > main > div > div.papel{
+    width: calc(100% - 40px) !important;
+    height: 80% !important; 
+    max-height: 84% !important;
+  } 
+  #root > div > main > div > div.papel > div{
+    margin-bottom: 48px !important;  
+    padding-top: 80px !important;
+    padding-bottom: 80px !important;
+    height: 100%;
+  }
+  p > ul > li > strong,
+  div > p > strong{
+    font-size: 16px !important;
+  }
+  #root > div > main > div > div.papel > div > div > p > div > p > strong,
+  #root > div > main > div > div.papel > div > div.SSEMessage > h3{
+    align-items: center;
+    text-align: center;
+    padding: 2px !important;
+    font-weight: bold;
+  }
+  #root > div > main > div > div.papel > div > div > p > div > ul > li,
+  #root > div > main > div > div.papel > div > div > p > div > p{
+    padding-left: 80px !important; 
+    padding-right: 60px !important;
+    padding-bottom: 25px !important;
+    text-align: justify !important;
+    font-family: 'Times New Roman', Times, serif !important;
+    line-height: 32px !important;
+    font-size: 20px !important;
   }
   @media(max-width: 1024px){
     .form-group {
@@ -136,4 +171,3 @@
   margin-right: 2px !important; 
 }
   }
-   
