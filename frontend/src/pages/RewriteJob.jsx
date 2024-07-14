@@ -143,7 +143,7 @@ const Rewrite = () => {
                         </div>
 
                     </div>
-                    <div className='papel'>
+                    <div className='papel writer'>
                         <div className="capax">
                             <div></div>
                             <div className="SSEMessage">
