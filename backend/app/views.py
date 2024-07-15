@@ -1,6 +1,7 @@
 from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.http import JsonResponse, HttpResponse
 from django.conf import settings
 from docx import Document
 from docx.oxml.ns import nsdecls
@@ -32,6 +33,7 @@ class TopicViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
 
+ 
 class ThesisViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated, IsAuthor]
     serializer_class = ThesisSerializer
@@ -69,7 +71,6 @@ class ThesisViewSet(viewsets.ModelViewSet):
                 return paragraph
         return None
     
-    # Função para remover um parágrafo de um documento
     def remover_paragrafo(self, doc, paragrafo):
         p = paragrafo._element
         p.getparent().remove(p)
@@ -85,7 +86,6 @@ class ThesisViewSet(viewsets.ModelViewSet):
         for i, part in enumerate(h2_matches):
             apply_formatting(part, bold=True if i % 2 == 1 else False)
          
-
         p_pattern = re.compile(r'<p>(.*?)</p>')
         p_matches = p_pattern.findall(text)
         for p_match in p_matches:
@@ -98,7 +98,6 @@ class ThesisViewSet(viewsets.ModelViewSet):
         li_matches = li_pattern.findall(text)
         for li_match in li_matches:
             apply_formatting(li_match)
-            
 
     def add_table(self, doc, text):
         rows = text.strip().split('\n')
@@ -197,7 +196,7 @@ class ThesisViewSet(viewsets.ModelViewSet):
             if paragrafo_origem:
                 paragrafo_destino = doc.add_paragraph()
                 self.copiar_estilos(paragrafo_origem, paragrafo_destino)
-                paragrafo_destino.text = {thesis.title}
+                paragrafo_destino.text = thesis.title
             else:
                 self.add_formatted_text(doc.add_paragraph(), f'**{thesis.title}**')
                 
@@ -217,5 +216,11 @@ class ThesisViewSet(viewsets.ModelViewSet):
         file_path = os.path.join(directory, file_name)
         doc.save(file_path)
         
-        file_url = os.path.join(settings.MEDIA_URL, 'documents', file_name)
-        return Response({'file_url': file_url})
+        with open(file_path, 'rb') as arquivo_aberto:
+            response = HttpResponse(
+                arquivo_aberto.read(), 
+                content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+            )
+            response['Content-Disposition'] = f'attachment; filename="{file_name}"'
+             
+        return response
