@@ -155,6 +155,21 @@ class ScribConsumer(AsyncWebsocketConsumer):
             </div>
 
             ---
+            <h2>Referências Bibliográficas</h2>
+            <main>
+            <p>
+            Bourdieu, P. (1986). <i>A economia das trocas simbólicas</i>. Rio de Janeiro: Jorge Zahar Editor.</p>
+            <p>Castells, M. (1997). <i>A era da informação: economia, sociedade e cultura</i>. São Paulo: Editora 34.</p>
+            <p>Foucault, M. (1975). <i>A arqueologia do saber</i>. Rio de Janeiro: Forense Universitária.</p>
+            <p>Giddens, A. (1984). <i>A constituição da sociedade</i>. São Paulo: Editora Brasiliense.</p>
+            <p>Habermas, J. (1981). <i>Teoria da ação comunicativa</i>. Rio de Janeiro: Tempo Brasileiro.</p>
+            <p>Katz, D. (2018). <i>Descentralização de poderes hierárquicos em organizações: um estudo de caso</i>. Revista de Gestão e Desenvolvimento, 23(1), 1-15. doi: 10.1590/1983-4593.2018v23n1a01</p>
+            <p>Luhmann, N. (1995). <i>Social systems</i>. Stanford, CA: Stanford University Press.</p>
+            <p>Mills, C. W. (1959). <i>The sociological imagination</i>. New York: Oxford University Press.</p>
+            <p>Scott, J. C. (1990). <i>Domination and the arts of resistance: hidden transcripts</i>. New Haven, CT: Yale University Press.</p>
+            <p>Wright, E. O. (2010). <i>Understanding class</i>. London: Verso Books.
+            </p>
+            </main> 
 
             Tenha em mente que a seção apresentada anteriormente é apenas um modelo para você seguir. Agora, apresento a voce o meu esboço da minha verdadeira tese:{indice} desenvolva a seção para este titulo: {question}""",
             "Referências": """Você é um assistente criador de tese. Sua tarefa é redigir uma seção de bibliografia seguindo o formato da APA 7ª edição. 
@@ -282,8 +297,8 @@ class ScribConsumer(AsyncWebsocketConsumer):
          
 
         total_items = len(indice)
-        processed_items = 0
-
+        processed_items = 0 
+        divs = []
         for titulo in indice:
             logger.info('Processing title: %s', titulo)
             if titulo.lower() in prompts:
@@ -339,6 +354,14 @@ class ScribConsumer(AsyncWebsocketConsumer):
 
                 logger.info('Processo concluido com sucesso da tarefa %s: %s', titulo)
                 
+                pattern = r'<main>(.*?)<\/main>'
+                match1 = re.search(pattern, response, re.DOTALL)
+                if match1:
+                    conteudo_main1 = match1.group(1)
+                    div_strin1 = f'<div>{conteudo_main1}</div>'
+                    divs.append(div_strin1)
+                
+                
                 regex = r'<div\b[^>]*>(.*?)<\/div>'
                 resultados = re.findall(regex, response, re.DOTALL)
                 results = ' '.join(resultados)
@@ -363,9 +386,21 @@ class ScribConsumer(AsyncWebsocketConsumer):
                 await self.send(text_data=json.dumps({'error': str(e)}))
 
             await asyncio.sleep(5)  # Ajustado para reduzir o tempo de espera
-
+        
+        await self.update_bibliografia(tema, ' '.join(divs))
+        
     async def disconnect(self, close_code):
         logger.info('WebSocket connection closed with code %s', close_code)
+    
+    @sync_to_async
+    def update_bibliografia(self, tema, referencias):
+        try:
+            bibliografia = Thesis.objects.filter(topic=tema).order_by('-date_added').first()
+            if bibliografia:
+                bibliografia.text = referencias
+                bibliografia.save()
+        except Exception as e:
+            logger.error('Error updating bibliografia: %s', e)
 
     @sync_to_async
     def save_thesis_content(self, user, tema, titulo, conteudo, institute, disciplina, student, instructor, cidade):

@@ -77,22 +77,31 @@ class ThesisViewSet(viewsets.ModelViewSet):
         p._element = p._p = None
 
     def add_formatted_text(self, paragraph, text):
-        def apply_formatting(part, bold=False):
+        def apply_formatting(part, bold=False, italic=False):
             run = paragraph.add_run(part)
             run.bold = bold
+            run.italic = italic
 
+         # Procura por <h2>
         h2_pattern = re.compile(r'<h2>(.*?)</h2>')
         h2_matches = h2_pattern.findall(text)
         for i, part in enumerate(h2_matches):
             apply_formatting(part, bold=True if i % 2 == 1 else False)
-         
+
+        # Procura por <p>
         p_pattern = re.compile(r'<p>(.*?)</p>')
         p_matches = p_pattern.findall(text)
         for p_match in p_matches:
+            # Primeira iteração: procura por <strong>
             strong_pattern = re.compile(r'<strong>(.*?)</strong>')
             parts = strong_pattern.split(p_match)
             for i, part in enumerate(parts):
-                apply_formatting(part, bold=True if i % 2 == 1 else False) 
+                # Segunda iteração: procura por <i> dentro das partes encontradas por <strong>
+                italic_pattern = re.compile(r'<i>(.*?)</i>')
+                italic_parts = italic_pattern.split(part)
+                for j, italic_part in enumerate(italic_parts):
+                    apply_formatting(italic_part, bold=False if i % 2 == 1 else False, italic=True if j % 2 == 1 else False)
+ 
 
         li_pattern = re.compile(r'<li>(.*?)</li>')
         li_matches = li_pattern.findall(text)

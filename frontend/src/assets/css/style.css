@@ -308,7 +308,15 @@ footer {
 .footer-social ul li a:hover {
   color: #ccc;
 }
-
+.btn-expandir.header{
+  display: none !important;
+}
+@media(max-width: 1024px){
+  .btn-expandir.header{
+    display: block !important;
+  }
+  
+}
 @media (max-width: 912px) {
   .menu-itens {
     display: none;

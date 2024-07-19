@@ -167,7 +167,21 @@
      
 }
 .form-group input { 
-  margin-left: 10px !important;
-  margin-right: 2px !important; 
+  margin-left: 1px !important;
+  margin-right: 1px !important; 
+}
+#root > div > main > div > div.papel.writer{
+  width: 100%!important;
+  height: 80% !important; 
+  max-height: 84% !important;
+}
+#root > div > main > div > form > div > button {
+  margin-right: 1px !important;
+  margin-left: 1px !important;
+}
+#root > div > main > div > form > div input {
+  border-bottom-right-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  width: 100% !important;
 }
   }

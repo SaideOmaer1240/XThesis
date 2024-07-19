@@ -24,7 +24,20 @@ function SideBar() {
   }, []);
 
   const toggleSidebar = () => {
-    // Adicione a lógica de expandir/retrair sidebar aqui
+    document.getElementById('toggleMenu').addEventListener('click', function() {
+      var menu = document.querySelector('.menu-itens-mobile');
+      menu.classList.toggle('show');
+      
+      // Verifica se o menu está sendo exibido ou oculto e atualiza o ícone do botão
+      var buttonIcon = document.querySelector('#toggleMenu i');
+      if (menu.classList.contains('show')) {
+        buttonIcon.classList.remove('fa-bars');
+        buttonIcon.classList.add('fa-times');
+      } else {
+        buttonIcon.classList.remove('fa-times');
+        buttonIcon.classList.add('fa-bars');
+      }
+    });
   };
 
 

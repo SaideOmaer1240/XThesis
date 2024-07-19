@@ -21,7 +21,22 @@ function Header() {
     };
     fetchUserInfo();
   }, []);
-
+  const toggleSidebar = () => {
+    document.getElementById('toggleMenu').addEventListener('click', function() {
+      var menu = document.querySelector('.menu-itens-mobile');
+      menu.classList.toggle('show');
+      
+      // Verifica se o menu está sendo exibido ou oculto e atualiza o ícone do botão
+      var buttonIcon = document.querySelector('#toggleMenu i');
+      if (menu.classList.contains('show')) {
+        buttonIcon.classList.remove('fa-bars');
+        buttonIcon.classList.add('fa-times');
+      } else {
+        buttonIcon.classList.remove('fa-times');
+        buttonIcon.classList.add('fa-bars');
+      }
+    });
+  };
   return (
     <header className="navbar">
       <div className="logo">
@@ -47,7 +62,12 @@ function Header() {
             </Link>
           </li>
         </ul>
+        
       </div>
+      <div className="btn-expandir header" onClick={toggleSidebar}>
+        <i className="fa-solid fa-bars" id="btn-exp" style={{ fontSize: '29px' }}></i>
+      </div>
+      
     </header>
   );
 }
