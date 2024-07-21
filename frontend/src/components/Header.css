@@ -1,0 +1,32 @@
+ /* Estilo padrão da sidebar */
+  @media(min-width: 1024px){
+    #root > div > header > div.btn-expandir{
+      display: none !important;
+    }
+  }
+  @media(max-width: 1024px){
+    #root > div > header > div.btn-expandir{
+       
+      padding: 5px !important;
+      border-radius: 5px;
+    }
+    #root > div > header > div.btn-expandir:hover{
+      background: rebeccapurple;
+       
+    }
+    .sidebar.open {   
+      display: flex !important;
+      position: absolute !important;
+      height: calc(100vh -  52px) !important;
+      top: 52px;
+      width: 80%; 
+      flex-direction: column !important;
+      padding-top: 20px !important;
+      transition: 1s !important;
+      order: -1 !important;
+     
+    }
+
+  }
+  
+  

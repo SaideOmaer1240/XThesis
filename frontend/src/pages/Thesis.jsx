@@ -16,6 +16,9 @@ function Thesis() {
   const [thesis, setThesis] = useState([]);
   const [credentials, setCredentials] = useState({});
   const [modalMessage, setModalMessage] = useState("");
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
 
   useEffect(() => {
     const fetchCredentials = async () => {
@@ -31,7 +34,7 @@ function Thesis() {
         );
         setCredentials(response.data);
       } catch (error) {
-        console.error("Erro ao buscar credencias do trabalho:", error);
+        console.error("Erro ao buscar credenciais do trabalho:", error);
       }
     };
 
@@ -47,6 +50,7 @@ function Thesis() {
           }
         );
         setThesis(response.data);
+        setLoading(false)
       } catch (error) {
         console.error("Erro ao buscar tese:", error);
       }
@@ -80,36 +84,65 @@ function Thesis() {
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
     } catch (error) {
-      setModalMessage(`Erro ao baixar documento: ${error}`);
-      document.getElementById("modal").style.display = "flex";
-      document.getElementById("modalShadows").style.display = "block";
+      let errorMessage;
+
+      if (error.response) {
+        // Se a resposta do erro for disponível
+        switch (error.response.status) {
+          case 404:
+            errorMessage = 'Arquivo não encontrado: O documento solicitado não está disponível.';
+            break;
+          case 401:
+            errorMessage = 'Não autorizado: Você não tem permissão para acessar este documento.';
+            break;
+          default:
+            errorMessage = `Erro ao baixar documento: ${error.message || 'Erro desconhecido.'}`;
+        }
+      } else if (error.request) {
+        // Se a solicitação foi feita, mas não houve resposta
+        errorMessage = 'Erro de rede: Verifique sua conexão com a internet.';
+      } else {
+        // Algo aconteceu ao configurar a solicitação
+        errorMessage = `Erro ao baixar documento: ${error.message || 'Erro desconhecido.'}`;
+      }
+
+      setModalMessage(errorMessage);
+      setShowModal(true);
       console.error("Erro ao baixar documento", error);
     }
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+};
+
   return (
     <div className="layout">
-      <Header />
-      <SideBar />
+      <Header toggleSidebar={toggleSidebar} />
+      <SideBar isSidebarOpen={isSidebarOpen} />
       <main className="main-content">
         <div className="views_info A4">
-          <div className="modal" id="modal">
-            <header className="mHeader">
-              <i className="fa fa-exclamation-triangle"></i>
-              <p>Token de acesso expirado</p>
-            </header>
-            <div className="mBody">
-              <p>{modalMessage}</p>
-            </div>
-            <footer>
-              <Link to="/logout">
-                <button>
-                  <span className="txt-link">Iniciar Sessão Novamente</span>
-                </button>
-              </Link>
-            </footer>
-          </div>
-          <div className="modalShadows" id="modalShadows"></div>
+          {showModal && (
+            <>
+              <div className="modal" id="modal">
+                <header className="mHeader">
+                  <i className="fa fa-exclamation-triangle"></i>
+                  <p>Token de acesso expirado</p>
+                </header>
+                <div className="mBody">
+                  <p>{modalMessage}</p>
+                </div>
+                <footer>
+                  <Link to="/logout">
+                    <button>
+                      <span className="txt-link">Iniciar Sessão Novamente</span>
+                    </button>
+                  </Link>
+                </footer>
+              </div>
+              <div className="modalShadows" id="modalShadows" style={{ display: 'block' }}></div>
+            </>
+          )}
           <div className="papel">
             <div className="capax">
               <div className="conteiner content">
@@ -124,36 +157,43 @@ function Thesis() {
                   <h2>{credentials.city}, {credentials.month} de {credentials.year}</h2>
                 </div>
               </div>
-            </div>
-            {thesis.length > 0 ? (
-              thesis.map((t) => (
-                <div key={t.id} className="conteudo-wrapper">
-                  <div className="papel-wrapper">
-                    <div className="r">
-                      <h3 className="text-2xl font-bold mb-4">{t.title}</h3>
-                      <p
-                        className="text-gray-700 text-base mb-4"
-                        dangerouslySetInnerHTML={{ __html: t.text }}
-                      ></p>
+            </div> 
+             
+
+              {  loading ? <div>Carregando</div> :   thesis.length > 0 ? (
+                thesis.map((t) => (
+                  <div key={t.id} className="conteudo-wrapper">
+                    <div className="papel-wrapper">
+                      <div className="r">
+                        <h3 className="text-2xl font-bold mb-4">{t.title}</h3>
+                        <p
+                          className="text-gray-700 text-base mb-4"
+                          dangerouslySetInnerHTML={{ __html: t.text }}
+                        ></p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              <p className="text-center text-gray-700">
-                Nenhuma tese encontrada para este tópico.
-              </p>
-            )}
-            <div className="text-center mt-6">
-              <button onClick={handleDownload} className="downloadBtn">
-                <span>
-                  <i
-                    className="fa-solid fa-download"
-                    style={{ fontSize: "25px" }}
-                  ></i>
-                </span>
-              </button>
-            </div>
+                ))
+              ) : (
+                <p className="text-center text-gray-700">
+                  Nenhuma tese encontrada para este tópico.
+                </p>
+              )}
+  
+              <div className="text-center mt-6">
+                <button onClick={handleDownload} className="downloadBtn">
+                  <span>
+                    <i
+                      className="fa-solid fa-download"
+                      style={{ fontSize: "25px" }}
+                    ></i>
+                  </span>
+                </button>
+              </div>
+
+ 
+            
+
           </div>
         </div>
       </main>

@@ -32,6 +32,10 @@
 
 body {
   background-color: var(--fundo-color);
+  -webkit-user-select: none; /* Para navegadores baseados em WebKit */
+    -moz-user-select: none;    /* Para Firefox */
+    -ms-user-select: none;     /* Para IE e Edge */
+    user-select: none;         /* Para navegadores modernos */
 }
 .criar{
   background-color: green;
@@ -277,6 +281,25 @@ footer {
   display: inline;
   margin-right: 20px;
 }
+.availability-message {
+  color: red;
+  font-size: 0.9em;
+  margin-top: 5px;
+}
+.form-button {
+  background-color: blue;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.form-button:disabled {
+  background-color: grey;
+  cursor: not-allowed;
+}
+
 
 .footer-links ul li a {
   color: #fff;

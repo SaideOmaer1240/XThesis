@@ -53,7 +53,7 @@
 	height: 118.7vh !important;
   }
   #root > div > main > div > div.papel{
-	height: 132vh !important; 
+	height: 90vh !important; 
   }
   
   #root > div > main > div > div.papel > div{
@@ -136,6 +136,9 @@
     
 	
 
+}
+#root > div > main > div > div{ 
+	height: 10vh !important;
 }
 
 
@@ -220,7 +223,7 @@
 		margin-bottom: 10px !important;
 		padding: 2px !important; 
 		font-size: 16px !important;
-		height: 88.7vh !important;
+		height: 87.7vh !important;
 	}
  
 .conteiner.duble, .papel-wrapper {
@@ -253,10 +256,10 @@
 		margin-top: 200px !important; 
 	}
 	.main-content{
-		height: 100% !important;
+		height: 100vh !important;
 	}
 	#root > div > main > div > div.papel {
-		height: 100% !important;
+		height: 100vh !important;
 	}
 	#root > div > main > div > div.papel > div.conteudo-wrapper, .capax {
 		margin-top: 30px !important;

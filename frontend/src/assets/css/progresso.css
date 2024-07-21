@@ -1,7 +1,7 @@
 /* Adicione isso ao arquivo CSS relevante */
 #root > div > main > div > div.progress-container {
-    margin-top: 20px;
-    width: 100%;
+    margin-top: 20px; 
+    width: 95%;
     background-color: #f3f3f3;
     border-radius: 5px;
     overflow: hidden;
@@ -11,11 +11,10 @@
     height: 35px;
     background: linear-gradient(42deg,  rgba(158, 33, 241, 0.226), rgba(105, 78, 201, 0.425));
     width: 0;
-    margin-left: 20px !important;
-    margin-right: 20px !important;
+    margin-left: 20px !important; 
     margin-top: 2px !important;
     transition: width 0.4s ease;
-    display: flex !important;
+    display: flex;
     align-items: center !important;
     justify-content: center !important;
     justify-items: center !important;
@@ -24,7 +23,44 @@
 #root > div > main > div > div.progress-container > div > h2,
 .progress-container div  p {
     text-align: center !important; 
-    margin-left: 20px !important;
+    margin-left: 20px !important; 
     font-weight: bold !important;
     color: blueviolet !important;
 }
+.conclusao-div {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: none;
+    background: white;
+    padding: 20px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    z-index: 1000;
+}
+
+.animated-button {
+    display: inline-block;
+    padding: 20px 20px !important;
+    background-color: #4CAF50;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    position: relative;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+

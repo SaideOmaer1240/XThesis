@@ -1,9 +1,11 @@
-import api from "../api";
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import api from "../api";
+// import '../assets/css/header.css';
 
-function Header({ toggleSidebar }) {
-  const [user_info, setUserInfo] = useState([]); 
+function Header() {
+  const [user_info, setUserInfo] = useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Estado para gerenciar a visibilidade da sidebar
 
   useEffect(() => {
     const fetchUserInfo = async () => {
@@ -22,12 +24,22 @@ function Header({ toggleSidebar }) {
     fetchUserInfo();
   }, []);
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(prevState => !prevState); // Alterna entre verdadeiro e falso
+  };
+
   return (
     <header className="navbar">
       <div className="logo">
         <Link to="/" className="marca">
           <h1>XThesis</h1>
         </Link>
+      </div>
+      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}> {/* Adiciona a classe 'open' se isSidebarOpen for verdadeiro */ }
+        {/* Conteúdo da sidebar aqui */}
+      </div>
+      <div className="btn-expandir" onClick={toggleSidebar}>
+        <i className="fa-solid fa-bars" id="btn-exp" style={{ fontSize: '29px' }}></i>
       </div>
       <div className="conteiner_list">
         <ul className="lists">
@@ -47,14 +59,8 @@ function Header({ toggleSidebar }) {
           </li>
         </ul>
       </div>
-      <div className="btn-expandir" onClick={toggleSidebar}>
-        <i className="fa-solid fa-bars" id="btn-exp" style={{ fontSize: '29px' }}></i>
-      </div>
     </header>
   );
 }
 
 export default Header;
-
-
-

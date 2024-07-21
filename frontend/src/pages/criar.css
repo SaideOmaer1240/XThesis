@@ -1,3 +1,5 @@
+ 
+
 .p-6{
   overflow: scroll !important;
 }
@@ -45,6 +47,9 @@
     overflow: auto !important; 
     max-height: 400px !important;
     
+  }
+  #visual-tema{
+    display: none;
   }
   .adicionar-tema h2 {
     color: var(--primary-color-dark) !important;
@@ -167,21 +172,22 @@
      
 }
 .form-group input { 
-  margin-left: 1px !important;
-  margin-right: 1px !important; 
+  margin-left: 10px !important;
+  margin-right: 2px !important; 
 }
-#root > div > main > div > div.papel.writer{
-  width: 100%!important;
-  height: 80% !important; 
-  max-height: 84% !important;
+
+#root > div > main > div > div.papel.writer {
+  width: 100% !important;
+  height: 95% !important;
+  max-height: 93% !important;
 }
 #root > div > main > div > form > div > button {
-  margin-right: 1px !important;
+  margin-right: 1px!important;
+}
+#root > div > main > div > form > div input { 
+  width:100% !important;
   margin-left: 1px !important;
 }
-#root > div > main > div > form > div input {
-  border-bottom-right-radius: 0 !important;
-  border-top-right-radius: 0 !important;
-  width: 100% !important;
-}
+ 
   }
+

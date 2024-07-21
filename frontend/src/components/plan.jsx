@@ -4,10 +4,14 @@ import SideBar from "./SideBar";
 import "../assets/css/plan.css"; 
 import React, { useState, useEffect } from "react";
 function Plan() {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+};
   return (
     <div className="layout">
-      <Header />
-      <SideBar />
+      <Header toggleSidebar={toggleSidebar} />
+      <SideBar isSidebarOpen={isSidebarOpen} />
       <main className="main-content">
         <div className="plan conteiner papel">
           <div className=" plan general free">

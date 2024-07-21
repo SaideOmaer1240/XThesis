@@ -13,6 +13,7 @@ import "../assets/css/book.css";
 function TopicList() {
   const [topics, setTopics] = useState([]);
   const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
 
   useEffect(() => {
     const fetchTopics = async () => {
@@ -35,11 +36,14 @@ function TopicList() {
   const handleViewThesis = (topicId) => {
     navigate(`/thesis/${topicId}`);
   };
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+};
 
   return (
     <div className="layout">
-      <Header />
-      <SideBar />
+      <Header toggleSidebar={toggleSidebar} />
+      <SideBar isSidebarOpen={isSidebarOpen} />
       <main className="main-content">
         <div className="conteiner-topic papel">
           <div className="conteiner-cards">

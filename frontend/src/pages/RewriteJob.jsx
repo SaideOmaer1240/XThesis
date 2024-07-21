@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../components/Header';
+import { Link } from 'react-router-dom';
+import Header from '../components/Header'; 
 import SideBar from '../components/SideBar';
 import api from '../api';
 import '../assets/css/criar.css';
 import '../assets/css/geral/styles.css';
 import '../assets/css/style.css';
 import './criar.css';
-import '../assets/css/progresso.css';
+import '../assets/css/progresso.css'; 
 
 const Rewrite = () => {
     const [title, setTitle] = useState('');
@@ -28,6 +29,7 @@ const Rewrite = () => {
     });
     const [inputValue, setInputValue] = useState('');
     const [texto, setTexto] = useState('');
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
 
     useEffect(() => {
         const getUserInfo = async () => {
@@ -128,20 +130,20 @@ const Rewrite = () => {
         }
     };
 
+    const toggleSidebar = () => {
+        setIsSidebarOpen(!isSidebarOpen);
+    };
+
     return (
         <div className="layout">
-            <Header />
-            <SideBar />
+            <Header toggleSidebar={toggleSidebar} />
+            <SideBar isSidebarOpen={isSidebarOpen} />
             <main className="main-content">
                 <div className="adicionar-tema">
-
                     <div className="progress-container">
-
                         <div className="progress-bar" style={{ width: `${progress}%` }}>
-                            
                             <p>{`${progress.toFixed(2)}%`}</p>
                         </div>
-
                     </div>
                     <div className='papel writer'>
                         <div className="capax">
@@ -154,7 +156,6 @@ const Rewrite = () => {
                             </div>
                         </div>
                     </div>
-
                     <form onSubmit={handleSubmit} className="form">
                         {showInputs && (
                             <>
@@ -185,6 +186,16 @@ const Rewrite = () => {
                             </>
                         )}
                     </form>
+                </div>
+                <div 
+                    className="conclusao-div" 
+                    style={{ 
+                        display: progress === 100.00 ? 'block' : 'none' 
+                    }}
+                >
+                    <Link to="/topic" className="animated-button">
+                        Clique aqui para ter acesso ao trabalho completo
+                    </Link>
                 </div>
             </main>
         </div>

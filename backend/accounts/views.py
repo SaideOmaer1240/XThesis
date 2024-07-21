@@ -7,14 +7,36 @@ from rest_framework.response import Response
 from app.permissions import IsAuthor
 from app.models import Thesis
 from . datetime import DateTime
-# Create your views here.
+from rest_framework import status
+# Create your views here. 
 
+    
+class CheckAvailability(APIView):
+    permission_classes = [AllowAny]
+    
+    def get(self, request):
+        email = request.query_params.get('email')
+        username = request.query_params.get('username')
+
+        if email and User.objects.filter(email=email).exists():
+            return Response({'email': 'Este e-mail já está em uso.'}, status=status.HTTP_200_OK)
+
+        if username and User.objects.filter(username=username).exists():
+            return Response({'username': 'Este nome de usuário já está em uso.'}, status=status.HTTP_200_OK)
+
+        return Response({'message': 'Disponível'}, status=status.HTTP_200_OK)
+
+    
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
-    
-    
+
+    def perform_create(self, serializer):
+        email = serializer.validated_data.get('email')
+        if User.objects.filter(email=email).exists():
+            return Response({'error': 'Este e-mail já está em uso.'}, status=status.HTTP_400_BAD_REQUEST)
+        serializer.save()
    
 class UserProfileView(APIView):
     permission_classes = [IsAuthenticated]
