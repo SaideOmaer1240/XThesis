@@ -31,7 +31,7 @@
 }
 
 body {
-  background-color: var(--fundo-color);
+  background: red;
   -webkit-user-select: none; /* Para navegadores baseados em WebKit */
     -moz-user-select: none;    /* Para Firefox */
     -ms-user-select: none;     /* Para IE e Edge */
@@ -98,6 +98,7 @@ header {
   margin: 0 !important; 
   left: 0 !important;
   z-index: 1000 !important;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3) !important;
 }
 
 .marca {
@@ -331,6 +332,7 @@ footer {
 .footer-social ul li a:hover {
   color: #ccc;
 }
+ 
 .btn-expandir.header{
   display: none !important;
 }

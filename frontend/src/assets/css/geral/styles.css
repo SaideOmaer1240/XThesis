@@ -55,8 +55,11 @@ body, html {
 
 body {
   font-family: Arial, sans-serif !important;
-  background-color: var(--fundo-color) !important;
+  background:linear-gradient(40deg, rgba(0, 255, 136, 0.425), rgba(0, 0, 255, 0.342)) !important;
   color: var(--text-color) !important;
+}
+#root{
+  background:linear-gradient(80deg, rgba(255, 0, 242, 0.281), rgba(0, 255, 115, 0.342)) !important;
 }
 
 .layout {
@@ -91,6 +94,7 @@ body {
   padding: 10px 20px !important;
   background: linear-gradient(var(--primary-color), var(--claro-color)) !important;
   color: var(--white) !important;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3) !important;
 }
 
 .navbar .logo {
@@ -142,6 +146,7 @@ body {
   padding-top: 20px !important;
   transition: width 0.3s !important;
   order: -1 !important;
+  height: calc(100vh - 50px);
 }
 
 .sidebar .btn-expandir {
@@ -225,6 +230,22 @@ body {
 
 .container_partial.expandir .sidebar .txt-link {
   opacity: 0 !important;
+}
+ 
+#root > div > header > div > div.banner-content.landingpage > li > a:hover{
+  background: #068637; 
+}
+ 
+#root > div > header > div > div.banner-content.landingpage > li > a{
+  padding: 10px 20px !important;
+  margin-left: 50% !important;
+  transform: translate(-50%) !important;
+  background: #034b1e; 
+  align-items: center;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  border-radius: 5px !important;
+  font-size: 18px;
+  color: #ffffff;
 }
 @media(max-width: 1020px){
   .layout {

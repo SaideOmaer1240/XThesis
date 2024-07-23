@@ -1,0 +1,113 @@
+:root {
+  --primary-color: #5c48ee;
+  --fundo-color: #c0b8ff;
+  --cor-fndo-claro: #dedaff;
+  --claro-color: #9b8eff;
+  --primary-color-dark: #0f1e6a;
+  --secondary-color: #f9fafe;
+  --text-color: #333333;
+  --white: #ffffff;
+  --max-width: 1200px;
+}
+
+#root > div > main > div > div.conteiner-settings {
+  display: flex;
+  width: 100%;
+}
+#root > div > main > div > div.conteiner-settings > div.settings.user {
+  width: 250px;
+  height: 150px;
+  margin-top: 10px !important;
+  margin-left: 20px !important;
+  background: #9b8eff;
+  box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
+    inset -5px -5px 15px rgba(255, 255, 255, 0.1),
+    5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.1) !important;
+}
+#root > div > main > div > div.conteiner-settings > div.settings.user.data { 
+  background: linear-gradient(60deg, #b36ae4, #9b8eff) ; 
+}
+#root > div > main > div > div.conteiner-settings > div.settings.user.data.right{ 
+  margin-right: 10px !important;
+  right: 20px !important;
+  width: 230px;
+  background: linear-gradient(-60deg, #b36ae4, #9b8eff) ; 
+}
+#root > div > main > div > div.conteiner-settings > div.settings.user.plan { 
+  background: linear-gradient(60deg, #6ae47a, #9b8eff) ; 
+}
+#root > div > main > div > div.conteiner-settings > div.settings.user.update-data { 
+  background: linear-gradient(-60deg, #e4726a85, #9b8eff) ; 
+}
+
+#root > div > main > div > div.conteiner-settings > div.settings.user > h2 {
+  height: 64px;
+  width: 100%;
+  text-align: center;
+  background: linear-gradient(30deg, rgb(122, 21, 255), #9b8eff);
+  padding: 10px 20px;
+  color: white;
+  font-family: "Courier New", S Courier, monospace;
+}
+#root > div > main > div > div.conteiner-settings > div.settings.user > p {
+  padding: 10px 20px !important;
+  height: 80px !important;
+}
+#root > div > main > div > div.conteiner-settings > div.settings.user> footer > li > a{
+    padding: 5px 40px !important;
+    
+}
+#root > div > main > div > div.conteiner-settings > div.settings.user> footer > li{ 
+    background: rgba(31, 194, 31, 0.466);
+    
+}
+#root > div > main > div > div.conteiner-settings > div.settings.user> footer > li:hover{ 
+    background: rgba(51, 252, 51, 0.219);
+    
+}
+#root > div > main > div > div.conteiner-settings > div > p,
+#root > div > main > div > div.conteiner-settings > div > p > strong{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+    font-size: 18px !important;
+    color: rgba(255, 255, 255, 0.897);
+}
+#root > div > main > div{
+    display: flex;
+    flex-direction: column;
+    background: #6ae47a49;
+}
+#root > div > main > div > div.conteiner-settings{
+    height: 180px  !important;
+}
+#root > div > main > div > div.user-data-info{
+    height: calc(100% - 185px) !important;
+    
+    display: flex;
+}
+#root > div > main > div > div.user-data-info > div.data-info.papel{
+    width: 60% !important;
+    background: linear-gradient(30deg, rgb(159, 128, 201), #9b8eff); 
+    margin-left: 20px !important;
+    margin-bottom: 10px !important;
+    padding: 20px !important;
+    box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
+    inset -5px -5px 15px rgba(255, 255, 255, 0.1),
+    5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.1) !important;
+}
+#root > div > main > div > div.user-data-info > div.data-info.papel >  p > strong,
+#root > div > main > div > div.user-data-info > div.data-info.papel > p, p > strong{
+    font-size: 18px !important;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: rgb(31, 11, 11);
+}
+@media(max-width: 1024px){
+    #root > div > main > div { 
+        height: 150vh !important;
+    } 
+    #root > div > main > div > div{
+        height: 150vh !important;
+    }
+    .main-content{
+        height: 123vh !important;
+    }
+}

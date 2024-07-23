@@ -1,193 +1,196 @@
- 
-
-.p-6{
+.p-6 {
   overflow: scroll !important;
 }
-  .adicionar-tema {
-    background-color: var(--white);
-    border-radius: 0;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 20px; 
-    width: 100% !important;
-    height: 100%; 
-    text-align: center !important;
-
-  }
-  .progress-bar {
-    width: 100%;
-    background-color: #e0e0e0;
-    border-radius: 25px;
-    margin-top: 20px;
+.adicionar-tema {
+  background-color: var(--white);
+  border-radius: 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100% !important;
+  height: 100%;
+  text-align: center !important;
+}
+.progress-bar {
+  width: 100%;
+  background-color: #e0e0e0;
+  border-radius: 25px;
+  margin-top: 20px;
 }
 
 .progress-bar-fill {
-    height: 20px;
-    background-color: #76c7c0;
-    border-radius: 25px;
-    transition: width 0.5s;
+  height: 20px;
+  background-color: #76c7c0;
+  border-radius: 25px;
+  transition: width 0.5s;
 }
 
-  .adicionar-tema.expandir {
-    width: 100% !important;
-  }
-  .views_info{
-    width: calc(100% - 40px) !important;
-    height: 80% !important; 
-    max-height: 80% !important;
-    box-sizing: border-box; 
-    margin-left: 20px !important; 
-    align-items: center !important;
-    direction: center !important;
-    margin-bottom: 1px !important;
-  }
-  .technicalError{ 
-    margin-left: 20px !important; 
-    align-items: center !important;
-    direction: center !important;
-    overflow: auto !important; 
-    max-height: 400px !important;
-    
-  }
-  #visual-tema{
-    display: none;
-  }
-  .adicionar-tema h2 {
-    color: var(--primary-color-dark) !important;
-    margin-bottom: 20px;
-  }
-  #root > div > main > div > form{
+.adicionar-tema.expandir {
+  width: 100% !important;
+}
+.views_info {
+  width: calc(100% - 40px) !important;
+  height: 80% !important;
+  max-height: 80% !important;
+  box-sizing: border-box;
+  margin-left: 20px !important;
+  align-items: center !important;
+  direction: center !important;
+  margin-bottom: 1px !important;
+}
+.technicalError {
+  margin-left: 20px !important;
+  align-items: center !important;
+  direction: center !important;
+  overflow: auto !important;
+  max-height: 400px !important;
+}
+#visual-tema {
+  display: none;
+}
+.adicionar-tema h2 {
+  color: var(--primary-color-dark) !important;
+  margin-bottom: 20px;
+}
+#root > div > main > div > form {
+  display: flex !important;
+  position: absolute;
+  width: calc(100% - 237px);
+  position: absolute !important;
+  top: 89%;
+} 
+
+#root > div > main > div > form > div {
+  display: flex !important;
+  width: 100% !important;
+  margin-bottom: 15px !important;
+  text-align: left !important;
+  margin-bottom: 20px !important;
+}
+
+#root > div > main > div > form > div input {
+  border-bottom-right-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+  width: calc(100% - 20px);
+  padding-left: 20px !important;
+  padding: 10px 20px !important;
+  margin-bottom: 0 !important;
+  border: 1px solid var(--cor-fndo-claro);
+  border-radius: 5px;
+  box-sizing: border-box;
+  height: 50px;
+  outline-color: var(--primary-color);
+}
+
+.form-group input::placeholder {
+  color: var(--claro-color);
+}
+
+#root > div > main > div > form > div > button {
+  margin-right: 20px !important;
+  border-top-left-radius: 0 !important;
+  border-bottom-left-radius: 0 !important;
+  background-color: var(--primary-color);
+  color: var(--white);
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px !important;
+  font-size: 16px;
+  height: 50px;
+  cursor: pointer;
+  margin-bottom: 18px !important;
+  transition: background-color 0.3s ease;
+}
+
+#root > div > main > div > form > div > button:hover {
+  background-color: var(--primary-color-dark);
+  border: none;
+}
+
+#root > div > main > div > div.papel.writer {
+  width: calc(100% - 40px) !important;
+  height: 80% !important;
+  max-height: 84% !important;
+}
+#root > div > main > div > div.papel.writer > div {
+  margin-bottom: 48px !important;
+  padding-top: 80px !important;
+  padding-bottom: 80px !important;
+  height: 100% !important;
+}
+p > ul > li > strong,
+div > p > strong {
+  font-size: 16px !important;
+}
+#root > div > main > div > div.papel.writer > div > div > p > div > p > strong,
+#root > div > main > div > div.papel.writer > div > div.SSEMessage > h3 {
+  align-items: center;
+  text-align: center;
+  padding: 2px !important;
+  font-weight: bold;
+}
+#root > div > main > div > div.papel.writer > div > div > p > div > ul > li,
+#root > div > main > div > div.papel.writer > div > div > p > div > p {
+  padding-left: 80px !important;
+  padding-right: 60px !important;
+  padding-bottom: 25px !important;
+  text-align: justify !important;
+  font-family: "Times New Roman", Times, serif !important;
+  line-height: 32px !important;
+  font-size: 20px !important;
+}  
+@media (max-width: 1024px) {
+  #root > div > main > div > form {
     display: flex !important;
-    width: 100%; 
-  }
-  #root > div > main > div > form > div {
+    position: absolute;
+    width: 100%;
+    position: absolute !important;
+    top: 84%;
+  } 
+  .form-group {
     display: flex !important;
+    flex-direction: column !important;
+
     width: 100% !important;
     margin-bottom: 15px !important;
     text-align: left !important;
     margin-bottom: 20px !important;
   }
-   
-  
-  #root > div > main > div > form > div input {
-    border-bottom-right-radius: 0 !important;
-    border-top-right-radius: 0 !important; 
-    width: calc(100% - 20px);
-    padding-left: 20px !important;
-    padding: 10px 20px !important; 
-    margin-bottom: 0 !important;
-    border: 1px solid var(--cor-fndo-claro);
-    border-radius: 5px;
-    box-sizing: border-box;
-    height: 50px;
-    outline-color: var(--primary-color)
+  .form {
+    display: flex;
+    flex-direction: column !important;
+    width: 100%;
   }
-  
-  .form-group input::placeholder {
-    color: var(--claro-color);
-  }
-  
-  #root > div > main > div > form > div > button {
-    margin-right: 20px !important;
-    border-top-left-radius: 0 !important;
-    border-bottom-left-radius: 0 !important;
-    background-color: var(--primary-color);
-    color: var(--white);
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px !important;
-    font-size: 16px;
-    height: 50px;
-    cursor: pointer;
-    margin-bottom: 18px !important;
-    transition: background-color 0.3s ease;
-  }
-  
-  #root > div > main > div > form > div > button:hover {
-    background-color: var(--primary-color-dark);
-    border: none;
-  }
-
-  #root > div > main > div > div.papel.writer{
+  .views_info {
     width: calc(100% - 40px) !important;
-    height: 80% !important; 
-    max-height: 84% !important;
-  } 
-  #root > div > main > div > div.papel.writer > div{
-    margin-bottom: 48px !important;  
-    padding-top: 80px !important;
-    padding-bottom: 80px !important;
-    height: 100% !important;
+    height: 30% !important;
+    max-height: 75% !important;
+    box-sizing: border-box;
+    border: 1px solid var(--cor-fndo-claro);
+    margin-left: 20px !important;
+    align-items: center !important;
+    direction: center !important;
+    margin-bottom: 1px !important;
   }
-  p > ul > li > strong,
-  div > p > strong{
-    font-size: 16px !important;
-  }
-  #root > div > main > div > div.papel.writer > div > div > p > div > p > strong,
-  #root > div > main > div > div.papel.writer > div > div.SSEMessage > h3{
-    align-items: center;
-    text-align: center;
-    padding: 2px !important;
-    font-weight: bold;
-  }
-  #root > div > main > div > div.papel.writer > div > div > p > div > ul > li,
-  #root > div > main > div > div.papel.writer > div > div > p > div > p{
-    padding-left: 80px !important; 
-    padding-right: 60px !important;
-    padding-bottom: 25px !important;
-    text-align: justify !important;
-    font-family: 'Times New Roman', Times, serif !important;
-    line-height: 32px !important;
-    font-size: 20px !important;
-  }
-  @media(max-width: 1024px){
-    .form-group {
-      display: flex !important;
-      flex-direction: column !important;
-
-      width: 100% !important;
-      margin-bottom: 15px !important;
-      text-align: left !important;
-      margin-bottom: 20px !important;
-    }
-    .form{
-      display: flex;
-      flex-direction: column !important;
-      width: 100%;
-    }
-    .views_info {
-      width: calc(100% - 40px) !important;
-      height: 30% !important;
-      max-height: 75% !important;
-      box-sizing: border-box;
-      border: 1px solid var(--cor-fndo-claro);
-      margin-left: 20px !important;
-      align-items: center !important;
-      direction: center !important;
-      margin-bottom: 1px !important;
-  }
-  button[type="submit"] { 
-    margin-left: 20px !important;  
+  button[type="submit"] {
+    margin-left: 20px !important;
     border-top-left-radius: 5px !important;
     border-bottom-left-radius: 5px !important;
-     
-}
-.form-group input { 
-  margin-left: 10px !important;
-  margin-right: 2px !important; 
-}
-
-#root > div > main > div > div.papel.writer {
-  width: 100% !important;
-  height: 95% !important;
-  max-height: 93% !important;
-}
-#root > div > main > div > form > div > button {
-  margin-right: 1px!important;
-}
-#root > div > main > div > form > div input { 
-  width:100% !important;
-  margin-left: 1px !important;
-}
- 
+  }
+  .form-group input {
+    margin-left: 10px !important;
+    margin-right: 2px !important;
   }
 
+  #root > div > main > div > div.papel.writer {
+    width: 100% !important;
+    height: 95% !important;
+    max-height: 93% !important;
+  }
+  #root > div > main > div > form > div > button {
+    margin-right: 1px !important;
+  }
+  #root > div > main > div > form > div input {
+    width: 100% !important;
+    margin-left: 1px !important;
+  }
+}

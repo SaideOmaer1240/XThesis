@@ -13,7 +13,7 @@ function SideBar({ isSidebarOpen }) {
             <span className="icon">
               <i className="fa-solid fa-house" style={{ fontSize: '25px' }}></i>
             </span>
-            <span className="txt-link">Workspace</span>
+            <span className="txt-link">Home</span>
           </Link>
         </li>
         <li className="item-menu" onClick={(e) => {
@@ -44,7 +44,7 @@ function SideBar({ isSidebarOpen }) {
           document.querySelectorAll(".item-menu").forEach((item) => item.classList.remove("ativo"));
           e.currentTarget.classList.add("ativo");
         }}>
-          <Link to="/plan">
+          <Link to="/settings">
             <span className="icon">
               <i className="fa-solid fa-gear" style={{ fontSize: '25px' }}></i>
             </span>

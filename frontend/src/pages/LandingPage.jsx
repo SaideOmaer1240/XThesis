@@ -19,22 +19,14 @@ const LandingPage = () => {
             </Link>
           </div>
           <ul className="menu-itens landingpage"> 
-            <li className="itens landingpage">
-              <Link to="/rewrite" className="item-content landingpage">Criar trabalho</Link>
-            </li>
-            <li className="itens landingpage">
-              <Link to="/sobre" className="item-content landingpage">Sobre nós</Link>
-            </li>
+            
             <li className="itens landingpage">
               <Link to="/login" className="item-content login landingpage">Login</Link>
             </li>
             <li className="itens landingpage">
               <Link to="/register" className="item-content registo landingpage">Registar</Link>
             </li>
-          </ul>
-          <button id="mobile_btn" className="landingpage">
-            <i className="fa-solid fa-bars landingpage"></i>
-          </button>
+          </ul> 
         </nav>
         <div className="banner landingpage">
           <div className="banner-content landingpage">
@@ -44,6 +36,9 @@ const LandingPage = () => {
             <p className="ds landingpage">
               Utilizando algoritmos de última geração, Aeternum é capaz de analisar dados, pesquisar informações relevantes e gerar conteúdo acadêmico de alta qualidade em questão de minutos.
             </p> 
+            <li className="itens landingpage">
+              <Link to="/rewrite" className="item-content landingpage">Testar de graça</Link>
+            </li> 
           </div>
           <div className="banner-image landingpage">
             <img src={banner1} alt="Banner 1" className="imagem1 landingpage" />

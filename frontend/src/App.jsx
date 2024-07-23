@@ -11,6 +11,11 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import TopicList from "./pages/TopicList";
 import Thesis from "./pages/Thesis";
 import Plan from "./components/plan";
+import CreateUserData from "./pages/CreateUserData"; 
+import UserData from "./components/UserData";
+import UpdateUserData from "./components/UpdateUserData";
+import DeleteUserData from "./components/DeleteUserData";
+import Settings from "./components/Settings";
 
 function Logout() {
   localStorage.clear();
@@ -48,6 +53,14 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/topic"
@@ -62,6 +75,38 @@ function App() {
          element={
           <ProtectedRoute>
             <Plan/>
+          </ProtectedRoute>
+         }
+        />
+        <Route 
+         path="/create/user/data"
+         element={
+          <ProtectedRoute>
+            <CreateUserData/>
+          </ProtectedRoute>
+         }
+        />
+        <Route 
+         path="/user/data"
+         element={
+          <ProtectedRoute>
+            <UserData/>
+          </ProtectedRoute>
+         }
+        />
+        <Route 
+         path="/edit/user/data"
+         element={
+          <ProtectedRoute>
+            <UpdateUserData/>
+          </ProtectedRoute>
+         }
+        />
+        <Route 
+         path="/delete/user/data"
+         element={
+          <ProtectedRoute>
+            <DeleteUserData/>
           </ProtectedRoute>
          }
         />
