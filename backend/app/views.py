@@ -1,4 +1,5 @@
 from rest_framework import viewsets, permissions
+from rest_framework.generics import DestroyAPIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.http import JsonResponse, HttpResponse
@@ -6,7 +7,7 @@ from django.conf import settings
 from docx import Document
 from docx.oxml.ns import nsdecls
 from docx.oxml import parse_xml
-import os 
+import os  
 from .models import Thesis
 from .serializers import ThesisSerializer
 from .permissions import IsAuthor
@@ -217,14 +218,22 @@ class ThesisViewSet(viewsets.ModelViewSet):
                     self.add_formatted_text(doc.add_paragraph(), paragraph)
         
         self.remover_paragrafo(doc, paragrafo_origem)
-        directory = os.path.join(settings.MEDIA_ROOT, 'documents')
-        if not os.path.exists(directory):
+        directory = os.path.join(settings.MEDIA_ROOT, 'documents/', user.username)
+        
+        if os.path.exists(directory):
+            for root, dirs, files in os.walk(directory):
+                for file in files:
+                    if file.lower().endswith('.docx'):
+                        dir_file = os.path.join(root, file)
+                        os.remove(dir_file)                
+        else:
             os.makedirs(directory)
+            
         
         file_name = f'{topic_name}.docx'
         file_path = os.path.join(directory, file_name)
         doc.save(file_path)
-        
+         
         with open(file_path, 'rb') as arquivo_aberto:
             response = HttpResponse(
                 arquivo_aberto.read(), 
@@ -232,4 +241,17 @@ class ThesisViewSet(viewsets.ModelViewSet):
             )
             response['Content-Disposition'] = f'attachment; filename="{file_name}"'
              
-        return response
+            return response
+    
+     
+        
+
+class DestroyAllTheses(DestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated, IsAuthor]
+    queryset = Thesis.objects.all()
+    
+    
+    def get_object(self): 
+        user = self.request.user
+        return Thesis.objects.filter(author=user)
+    

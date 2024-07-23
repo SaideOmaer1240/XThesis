@@ -97,7 +97,7 @@ class CreateUserDataView(generics.CreateAPIView):
 
 
 class ListUserDataView(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAuthor]
       
     def get(self, request):
         user = request.user
@@ -136,7 +136,7 @@ class ListUserDataView(APIView):
 class UpdateUserDataView(generics.UpdateAPIView):
         queryset = UserData.objects.all()
         serializer_class = UserDataSerializer
-        permission_classes = [IsAuthenticated]
+        permission_classes = [IsAuthenticated, IsAuthor]
 
         def get_object(self):
             user = self.request.user
@@ -144,7 +144,7 @@ class UpdateUserDataView(generics.UpdateAPIView):
 
 class DeleteUserDataView(generics.DestroyAPIView):
     queryset = UserData.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsAuthor]
 
     def get_object(self):
         user = self.request.user
