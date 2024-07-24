@@ -14,6 +14,12 @@
   display: flex;
   width: 100%;
 }
+#root > div > main > div > div.user-data-info.papel > div.destroy.papel{
+  padding: 10px !important;
+}
+#root > div > main > div > div.user-data-info.papel > div.destroy.papel > div:nth-child(1){
+  margin-bottom: 10px !important;
+}
 #root > div > main > div > div.conteiner-settings > div.settings.user {
   width: 250px;
   height: 150px;
@@ -39,7 +45,7 @@
 #root > div > main > div > div.conteiner-settings > div.settings.user.update-data { 
   background: linear-gradient(-60deg, #e4726a85, #9b8eff) ; 
 }
-
+#root > div > main > div > div.user-data-info.papel > div.destroy.papel > div > h2,
 #root > div > main > div > div.conteiner-settings > div.settings.user > h2 {
   height: 64px;
   width: 100%;
@@ -53,9 +59,16 @@
   padding: 10px 20px !important;
   height: 80px !important;
 }
+#root > div > main > div > div.user-data-info.papel > div.destroy.papel > div > footer > li > a,
 #root > div > main > div > div.conteiner-settings > div.settings.user> footer > li > a{
     padding: 5px 40px !important;
     
+}
+#root > div > main > div > div.user-data-info.papel > div.destroy.papel > div  > footer > li{
+  background: rgba(255, 99, 71, 0.651);
+}
+#root > div > main > div > div.user-data-info.papel > div.destroy.papel > div  > footer > li:hover{
+  background: rgba(190, 70, 49, 0.596);
 }
 #root > div > main > div > div.conteiner-settings > div.settings.user> footer > li{ 
     background: rgba(31, 194, 31, 0.466);
@@ -65,6 +78,7 @@
     background: rgba(51, 252, 51, 0.219);
     
 }
+#root > div > main > div > div.user-data-info.papel > div.destroy.papel > div:nth-child(1) > p,
 #root > div > main > div > div.conteiner-settings > div > p,
 #root > div > main > div > div.conteiner-settings > div > p > strong{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
@@ -92,8 +106,8 @@
     padding: 20px !important;
     box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2),
     inset -5px -5px 15px rgba(255, 255, 255, 0.1),
-    5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.1) !important;
-}
+    5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.1) !important; }
+
 #root > div > main > div > div.user-data-info > div.data-info.papel >  p > strong,
 #root > div > main > div > div.user-data-info > div.data-info.papel > p, p > strong{
     font-size: 18px !important;

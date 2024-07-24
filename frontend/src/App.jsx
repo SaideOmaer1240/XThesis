@@ -16,6 +16,8 @@ import UserData from "./components/UserData";
 import UpdateUserData from "./components/UpdateUserData";
 import DeleteUserData from "./components/DeleteUserData";
 import Settings from "./components/Settings";
+import DestroyAllThesis from "./components/DeleteAllTheses";
+import DestroyThesis from "./components/DeleteOneThesis";
 
 function Logout() {
   localStorage.clear();
@@ -107,6 +109,22 @@ function App() {
          element={
           <ProtectedRoute>
             <DeleteUserData/>
+          </ProtectedRoute>
+         }
+        />
+        <Route 
+         path="/delete/all/theses"
+         element={
+          <ProtectedRoute>
+            <DestroyAllThesis/>
+          </ProtectedRoute>
+         }
+        />
+        <Route 
+         path="/delete/:topicName"
+         element={
+          <ProtectedRoute>
+            <DestroyThesis/>
           </ProtectedRoute>
          }
         />

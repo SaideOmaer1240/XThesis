@@ -36,12 +36,17 @@ function TopicList() {
   const handleViewThesis = (topicId) => {
     navigate(`/thesis/${topicId}`);
   };
+
+  const destroyThesis = (topicId) => {
+    navigate(`/delete/${topicId}`);
+  };
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
 };
 
   return (
     <div className="layout">
+      
       <Header toggleSidebar={toggleSidebar} />
       <SideBar isSidebarOpen={isSidebarOpen} />
       <main className="main-content">
@@ -58,12 +63,16 @@ function TopicList() {
                       {new Date(topic.date_added).toLocaleDateString()}
                     </p>
                   </div>
+                  <div className="conter-btn">
                   <button
                     onClick={() => handleViewThesis(topic.topic)}
                     className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
                   >
                     Visualizar
+                  
                   </button>
+                  <button className="destroy" onClick={() => destroyThesis(topic.topic)}>Excluir</button>
+                  </div>
                 </div>
               </div>
             ))}

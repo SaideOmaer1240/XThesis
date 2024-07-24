@@ -1,76 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import api from '../api';
-//import '../assets/css/book.css';
-
-function Thesis() {
-  const { topicName } = useParams();
-  const [thesis, setThesis] = useState([]);
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import api from "../api";
+import Header from "../components/Header";
+import SideBar from "../components/SideBar";
+import "../assets/css/criar.css";
+import "../assets/css/geral/styles.css";
+import "../assets/css/style.css";
+import "./criar.css";
+import "../assets/css/progresso.css";
+import "../assets/css/cards.css";
+import "../assets/css/book.css";
+function TopicList() {
+  const [topics, setTopics] = useState([]);
+  const navigate = useNavigate();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
 
   useEffect(() => {
-    const fetchThesis = async () => {
-      const token = localStorage.getItem('token');
+    const fetchTopics = async () => {
+      const token = localStorage.getItem("token");
       try {
-        const response = await api.get(`/api/theses/?topic_name=${encodeURIComponent(topicName)}`, {
+        const response = await api.get("/api/topics/", {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        setThesis(response.data);
+        setTopics(response.data);
       } catch (error) {
-        console.error('Erro ao buscar tese:', error);
+        console.error("Erro ao buscar tópicos:", error);
       }
     };
 
-    fetchThesis();
-  }, [topicName]);
+    fetchTopics();
+  }, []);
 
-  const handleDownload = async () => {
-    const token = localStorage.getItem('token');
-    try {
-      const response = await api.get(`/api/theses/gerar_documento/?topic_name=${encodeURIComponent(topicName)}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const { file_url } = response.data;
-      window.open(file_url); // Abre o link em uma nova aba para download
-    } catch (error) {
-      const modal = document.getElementById("modal");
-      const mbody = document.getElementById("mBody");
-      const modalShadows = document.getElementById("modalShadows");
-      
-      modal.style.display = "flex";
-      modalShadows.style.display = "block";
-      mbody.innerHTML = `<p>Erro ao baixar documento:${error}</p>`;
-      console.error('Erro ao baixar documento:', error);
-    }
+  const handleViewThesis = (topicId) => {
+    navigate(`/thesis/${topicId}`);
   };
 
-  return (
-    <div className="papel">
-      <h2 className="text-2xl font-bold mb-6 text-center">Teses Relacionadas ao Tópico: {topicName}</h2>
-      <div className="conteudo-wrapper">
-        {thesis.length > 0 ? (
-          thesis.map((t) => (
-            <div key={t.id} className="r">
-              <h3 className="text-2xl font-bold mb-4">{t.title}</h3>
-              <p className="text-gray-700 text-base mb-4">{t.text}</p> 
-            </div>
-          ))
-        ) : (
-          <p className="text-center text-gray-700">Nenhuma tese encontrada para este tópico.</p>
-        )}
-      </div>
+  const destroyThesis = (topicId) => {
+    navigate(`/delete/${topicId}`);
+  };
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+};
 
-      <div className="text-center mt-6">
-        <button onClick={handleDownload} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-          Gerar e Baixar Documento
-        </button>
+  return (
+    <div className="layout">
+      <div className="confirmar-exclusao">
+        <h2 className="se-confir-exlusao">Deseja realimente excluir esse trabalho?</h2>
+        <p className="confirmo-sim">Essa decisão resultará na perda total do trabalho com esse tema.</p>
+        <div className="conter-btn">
+                  <button 
+                    className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
+                  >
+                    Cancelar
+                  
+                  </button>
+                  <button className="destroy" >Confirmar</button>
+                  </div>
       </div>
+      <Header toggleSidebar={toggleSidebar} />
+      <SideBar isSidebarOpen={isSidebarOpen} />
+      <main className="main-content">
+        <div className="conteiner-topic papel">
+           
+        </div>
+      </main>
     </div>
   );
 }
 
-export default Thesis;
+export default TopicList;

@@ -31,7 +31,7 @@
     padding: 20px !important;
     padding-right: 10px !important;
     margin-right: 10px !important;
-     max-width: 200px !important;  
+     max-width: 250px !important;  
     margin-bottom: 10px !important;
     box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2), inset -5px -5px 15px rgba(255, 255, 255, 0.1), 5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.1) !important;
     transition: 1s;
@@ -47,10 +47,53 @@
    font-weight: bold;
 
  } 
-   
+ #root > div > div > .conter-btn,
+ #root > div > main > div > div > div > div > div.conter-btn{
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+ }
+ #root > div > div > .confirmo-sim{
+  font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+  padding: 20px !important;
+ }
+ #root > div > div > div > button.destroy:hover,
+ #root > div > main > div > div > div > div > div.conter-btn > .destroy:hover{
+  background: linear-gradient(-60deg, rgb(216, 97, 97), rgba(160, 32, 32, 0.603));
+ }
+ #root > div > div > div > button.destroy,
+ #root > div > main > div > div > div > div > div.conter-btn > .destroy{
+  padding: 10px 20px !important;
+  background: linear-gradient(60deg, rgb(216, 97, 97), rgba(160, 32, 32, 0.603));
+  border-radius: 5px !important;
+  color: #ffffff;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; 
+ }
+ #root > div > main > div > div > div  > div > div.conter-btn > button.bg-blue-500.text-white.font-bold.py-2.px-4.rounded:hover{
+  background: linear-gradient(60deg, rgb(67, 231, 231), rgba(72, 72, 197, 0.781))
+ }
  .mb-8{
    height: 85%;
  } 
+ .confirmar-exclusao{
+  display: flex;
+  position: absolute !important;
+  margin-left: 50% !important;
+  padding-top: 70px !important;
+  flex-direction: column !important;
+  transform: translate(-50%) !important;
+  background: linear-gradient(40deg, #f0f0f1d8, #b2a7ff);
+  padding: 20px !important;
+  top: 70px;
+  box-shadow: inset 5px 5px 5px rgba(0, 0, 0, 0.2), inset -5px -5px 15px rgba(255, 255, 255, 0.1), 5px 5px 15px rgba(0, 0, 0, 0.3), -5px -5px 15px rgba(255, 255, 255, 0.1) !important;
+  
+ }
+ #root > div > div > .se-confir-exlusao{
+  color: red;
+  font-weight:  bold !important;
+  font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+  font-size: 20px !important;
+ }
  @media(max-width: 1020px){
    .card{
       max-width: 95% !important; 

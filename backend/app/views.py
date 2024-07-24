@@ -250,8 +250,20 @@ class DestroyAllTheses(DestroyAPIView):
     permission_classes = [permissions.IsAuthenticated, IsAuthor]
     queryset = Thesis.objects.all()
     
-    
     def get_object(self): 
         user = self.request.user
         return Thesis.objects.filter(author=user)
+
+class DestroyOneThesis(DestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated, IsAuthor]
+    
+    
+    def get_object(self):
+        user = self.request.user
+        topic_name = self.request.query_params.get('topic_name')
+        queryset = Thesis.objects.filter(author=user)
+        
+        if topic_name:
+            queryset = queryset.filter(topic=topic_name)
+            return queryset
     

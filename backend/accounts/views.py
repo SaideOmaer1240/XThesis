@@ -101,7 +101,7 @@ class ListUserDataView(APIView):
       
     def get(self, request):
         user = request.user
-        queryset = UserData.objects.filter(author=user).first()
+        queryset = UserData.objects.filter(author=user).last()
         queryset_thesis = Thesis.objects.filter(author=user)
         lista = []
         for query in queryset_thesis:
@@ -140,7 +140,7 @@ class UpdateUserDataView(generics.UpdateAPIView):
 
         def get_object(self):
             user = self.request.user
-            return UserData.objects.filter(author=user).first()  # Atualizando o último registro
+            return UserData.objects.filter(author=user).last()  # Atualizando o último registro
 
 class DeleteUserDataView(generics.DestroyAPIView):
     queryset = UserData.objects.all()
@@ -148,7 +148,7 @@ class DeleteUserDataView(generics.DestroyAPIView):
 
     def get_object(self):
         user = self.request.user
-        return UserData.objects.filter(author=user).first() 
+        return UserData.objects.filter(author=user) 
  
         
     

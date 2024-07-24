@@ -8,6 +8,7 @@ function Settings() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [user_info, setUserInfo] = useState(false);
   const [user_data, setUserData] = useState([]);
+  
   useEffect(() => {
     const fetchUser = async () => {
       const token = localStorage.getItem("token");
@@ -121,9 +122,34 @@ function Settings() {
               <p><strong>Nome da Disciplina predefinida: </strong>{user_data.disciplina}</p>
               <p><strong>Instituto: </strong>{user_data.instituto}</p>
               <p><strong>Cidade: </strong>{user_data.cidade}</p>
-              <p><strong>Data de adessão: </strong>{user_info.enjoined}</p> 
+              <p><strong>Data de adessão: </strong> {" "}
+              {new Date(user_info.enjoined).toLocaleDateString()}</p> 
             </div>
-            <div className="total thessis"></div>
+            <div className="destroy papel">
+              <div className="destroy-user-data">
+                <h2>Apagar dados predefinidos</h2>
+                 
+              <footer>
+                <li>
+                  <Link to={"/delete/user/data"}>
+                    <span className="text-link">Apagar</span>
+                  </Link>
+                </li>
+              </footer>
+              </div>
+              <div className="destroy-user-data">
+                <h2>Apagar Todos Trabalhos Existente</h2> 
+              <footer>
+                <li>
+                  <Link to={"/delete/all/theses"}>
+                    <span className="text-link">Apagar</span>
+                  </Link>
+                </li>
+              </footer>
+              </div>
+
+
+            </div>
           </div>
         </div>
       </main>
