@@ -28,7 +28,13 @@
   font-size: 1.5rem; 
   
 }
+#root > div > header > div > div.banner-content.landingpage > p{
+  color: azure !important;
+}
 
+#root > div > header > div.landingpage{
+  padding-bottom: 30px !important;
+}
 .experimentar-button {
   padding: 10px 20px;
   font-size: 1rem;

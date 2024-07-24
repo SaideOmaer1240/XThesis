@@ -1,0 +1,21 @@
+
+:root {
+    --primary-color: #5c48ee;
+    --fundo-color: #c0b8ff;
+    --cor-fndo-claro: #dedaff;
+    --claro-color: #9b8eff;
+    --primary-color-dark: #0f1e6a;
+    --secondary-color: #f9fafe;
+    --text-color: #333333;
+    --white: #ffffff;
+    --max-width: 1200px; }
+
+ 
+#root > form.form-container{ 
+    display: flex;
+    flex-direction: column;
+    position: absolute; 
+    margin-left: 50% !important;
+    transform: translate(-50%);
+    width: 400px !important;
+}

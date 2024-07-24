@@ -26,7 +26,7 @@ function Header({ toggleSidebar }) {
     <header className="navbar">
       <div className="logo">
         <Link to="/" className="marca">
-          <h1>XThesis</h1>
+          <h1>GPT4 Academic Job</h1>
         </Link>
       </div>
       <div className="conteiner_list">

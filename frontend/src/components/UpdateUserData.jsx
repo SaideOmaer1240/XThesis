@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import api from '../api';
-
+import React, {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import api from "../api";  
 const UpdateUserData = () => {
     const [formData, setFormData] = useState({
         professor: '',
@@ -9,8 +9,12 @@ const UpdateUserData = () => {
         cidade: '',
         disciplina: ''
     });
-
+    const navigate = useNavigate()
+    const regressar = () =>{
+        navigate('/settings')
+    }
     useEffect(() => {
+    
         const fetchUserData = async () => {
             try {
                 const response = await api.get('/api/view/user-data/');
@@ -30,11 +34,13 @@ const UpdateUserData = () => {
     };
 
     const handleSubmit = async (e) => {
+        
         e.preventDefault();
         try {
+
             const response = await api.put('/api/update/user-data/', formData);
             if (response.status === 200) {
-                alert('Dados do usuário atualizados com sucesso!');
+                regressar()
             }
         } catch (error) {
             console.error('Erro ao atualizar dados do usuário', error);
@@ -42,7 +48,8 @@ const UpdateUserData = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+         
+        <form className='atualizar-dados' onSubmit={handleSubmit}>
             <input type="text" id='professor' name="professor" placeholder="Professor" value={formData.professor} onChange={handleChange} />
             <input type="text" id='aluno' name="aluno" placeholder="Aluno" value={formData.aluno} onChange={handleChange} />
             <input type="text" id='instituto' name="instituto" placeholder="Instituto" value={formData.instituto} onChange={handleChange} />

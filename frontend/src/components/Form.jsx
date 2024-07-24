@@ -1,10 +1,10 @@
 import { useState } from "react";
 import api from "../api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants"; 
 import "../styles/Form.css";
 import LoadingIndicator from "./LoadingIndicator";
-
+import '../assets/css/forms.css'
 function Form({ route, method }) {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -44,6 +44,9 @@ function Form({ route, method }) {
             setLoading(false);
         }
     };
+    const link_login = () =>{
+        navigate(`/login`);
+    };
 
     const checkAvailability = async (type, value) => {
         try {
@@ -72,7 +75,7 @@ function Form({ route, method }) {
 
     return (
         <form onSubmit={handleSubmit} className="form-container">
-            <h1>{name}</h1>
+            {<h1>{name == 'Register' ? `Cadastrar` : 'Login' }</h1> } 
             <input
                 className="form-input"
                 type="text"
@@ -85,7 +88,9 @@ function Form({ route, method }) {
             />
             <div id="usernameMessage" className="availability-message">{usernameMessage}</div>
             {method === "register" && (
+                
                 <>
+                
                     <input
                         className="form-input"
                         type="email"
@@ -110,6 +115,7 @@ function Form({ route, method }) {
             <button className="form-button" type="submit" disabled={!isUsernameAvailable || !isEmailAvailable}>
                 {name}
             </button>
+            <p>Voce tem uma conta? <Link to={`/login`} style={{color: 'blue'}}>Login</Link></p>
         </form>
     );
 }

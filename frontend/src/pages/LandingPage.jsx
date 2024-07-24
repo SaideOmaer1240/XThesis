@@ -15,7 +15,7 @@ const LandingPage = () => {
         <nav className="navbar landingpage">
           <div className="logo landingpage" > 
             <Link to="/" className="marca landingpage">
-              <h1 className="landingpage">XThesis</h1>
+              <h1 className="landingpage">GPT4 Academic Job</h1>
             </Link>
           </div>
           <ul className="menu-itens landingpage"> 
@@ -28,13 +28,13 @@ const LandingPage = () => {
             </li>
           </ul> 
         </nav>
-        <div className="banner landingpage">
+        <div className="banner landingpage papel">
           <div className="banner-content landingpage">
             <h1 className="headline landingpage">
-              <span className="heading__2 landingpage">Crie trabalhos acadêmicos em menos de 3 minutos</span>
+              <span className="heading__2 landingpage">Crie trabalhos acadêmicos em pouco tempo</span>
             </h1>
-            <p className="ds landingpage">
-              Utilizando algoritmos de última geração, Aeternum é capaz de analisar dados, pesquisar informações relevantes e gerar conteúdo acadêmico de alta qualidade em questão de minutos.
+            <p className="ds landingpage" style={{color: 'white'}}>
+              Utilizando algoritmos de última geração, 'GPT for Academic Job' é capaz de analisar dados, pesquisar informações relevantes e gerar conteúdo acadêmico de alta qualidade em questão de minutos.
             </p> 
             <li className="itens landingpage">
               <Link to="/rewrite" className="item-content landingpage">Testar de graça</Link>
@@ -45,24 +45,7 @@ const LandingPage = () => {
             <img src={banner2} alt="Banner 2" className="imagem2 landingpage" />
           </div>
         </div>
-      </header>
-      <ul className="menu-itens-mobile landingpage">
-        <li className="itens-mobile landingpage">
-          <Link to="/painel_administrativo" className="item-content-mobile landingpage">Painel Administrativo</Link>
-        </li>
-        <li className="itens-mobile landingpage">
-          <Link to="/rewrite" className="item-content-mobile landingpage">Criar trabalho</Link>
-        </li>
-        <li className="itens-mobile landingpage">
-          <Link to="/sobre" className="item-content-mobile landingpage">Sobre nós</Link>
-        </li>
-        <li className="itens-mobile landingpage">
-          <Link to="/login" className="item-content-mobile login landingpage">Login</Link>
-        </li>
-        <li className="itens-mobile landingpage">
-          <Link to="/register" className="item-content-mobile registo landingpage">Registar</Link>
-        </li>
-      </ul>
+      </header> 
     </div> 
     
    

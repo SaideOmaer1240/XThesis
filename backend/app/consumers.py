@@ -48,6 +48,7 @@ class ScribConsumer(AsyncWebsocketConsumer):
         student = data.get('student')
         instructor = data.get('instructor')
         cidade = data.get('cidade')
+        code = str(data.get('code'))
 
         if not all([tema, user_id, institute, disciplina, student, instructor, cidade]):
             logger.error('Missing required fields in received data')
@@ -367,7 +368,7 @@ class ScribConsumer(AsyncWebsocketConsumer):
                 results = ' '.join(resultados)
 
                 # Salvar no banco de dados
-                await self.save_thesis_content(user, tema, titulo, results, institute, disciplina, student, instructor, cidade)
+                await self.save_thesis_content(user, tema, titulo, results, institute, disciplina, student, instructor, cidade, code)
 
                 await self.send(text_data=json.dumps({
                     'title': titulo,
@@ -403,7 +404,7 @@ class ScribConsumer(AsyncWebsocketConsumer):
             logger.error('Error updating bibliografia: %s', e)
 
     @sync_to_async
-    def save_thesis_content(self, user, tema, titulo, conteudo, institute, disciplina, student, instructor, cidade):
+    def save_thesis_content(self, user, tema, titulo, conteudo, institute, disciplina, student, instructor, cidade, code):
         # Salvar conteúdo gerado no banco de dados
         Thesis.objects.create(
             author=user,
@@ -414,6 +415,7 @@ class ScribConsumer(AsyncWebsocketConsumer):
             disciplina=disciplina,
             student=student,
             instructor=instructor,
-            cidade=cidade
+            cidade=cidade,
+            code=code
         )
         logger.info('Content saved: %s for user %s', titulo, user)

@@ -18,7 +18,7 @@ class TopicViewSet(viewsets.ModelViewSet):
     serializer_class = ThesisSerializer
     permission_classes = [permissions.IsAuthenticated, IsAuthor]
 
-    def get_queryset(self):
+    def get_queryset(self):         
         queryset = Thesis.objects.filter(author=self.request.user).order_by('-date_added')
         
         unique_titles = set()

@@ -123,5 +123,30 @@
     }
     .main-content{
         height: 123vh !important;
-    }
+    }  
+}
+@media(max-width: 900px){
+  #root > div > main > div > div.conteiner-settings{
+    display: flex;
+    flex-direction: column !important;
+  }
+  #root > div > main > div > div.conteiner-settings > div{
+    width: 90% !important;
+
+  }
+  .destroy.papel{
+    display: none !important;
+  }
+  #root > div > main > div > div.user-data-info.papel{
+    display: flex;
+    flex-direction: column; 
+    position: sticky !important;
+  }
+  #root > div > main > div > div.user-data-info.papel > div.data-info.papel{
+    display: none;
+  } 
+  .settings.user{
+    margin-bottom: 30px !important;
+  }
+
 }

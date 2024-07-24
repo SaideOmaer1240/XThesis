@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, redirect } from 'react-router-dom';
 import Header from '../components/Header'; 
 import SideBar from '../components/SideBar';
 import api from '../api';
@@ -8,7 +8,7 @@ import '../assets/css/geral/styles.css';
 import '../assets/css/style.css';
 import './criar.css';
 import '../assets/css/progresso.css'; 
-
+import { useNavigate } from "react-router-dom"; 
 const Rewrite = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -29,7 +29,9 @@ const Rewrite = () => {
     });
     const [inputValue, setInputValue] = useState('');
     const [texto, setTexto] = useState('');
+    const [code, setCode] = useState('');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
+    const navegar = useNavigate();
 
     useEffect(() => {
         const getUserInfo = async () => {
@@ -50,6 +52,24 @@ const Rewrite = () => {
         getUserInfo();
     }, []);
 
+    useEffect(() => {
+        const getCode = async () =>{
+            try{ 
+                const randomNumber = Math.floor(Math.random() * 18800866) + 34905867;
+                setCode(randomNumber)
+            } catch (error){
+                alert('Falha ao gerar o codigo usando Math.random!')
+            }
+             };
+             getCode()
+        }
+    );
+
+     
+    const redirecionar = (code) =>{
+          navegar(`/thesis/${code}`)
+             }; 
+    
     useEffect(() => {
         const ws = new WebSocket('ws://127.0.0.1:8000/ws/scrib/');
         setSocket(ws);
@@ -124,6 +144,7 @@ const Rewrite = () => {
 
             socket.send(JSON.stringify({
                 tema,
+                code,
                 user_id: userId,
                 ...formData
             }));
@@ -134,13 +155,19 @@ const Rewrite = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
+    if(progress === 100.00){
+        redirecionar(code)
+    };
+
     return (
         <div className="layout">
             <Header toggleSidebar={toggleSidebar} />
             <SideBar isSidebarOpen={isSidebarOpen} />
             <main className="main-content">
                 <div className="adicionar-tema">
-                    <div className="progress-container">
+                    <div className="progress-container" style={{
+                        display: progress === 0.00 ? 'none': 'block' 
+                    }}>
                         <div className="progress-bar" style={{ width: `${progress}%` }}>
                             <p>{`${progress.toFixed(2)}%`}</p>
                         </div>

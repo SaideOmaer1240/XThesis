@@ -8,6 +8,7 @@ class Thesis(models.Model):
     student = models.CharField(null=True, blank=True, max_length=100)
     instructor = models.CharField(null=True, blank=True, max_length=100)
     cidade = models.CharField(null=True, blank=True, max_length=100)
+    code = models.CharField(null=True, blank=True, max_length=50)
     topic = models.CharField(max_length=100)
     title = models.CharField(max_length=100)
     text = models.TextField()

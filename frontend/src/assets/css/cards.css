@@ -95,10 +95,14 @@
   font-size: 20px !important;
  }
  @media(max-width: 1020px){
+  .confirmar-exclusao{
+    width: 80%;
+  }
    .card{
       max-width: 95% !important; 
       width: 96% !important;
    }
+
    .papel { 
     width: 100% !important; 
   }
