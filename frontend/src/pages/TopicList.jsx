@@ -33,12 +33,12 @@ function TopicList() {
     fetchTopics();
   }, []);
 
-  const handleViewThesis = (topicId) => {
-    navigate(`/thesis/${topicId}`);
+  const handleViewThesis = (code) => {
+    navigate(`/thesis/${code}`);
   };
 
-  const destroyThesis = (topicId) => {
-    navigate(`/delete/${topicId}`);
+  const destroyThesis = (code) => {
+    navigate(`/delete/${code}`);
   };
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
@@ -59,19 +59,21 @@ function TopicList() {
                     <h3 className="titulo topic">{topic.topic}</h3>
                     <p className=" data text-gray-700 text-base">
                       {" "}
+                      <br></br>
+                      Autor: {topic.student}
                       <br></br> Adicionado em:{" "}
                       {new Date(topic.date_added).toLocaleDateString()}
                     </p>
                   </div>
                   <div className="conter-btn">
                   <button
-                    onClick={() => handleViewThesis(topic.topic)}
+                    onClick={() => handleViewThesis(topic.code)}
                     className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
                   >
                     Visualizar
                   
                   </button>
-                  <button className="destroy" onClick={() => destroyThesis(topic.topic)}>Excluir</button>
+                  <button className="destroy" onClick={() => destroyThesis(topic.code)}>Excluir</button>
                   </div>
                 </div>
               </div>

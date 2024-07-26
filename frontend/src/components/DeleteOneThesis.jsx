@@ -6,7 +6,7 @@ import Header from "../components/Header";
 import SideBar from "../components/SideBar";
 
 const DestroyThesis = () => {
-  const { topicName } = useParams();
+  const { code } = useParams();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
   const navigate = useNavigate();
 
@@ -16,7 +16,7 @@ const DestroyThesis = () => {
   const destroy = async () => {
     try {
       const response = await api.delete(
-        `/api/delete/one/thesis/?topic_name=${encodeURIComponent(topicName)}`
+        `/api/delete/one/thesis/?code=${encodeURIComponent(code)}`
       );
 
       if (response.status === 204) {

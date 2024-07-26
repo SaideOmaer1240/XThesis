@@ -25,8 +25,8 @@ class TopicViewSet(viewsets.ModelViewSet):
         unique_queryset = []
      
         for thesis in queryset:
-            if thesis.topic not in unique_titles:
-                unique_titles.add(thesis.topic)
+            if thesis.code not in unique_titles:
+                unique_titles.add(thesis.code)
                 unique_queryset.append(thesis)
 
         return unique_queryset
@@ -41,11 +41,11 @@ class ThesisViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         user = self.request.user
-        topic_name = self.request.query_params.get('topic_name')
+        code = self.request.query_params.get('code')
         queryset = Thesis.objects.filter(author=user)
         
-        if topic_name:
-            queryset = queryset.filter(topic=topic_name)
+        if code:
+            queryset = queryset.filter(code=code)
         return queryset
 
     def perform_create(self, serializer):
@@ -83,7 +83,7 @@ class ThesisViewSet(viewsets.ModelViewSet):
             run.bold = bold
             run.italic = italic
 
-         # Procura por <h2>
+        # Procura por <h2>
         h2_pattern = re.compile(r'<h2>(.*?)</h2>')
         h2_matches = h2_pattern.findall(text)
         for i, part in enumerate(h2_matches):
@@ -102,8 +102,8 @@ class ThesisViewSet(viewsets.ModelViewSet):
                 italic_parts = italic_pattern.split(part)
                 for j, italic_part in enumerate(italic_parts):
                     apply_formatting(italic_part, bold=False if i % 2 == 1 else False, italic=True if j % 2 == 1 else False)
- 
 
+        # Procura por <li>
         li_pattern = re.compile(r'<li>(.*?)</li>')
         li_matches = li_pattern.findall(text)
         for li_match in li_matches:
@@ -124,7 +124,7 @@ class ThesisViewSet(viewsets.ModelViewSet):
 
         for row_idx, row_data in enumerate(data):
             row_cells = table.rows[row_idx + 1].cells
-            for col_idx, cell_data in row_data:
+            for col_idx, cell_data in enumerate(row_data):
                 row_cells[col_idx].text = cell_data.strip()
 
         for cell in table.rows[0].cells:
@@ -165,12 +165,12 @@ class ThesisViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'], url_path='gerar_documento')
     def gerar_documento(self, request):
         user = request.user
-        topic_name = request.query_params.get('topic_name')
+        code = request.query_params.get('code')
         
-        if not topic_name:
-            return Response({'error': 'O parâmetro topic_name é obrigatório.'}, status=400)
+        if not code:
+            return Response({'error': 'O parâmetro code é obrigatório.'}, status=400)
         
-        first_thesis = self.get_queryset().filter(topic=topic_name).first()
+        first_thesis = self.get_queryset().filter(code=code).first()
         
         if first_thesis:
             cidade = first_thesis.cidade
@@ -185,9 +185,9 @@ class ThesisViewSet(viewsets.ModelViewSet):
             instructor = 'Antonio'
             student = 'Saíde Omar Saíde'
             
-        theses = self.get_queryset().filter(topic=topic_name)
+        theses = self.get_queryset().filter(code=code)
         if not theses.exists():
-            return Response({'error': f'Tópico "{topic_name}" não encontrado.'}, status=404)
+            return Response({'error': f'Tópico com código "{code}" não encontrado.'}, status=404)
         
         doc = Document(os.path.join(settings.MEDIA_ROOT, 'modelo.docx'))
         credentials = self.variable_content(
@@ -196,7 +196,7 @@ class ThesisViewSet(viewsets.ModelViewSet):
             institute=institute,
             instructor=instructor,
             student=student,
-            topic=topic_name,
+            topic=first_thesis.topic,
         )
         
         self.replace_text(doc, credentials)
@@ -230,7 +230,7 @@ class ThesisViewSet(viewsets.ModelViewSet):
             os.makedirs(directory)
             
         
-        file_name = f'{topic_name}.docx'
+        file_name = f'{first_thesis.topic}.docx'
         file_path = os.path.join(directory, file_name)
         doc.save(file_path)
          
@@ -242,9 +242,6 @@ class ThesisViewSet(viewsets.ModelViewSet):
             response['Content-Disposition'] = f'attachment; filename="{file_name}"'
              
             return response
-    
-     
-        
 
 class DestroyAllTheses(DestroyAPIView):
     permission_classes = [permissions.IsAuthenticated, IsAuthor]
@@ -257,13 +254,11 @@ class DestroyAllTheses(DestroyAPIView):
 class DestroyOneThesis(DestroyAPIView):
     permission_classes = [permissions.IsAuthenticated, IsAuthor]
     
-    
     def get_object(self):
         user = self.request.user
-        topic_name = self.request.query_params.get('topic_name')
+        code = self.request.query_params.get('code')
         queryset = Thesis.objects.filter(author=user)
         
-        if topic_name:
-            queryset = queryset.filter(topic=topic_name)
+        if code:
+            queryset = queryset.filter(code=code)
             return queryset
-    

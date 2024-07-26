@@ -12,26 +12,23 @@ import "../assets/css/progresso.css";
 import "../assets/css/book.css";
 
 function Thesis() {
-  const { topicName } = useParams();
+  const { code } = useParams();
   const [thesis, setThesis] = useState([]);
   const [credentials, setCredentials] = useState({});
   const [modalMessage, setModalMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
 
   useEffect(() => {
     const fetchCredentials = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await api.get(
-          `/api/author/credentials/?topic_name=${encodeURIComponent(topicName)}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await api.get(`/api/author/credentials/?code=${encodeURIComponent(code)}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setCredentials(response.data);
       } catch (error) {
         console.error("Erro ao buscar credenciais do trabalho:", error);
@@ -41,16 +38,13 @@ function Thesis() {
     const fetchThesis = async () => {
       const token = localStorage.getItem("token");
       try {
-        const response = await api.get(
-          `/api/theses/?topic_name=${encodeURIComponent(topicName)}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const response = await api.get(`/api/theses/?code=${encodeURIComponent(code)}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
         setThesis(response.data);
-        setLoading(false)
+        setLoading(false);
       } catch (error) {
         console.error("Erro ao buscar tese:", error);
       }
@@ -58,27 +52,24 @@ function Thesis() {
 
     fetchCredentials();
     fetchThesis();
-  }, [topicName]);
+  }, [code]);
 
   const handleDownload = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await api.get(
-        `/api/theses/gerar_documento/?topic_name=${encodeURIComponent(topicName)}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          responseType: "blob",
-        }
-      );
+      const response = await api.get(`/api/theses/gerar_documento/?code=${encodeURIComponent(code)}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        responseType: "blob",
+      });
 
       const blob = new Blob([response.data], { type: response.data.type });
       const url = window.URL.createObjectURL(blob);
 
       const link = document.createElement("a");
       link.href = url;
-      link.setAttribute("download", `${topicName}.docx`);
+      link.setAttribute("download", `${credentials.topic}.docx`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -87,7 +78,6 @@ function Thesis() {
       let errorMessage;
 
       if (error.response) {
-        // Se a resposta do erro for disponível
         switch (error.response.status) {
           case 404:
             errorMessage = 'Arquivo não encontrado: O documento solicitado não está disponível.';
@@ -99,10 +89,8 @@ function Thesis() {
             errorMessage = `Erro ao baixar documento: ${error.message || 'Erro desconhecido.'}`;
         }
       } else if (error.request) {
-        // Se a solicitação foi feita, mas não houve resposta
         errorMessage = 'Erro de rede: Verifique sua conexão com a internet.';
       } else {
-        // Algo aconteceu ao configurar a solicitação
         errorMessage = `Erro ao baixar documento: ${error.message || 'Erro desconhecido.'}`;
       }
 
@@ -114,7 +102,7 @@ function Thesis() {
 
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
-};
+  };
 
   return (
     <div className="layout">
@@ -158,42 +146,29 @@ function Thesis() {
                 </div>
               </div>
             </div> 
-             
 
-              {  loading ? <div>Carregando</div> :   thesis.length > 0 ? (
-                thesis.map((t) => (
-                  <div key={t.id} className="conteudo-wrapper">
-                    <div className="papel-wrapper">
-                      <div className="r">
-                        <h3 className="text-2xl font-bold mb-4">{t.title}</h3>
-                        <p
-                          className="text-gray-700 text-base mb-4"
-                          dangerouslySetInnerHTML={{ __html: t.text }}
-                        ></p>
-                      </div>
+            {loading ? <div>Carregando</div> : thesis.length > 0 ? (
+              thesis.map((t) => (
+                <div key={t.id} className="conteudo-wrapper">
+                  <div className="papel-wrapper">
+                    <div className="r">
+                      <h3 className="text-2xl font-bold mb-4">{t.title}</h3>
+                      <p className="text-gray-700 text-base mb-4" dangerouslySetInnerHTML={{ __html: t.text }}></p>
                     </div>
                   </div>
-                ))
-              ) : (
-                <p className="text-center text-gray-700">
-                  Nenhuma tese encontrada para este tópico.
-                </p>
-              )}
-  
-              <div className="text-center mt-6">
-                <button onClick={handleDownload} className="downloadBtn">
-                  <span>
-                    <i
-                      className="fa-solid fa-download"
-                      style={{ fontSize: "25px" }}
-                    ></i>
-                  </span>
-                </button>
-              </div>
+                </div>
+              ))
+            ) : (
+              <p className="text-center text-gray-700">Nenhuma tese encontrada para este tópico.</p>
+            )}
 
- 
-            
-
+            <div className="text-center mt-6">
+              <button onClick={handleDownload} className="downloadBtn">
+                <span>
+                  <i className="fa-solid fa-download" style={{ fontSize: "25px" }}></i>
+                </span>
+              </button>
+            </div>
           </div>
         </div>
       </main>

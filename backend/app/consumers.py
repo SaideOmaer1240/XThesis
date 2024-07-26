@@ -2,6 +2,7 @@ import logging
 import json
 import asyncio
 import re
+import random
 from django.contrib.auth import get_user_model
 from channels.generic.websocket import AsyncWebsocketConsumer
 from django.conf import settings
@@ -10,6 +11,7 @@ from langchain_groq import ChatGroq
 from langchain_core.output_parsers import StrOutputParser
 from asgiref.sync import sync_to_async
 from .models import Thesis
+
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +50,12 @@ class ScribConsumer(AsyncWebsocketConsumer):
         student = data.get('student')
         instructor = data.get('instructor')
         cidade = data.get('cidade')
-        code = str(data.get('code'))
+        
+        # Gerar 8 números aleatórios
+        numeros_aleatorios = [random.randint(0, 100) for _ in range(8)] 
+        numero_unico = ''.join(map(str, numeros_aleatorios)) 
+        code =  numero_unico 
+         
 
         if not all([tema, user_id, institute, disciplina, student, instructor, cidade]):
             logger.error('Missing required fields in received data')
@@ -64,7 +71,7 @@ class ScribConsumer(AsyncWebsocketConsumer):
             return
 
         groq_api_key = settings.GROQ_API_KEY
-        llm = ChatGroq(temperature=0, groq_api_key=groq_api_key, model_name="llama3-8b-8192")
+        llm = ChatGroq(temperature=0, groq_api_key=groq_api_key,  model_name="llama3-8b-8192")
 
         prompts = {
             "Introdução": """Você é um assistente criador de tese. Sua tarefa é redigir uma introdução  para uma tese seguindo o formato da APA 7ª edição. 
@@ -372,7 +379,8 @@ class ScribConsumer(AsyncWebsocketConsumer):
 
                 await self.send(text_data=json.dumps({
                     'title': titulo,
-                    'content': response
+                    'content': response,
+                    'code': code
                 }))
 
                 # Atualizar progresso

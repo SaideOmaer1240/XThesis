@@ -3,5 +3,5 @@ from .models import Thesis
 class ThesisSerializer(serializers.ModelSerializer):
     class Meta:
         model = Thesis
-        fields = ['id','author', 'topic', 'title', 'text', 'date_added']
+        fields = '__all__'
         read_only_fields = ['author']

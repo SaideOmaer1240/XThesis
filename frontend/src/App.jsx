@@ -121,7 +121,7 @@ function App() {
          }
         />
         <Route 
-         path="/delete/:topicName"
+         path="/delete/:code"
          element={
           <ProtectedRoute>
             <DestroyThesis/>
@@ -130,7 +130,7 @@ function App() {
         />
 
         <Route
-          path="/thesis/:topicName"
+          path="/thesis/:code"
           element={
             <ProtectedRoute>
               <Thesis />

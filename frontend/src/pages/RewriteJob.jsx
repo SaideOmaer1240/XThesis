@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom";
 const Rewrite = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [tema, setTema] = useState('');
+    const [tema, setTema] = useState(''); 
     const [temaEnviado, setTemaEnviado] = useState('');
     const [socket, setSocket] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -52,18 +52,7 @@ const Rewrite = () => {
         getUserInfo();
     }, []);
 
-    useEffect(() => {
-        const getCode = async () =>{
-            try{ 
-                const randomNumber = Math.floor(Math.random() * 18800866) + 34905867;
-                setCode(randomNumber)
-            } catch (error){
-                alert('Falha ao gerar o codigo usando Math.random!')
-            }
-             };
-             getCode()
-        }
-    );
+   
 
      
     const redirecionar = (code) =>{
@@ -101,6 +90,9 @@ const Rewrite = () => {
 
             if (data.progress) {
                 setProgress(data.progress);
+            }
+            if (data.code) {
+                setCode(data.code);
             }
         };
 
@@ -143,8 +135,7 @@ const Rewrite = () => {
             setShowInputs(false);
 
             socket.send(JSON.stringify({
-                tema,
-                code,
+                tema, 
                 user_id: userId,
                 ...formData
             }));

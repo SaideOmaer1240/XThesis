@@ -61,14 +61,14 @@ class CredentialsView(APIView):
      
     def get(self, request):
         user = request.user
-        topic_name = request.query_params.get('topic_name')
+        code = request.query_params.get('code')
         queryset = Thesis.objects.filter(author=user)
         
         mes = DateTime.get_month()
         ano = DateTime.year()
-        if topic_name: 
-            queryset = queryset.filter(topic=topic_name)
-            first_thesis = queryset.filter(topic=topic_name).first()
+        if code: 
+            queryset = queryset.filter(code=code)
+            first_thesis = queryset.filter(code=code).first()
             if first_thesis:
                 credentials = {
                 'city': first_thesis.cidade,
@@ -77,6 +77,7 @@ class CredentialsView(APIView):
                 'instructor' :first_thesis.instructor,
                 'student' :first_thesis.student,
                 'topic' : first_thesis.topic,
+                'code' : first_thesis.code,
                 'month': mes,
                 'year' : ano,
                 }         
@@ -116,7 +117,8 @@ class ListUserDataView(APIView):
                 'professor': queryset.professor,
                 'instituto': queryset.instituto,
                 'cidade': queryset.cidade,
-                'disciplina': queryset.disciplina,  
+                'disciplina': queryset.disciplina, 
+                 
                 'amount': amount,
             }
             return Response(dados)
