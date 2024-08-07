@@ -1,16 +1,16 @@
 from django.views.decorators.csrf import csrf_exempt
 import json
-from django.http import JsonResponse
-from django.conf import settings
+from django.http import JsonResponse 
 from .models import Message 
 import uuid
 import logging
 from tools.groq_client import GroqChatClient   
 from django.db.models import Max
-from langchain_core.messages import HumanMessage, AIMessage
+from langchain_core.messages import HumanMessage, AIMessage  
+ 
+
 logger = logging.getLogger(__name__)
  
-api_key = settings.GROQ_API_KEY
 groq_client = GroqChatClient()  
  
 @csrf_exempt
@@ -61,8 +61,7 @@ def chatbot(request):
 
             # Enviar a mensagem do usuário para o modelo GROQ
            
-            response = groq_client.get_response(question=user_message, memoria=memoria)
-            
+            response = groq_client.get_response(question=user_message, memoria=memoria) 
              # Salvar a mensagem do usuário retornar a resposta salvar a resposta do llm
             Message.objects.create(text=user_message, is_user=True, session_id=session_id) 
             response_text = response  

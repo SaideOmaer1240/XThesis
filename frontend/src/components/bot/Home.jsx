@@ -5,6 +5,7 @@ import SearchInput from "../layouts/Search";
 import api from '../../api';
 import Message from './Message';
 import '../../styles/styles/Global.scss';
+import { TransitionGroup, CSSTransition } from 'react-transition-group'; // Importe os componentes para animação
 
 const Home = () => {
     const [messages, setMessages] = useState([]);
@@ -97,21 +98,33 @@ const Home = () => {
             <Navbar/>
             <div className='content' >
               <div className='chat papel'>
-              <div className="chat-conteiner">
+              <div className="chat-container">
+                <TransitionGroup>
                     {messages.map((msg, index) => (
-                        <Message 
-                            key={index} 
-                            text={msg.text} 
-                            isUser={msg.is_user}
-                        />
+                        <CSSTransition
+                            key={index}
+                            timeout={500}
+                            classNames="fade"
+                        >
+                            <Message 
+                                text={msg.text} 
+                                isUser={msg.is_user}
+                            />
+                        </CSSTransition>
                     ))}
                     {isLoading && (
-                        <Message 
-                            text="Carregando..." 
-                            isUser={false}
-                        />
+                        <CSSTransition
+                            timeout={500}
+                            classNames="fade"
+                        >
+                            <Message 
+                                text="Carregando..." 
+                                isUser={false}
+                            />
+                        </CSSTransition>
                     )}
-                    <div ref={messagesEndRef}/>
+                </TransitionGroup>
+                <div ref={messagesEndRef}/>
                 </div>  
               </div>
                 

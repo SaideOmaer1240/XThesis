@@ -1,3 +1,22 @@
+.fade-enter {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  .fade-enter-active {
+    opacity: 1;
+    transform: translateY(0);
+    transition: opacity 500ms, transform 500ms;
+  }
+  .fade-exit {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .fade-exit-active {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 500ms, transform 500ms;
+  }
+  
 .home-styled {
     width: 83vw;
     position: relative;
@@ -8,6 +27,7 @@
 
     .content {
         width: 100% !important;
+        bottom: 1px !important;
         align-items: center !important;
         .chat.papel{
             width: 100% !important;
@@ -15,7 +35,7 @@
             padding-left: 123px !important;
             padding-right: 112px !important;
             padding-top: 20px !important;
-
+            top: 60px !important; 
             .chat-conteiner{
                 width: 100% !important;
             }

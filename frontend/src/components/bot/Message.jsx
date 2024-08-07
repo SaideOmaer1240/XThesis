@@ -1,32 +1,39 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './Message.css';
-import './bot.scss'
-//import { dark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-// Outros estilos:
-// import { dracula } from 'react-syntax-highlighter/dist/esm/styles/prism';
-// import { solarizeddark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-// import { tomorrowNight } from 'react-syntax-highlighter/dist/esm/styles/prism';
-// import { monokai } from 'react-syntax-highlighter/dist/esm/styles/prism';
-// import { nightOwl } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import './bot.scss';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { Copy } from 'phosphor-react';
-// import { base16AteliersulphurpoolLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
-// import { ayuDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-// import { gruvboxDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { Copy, Check} from 'phosphor-react';
 
 const CodeBlock = ({ language, value }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = () => {
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000); // Volta a exibir "Copiar código" depois de 2 segundos
+  };
+
   return (
     <div className="code-block">
-      <div className="code-header" >
+      <div className="code-header">
         <span className="language">{language}</span>
-        <CopyToClipboard text={value}>
-          <button className="copy-button" style={{display: 'flex'}}><Copy weight="bold" size={18} /> Copiar código</button>
+        <CopyToClipboard text={value} onCopy={handleCopy}>
+          <button className="copy-button" style={{ display: 'flex' }}>
+            {copied ? (
+              <>
+                <Check weight="bold" size={18} /> Copiado
+              </>
+            ) : (
+              <>
+                <Copy weight="bold" size={18} /> Copiar código
+              </>
+            )}
+          </button>
         </CopyToClipboard>
-      </div >
-      <SyntaxHighlighter language={language} style={oneDark} customStyle={{padding: '25px'}} className='codes'>
+      </div>
+      <SyntaxHighlighter language={language} style={oneDark} customStyle={{ padding: '25px' }} className="codes">
         {value}
       </SyntaxHighlighter>
     </div>
@@ -48,7 +55,7 @@ const Message = ({ text, isUser }) => {
                 {children}
               </code>
             );
-          }
+          },
         }}
       />
     </div>
@@ -56,10 +63,3 @@ const Message = ({ text, isUser }) => {
 };
 
 export default Message;
-
-
-
-
-
-
-

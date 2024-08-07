@@ -6,6 +6,17 @@
   word-wrap: break-word;
 }
 
+:root {
+  --primary-color: #5c48ee;
+  --fundo-color: #c0b8ff;
+  --cor-fndo-claro: #dedaff;
+  --claro-color: #9b8eff;
+  --primary-color-dark: #0f1e6a;
+  --secondary-color: #f9fafe;
+  --text-color: #333333;
+  --white: #ffffff;
+  --max-width: 1200px;
+} 
 .user {
   background: var(--black-1);
   border-radius: 5px !important;
@@ -17,14 +28,26 @@
 }
 
 .bot {
-  background-color: #f1f0f0; 
+  background: linear-gradient(70deg, #c7c1ff, #afa4ff) !important;
+  animation: move 1s infinite !important;
   border-radius: 5px !important;
-  color: rgba(0, 0, 0, 0.795);
+  color: rgb(0, 0, 0);
   align-self: flex-start !important;
   margin-bottom: 20px !important;
   margin-top: 20px !important;
   padding: 20px !important;
+  font-size: 18px !important;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 
+} 
+
+@keyframes move {
+  0% {
+    background-position: 0% 0% !important;
+  }
+  100% {
+    background-position: 100% 100% !important;
+  }
 }
 
 .code-block {

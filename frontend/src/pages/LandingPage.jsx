@@ -15,7 +15,7 @@ const LandingPage = () => {
         <nav className="navbar landingpage">
           <div className="logo landingpage" > 
             <Link to="/" className="marca landingpage">
-              <h1 className="landingpage">GPT4 Academic Job</h1>
+              <h1 className="landingpage">Reprografia</h1>
             </Link>
           </div>
           <ul className="menu-itens landingpage"> 
@@ -34,7 +34,7 @@ const LandingPage = () => {
               <span className="heading__2 landingpage">Crie trabalhos acadêmicos em pouco tempo</span>
             </h1>
             <p className="ds landingpage" style={{color: 'white'}}>
-              Utilizando algoritmos de última geração, 'GPT for Academic Job' é capaz de analisar dados, pesquisar informações relevantes e gerar conteúdo acadêmico de alta qualidade em questão de minutos.
+              Utilizando algoritmos de última geração, 'A ReprograIA' é capaz de analisar dados, pesquisar informações relevantes e gerar conteúdo acadêmico de alta qualidade em questão de minutos.
             </p> 
             <li className="itens landingpage">
               <Link to="/rewrite" className="item-content landingpage">Testar de graça</Link>
