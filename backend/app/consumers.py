@@ -71,8 +71,13 @@ class ScribConsumer(AsyncWebsocketConsumer):
             return
 
         groq_api_key = settings.GROQ_API_KEY
+        
+        
         llm = ChatGroq(temperature=0, groq_api_key=groq_api_key,  model_name="llama3-8b-8192")
+        
 
+        
+        
         prompts = {
             "Introdução": """Você é um assistente criador de tese. Sua tarefa é redigir uma introdução  para uma tese seguindo o formato da APA 7ª edição. 
                 A introdução deve ser escrita de forma acadêmica e formal. Inclua citações de autores da seguinte maneira: "Segundo Fulano (2000), [informação]."
@@ -285,10 +290,14 @@ class ScribConsumer(AsyncWebsocketConsumer):
             | llm
             | StrOutputParser()
         )
-
+       
+        
+        
+       
+        
         try:
             logger.info("Invoking outline chain with question: %s", tema)
-            indices = await sync_to_async(outline_chain.invoke)({"question": tema})
+            indices = await sync_to_async(outline_chain.invoke)({"question": tema })
             logger.info('Indices received: %s', indices)
             sumario = self.resposta_em_json(indices)
         except Exception as e:

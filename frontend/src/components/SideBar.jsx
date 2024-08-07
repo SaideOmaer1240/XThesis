@@ -30,12 +30,23 @@ function SideBar({ isSidebarOpen }) {
         <li className="item-menu" onClick={(e) => {
           document.querySelectorAll(".item-menu").forEach((item) => item.classList.remove("ativo"));
           e.currentTarget.classList.add("ativo");
-        }}>
+        }} >
           <Link to="/rewrite">
             <span className="icon">
               <i className="fa-solid fa-pen" style={{ fontSize: '25px' }}></i>
             </span>
             <span className="txt-link">Escrever</span>
+          </Link>
+        </li>
+        <li className="item-menu" onClick={(e) => {
+          document.querySelectorAll(".item-menu").forEach((item) => item.classList.remove("ativo"));
+          e.currentTarget.classList.add("ativo");
+        }}>
+           <Link to="/chatbot">
+            <span className="icon">
+              <i className="fa-solid fa-comments" style={{ fontSize: '25px' }}></i>
+            </span>
+            <span className="txt-link">Chat Bot</span>
           </Link>
         </li>
         

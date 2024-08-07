@@ -1,9 +1,7 @@
 import React from "react";
-import "@fortawesome/fontawesome-free/css/all.min.css";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
-import Home from "./pages/Container";
+import Register from "./pages/Register"; 
 import Rewrite from "./pages/RewriteJob";
 import LandingPage from "./pages/LandingPage";
 import NotFound from "./pages/NotFound";
@@ -18,7 +16,8 @@ import DeleteUserData from "./components/DeleteUserData";
 import Settings from "./components/Settings";
 import DestroyAllThesis from "./components/DeleteAllTheses";
 import DestroyThesis from "./components/DeleteOneThesis";
-
+import ChatBot from "./components/bot/ChatBot"; // Importando o ChatBot
+import Home from "./components/bot/Home";
 function Logout() {
   localStorage.clear();
   return <Navigate to="/login" />;
@@ -48,7 +47,7 @@ function App() {
         />
 
         <Route
-          path="/workspace"
+          path="/chatbot"
           element={
             <ProtectedRoute>
               <Home />
@@ -137,6 +136,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+ 
 
         <Route path="*" element={<NotFound />} />
       </Routes>

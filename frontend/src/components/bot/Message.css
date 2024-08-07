@@ -1,0 +1,60 @@
+.message {
+  padding: 10px;
+  margin: 10px;
+  
+  max-width: 100%;
+  word-wrap: break-word;
+}
+
+.user {
+  background: var(--black-1);
+  border-radius: 5px !important;
+  color: rgba(247, 243, 243, 0.795);
+  align-self: flex-start !important;
+  margin-bottom: 20px !important;
+  margin-top: 20px !important;
+  padding: 20px !important; 
+}
+
+.bot {
+  background-color: #f1f0f0; 
+  border-radius: 5px !important;
+  color: rgba(0, 0, 0, 0.795);
+  align-self: flex-start !important;
+  margin-bottom: 20px !important;
+  margin-top: 20px !important;
+  padding: 20px !important;
+
+}
+
+.code-block {
+  position: relative;
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  background: #494848;
+  color: #ffffff;
+  padding: 5px;
+  font-family: monospace;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.language {
+  font-size: 14px;
+}
+
+.copy-button {
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: monospace;
+}
+
+.copy-button:hover {
+  text-decoration: underline;
+}

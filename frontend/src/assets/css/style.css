@@ -29,14 +29,7 @@
   border-radius: 20px;
   border: none;
 }
-
-body {
-  background: red;
-  -webkit-user-select: none; /* Para navegadores baseados em WebKit */
-    -moz-user-select: none;    /* Para Firefox */
-    -ms-user-select: none;     /* Para IE e Edge */
-    user-select: none;         /* Para navegadores modernos */
-}
+  
 .criar{
   background-color: green;
 }

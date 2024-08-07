@@ -8,7 +8,7 @@
 /* Funciona no Firefox */
 * {
   scrollbar-width: thin;
-  scrollbar-color: rgb(167, 167, 224) var(--primary-color) !important;
+  scrollbar-color: rgb(167, 167, 224) var(--text-color) !important;
 }
 
 /* Funciona no Chrome, Edge e Safari */
@@ -25,15 +25,7 @@
   border-radius: 20px;
   border: none;
 }
-
-body, html {
-  margin: 0;
-  padding: 0;
-  -webkit-user-select: none; /* Para navegadores baseados em WebKit */
-  -moz-user-select: none;    /* Para Firefox */
-  -ms-user-select: none;     /* Para IE e Edge */
-  user-select: none;         /* Para navegadores modernos */
-}
+ 
 
 :root {
   --primary-color: #5c48ee !important;

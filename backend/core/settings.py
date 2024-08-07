@@ -10,7 +10,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 GROQ_API_KEY = config('GROQ_API_KEY', default='') 
-
+GEMINI_API_KEY = config('GEMINI_API_KEY', default='')
+ 
 # Hosts permitidos
 ALLOWED_HOSTS = ['*']
  
@@ -28,8 +29,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'app',
+     'chat',
+     'tools',
 ]
-
+ 
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -102,7 +105,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer"
     }
-}
+} 
 
 # Configuração do banco de dados
 DATABASES = {
