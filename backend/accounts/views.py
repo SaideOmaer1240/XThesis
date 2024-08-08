@@ -11,6 +11,13 @@ from rest_framework import status
 from . models import UserData
 # Create your views here. 
 
+class CheckAuthView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        return Response({"message": "Authenticated"}, status=status.HTTP_200_OK)
+
+
 class CheckAvailability(APIView):
     permission_classes = [AllowAny]
     
@@ -152,6 +159,10 @@ class DeleteUserDataView(generics.DestroyAPIView):
         return UserData.objects.filter(author=user) 
  
         
+    
+  
+
+
     
   
 

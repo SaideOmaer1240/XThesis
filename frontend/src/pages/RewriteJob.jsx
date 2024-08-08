@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import { Link, redirect } from 'react-router-dom';
-import Header from '../components/Header'; 
+import { Link, useNavigate } from 'react-router-dom';
+import Header from '../components/Header';
 import SideBar from '../components/SideBar';
 import api from '../api';
 import '../assets/css/criar.css';
 import '../assets/css/geral/styles.css';
 import '../assets/css/style.css';
 import './criar.css';
-import '../assets/css/progresso.css'; 
-import { useNavigate } from "react-router-dom"; 
+import '../assets/css/progresso.css';
+
 const Rewrite = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [tema, setTema] = useState(''); 
+    const [tema, setTema] = useState('');
     const [temaEnviado, setTemaEnviado] = useState('');
     const [socket, setSocket] = useState(null);
     const [loading, setLoading] = useState(false);
@@ -25,13 +25,14 @@ const Rewrite = () => {
         disciplina: '',
         student: '',
         instructor: '',
-        cidade: ''
+        cidade: '',
+        idioma: ''
     });
     const [inputValue, setInputValue] = useState('');
     const [texto, setTexto] = useState('');
     const [code, setCode] = useState('');
-    const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
-    const navegar = useNavigate();
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const getUserInfo = async () => {
@@ -52,13 +53,10 @@ const Rewrite = () => {
         getUserInfo();
     }, []);
 
-   
+    const redirecionar = (code) => {
+        navigate(`/thesis/${code}`);
+    };
 
-     
-    const redirecionar = (code) =>{
-          navegar(`/thesis/${code}`)
-             }; 
-    
     useEffect(() => {
         const ws = new WebSocket('ws://127.0.0.1:8000/ws/scrib/');
         setSocket(ws);
@@ -67,7 +65,7 @@ const Rewrite = () => {
             console.log('WebSocket connection opened');
         };
 
-        ws.onmessage = function(event) {
+        ws.onmessage = function (event) {
             console.log('Message received:', event.data);
             const data = JSON.parse(event.data);
 
@@ -75,7 +73,7 @@ const Rewrite = () => {
                 setTitle(data.title);
                 setLoading(false);
             }
-            if (data.content){
+            if (data.content) {
                 setContent(data.content);
                 setLoading(false);
 
@@ -115,8 +113,9 @@ const Rewrite = () => {
     };
 
     const handleNextStep = () => {
-        const stepFields = ['institute', 'disciplina', 'student', 'instructor', 'cidade'];
+        const stepFields = ['institute', 'disciplina', 'student', 'instructor', 'cidade', 'idioma'];
         const currentField = stepFields[currentStep];
+
         setFormData({
             ...formData,
             [currentField]: inputValue
@@ -127,6 +126,12 @@ const Rewrite = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
+
+        if (tema.trim() === '') {
+            alert('Por favor, preencha o campo do Tema.');
+            return;
+        }
+
         if (socket && socket.readyState === WebSocket.OPEN) {
             setLoading(true);
             setProgress(0);
@@ -134,10 +139,15 @@ const Rewrite = () => {
             setTema('');
             setShowInputs(false);
 
+            const nonEmptyFormData = Object.fromEntries(
+                Object.entries(formData).filter(([_, value]) => value.trim() !== '')
+            );
+
+            
             socket.send(JSON.stringify({
-                tema, 
+                tema,
                 user_id: userId,
-                ...formData
+                ...nonEmptyFormData
             }));
         }
     };
@@ -146,9 +156,9 @@ const Rewrite = () => {
         setIsSidebarOpen(!isSidebarOpen);
     };
 
-    if(progress === 100.00){
-        redirecionar(code)
-    };
+    if (progress === 100.00) {
+        redirecionar(code);
+    }
 
     return (
         <div className="layout">
@@ -156,9 +166,7 @@ const Rewrite = () => {
             <SideBar isSidebarOpen={isSidebarOpen} />
             <main className="main-content">
                 <div className="adicionar-tema">
-                    <div className="progress-container" style={{
-                        display: progress === 0.00 ? 'none': 'block' 
-                    }}>
+                    <div className="progress-container" style={{ display: progress === 0.00 ? 'none' : 'block' }}>
                         <div className="progress-bar" style={{ width: `${progress}%` }}>
                             <p>{`${progress.toFixed(2)}%`}</p>
                         </div>
@@ -183,8 +191,7 @@ const Rewrite = () => {
                                             type="text"
                                             value={inputValue}
                                             onChange={handleInputChange}
-                                            placeholder={['Instituto Medio de Ensino a Distancia', 'Insira nome da Disciplina', 'Insira nome do Aluno', 'Insira nome do Professor', 'Insira nome da sua cidade atual'][currentStep]}
-                                            required
+                                            placeholder={['Instituto Medio de Ensino a Distancia', 'Insira nome da Disciplina', 'Insira nome do Aluno', 'Insira nome do Professor', 'Insira nome da sua cidade atual', 'Insira o idioma. Portugues é o padrão'][currentStep]}
                                         />
                                         <button type="button" onClick={handleNextStep}>Próximo</button>
                                     </div>
@@ -220,4 +227,4 @@ const Rewrite = () => {
     );
 };
 
-export default Rewrite;
+export default Rewrite; 

@@ -11,7 +11,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 GROQ_API_KEY = config('GROQ_API_KEY', default='') 
 GEMINI_API_KEY = config('GEMINI_API_KEY', default='')
- 
+GROQ_MODEL_NAME = config('GROQ_MODEL_NAME', default='')
 # Hosts permitidos
 ALLOWED_HOSTS = ['*']
  
