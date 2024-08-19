@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import SideBar from '../components/SideBar';
 import api from '../api';
@@ -26,12 +26,13 @@ const Rewrite = () => {
         student: '',
         instructor: '',
         cidade: '',
-        idioma: ''
+        idioma: localStorage.getItem('language') || 'Português'
     });
     const [inputValue, setInputValue] = useState('');
     const [texto, setTexto] = useState('');
     const [code, setCode] = useState('');
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+    const [messages, setMessages] = useState([]); // Lista de mensagens
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -47,11 +48,14 @@ const Rewrite = () => {
                 setUserId(data.id);
             } catch (error) {
                 console.error('Erro ao buscar informações do usuário:', error);
+                if (error.response && error.response.status === 401) {
+                    navigate('/login');
+                }
             }
         };
 
         getUserInfo();
-    }, []);
+    }, [navigate]);
 
     const redirecionar = (code) => {
         navigate(`/thesis/${code}`);
@@ -68,6 +72,8 @@ const Rewrite = () => {
         ws.onmessage = function (event) {
             console.log('Message received:', event.data);
             const data = JSON.parse(event.data);
+
+            setMessages((prevMessages) => [...prevMessages, event.data]); // Adiciona a mensagem recebida
 
             if (data.title) {
                 setTitle(data.title);
@@ -113,7 +119,7 @@ const Rewrite = () => {
     };
 
     const handleNextStep = () => {
-        const stepFields = ['institute', 'disciplina', 'student', 'instructor', 'cidade', 'idioma'];
+        const stepFields = ['institute', 'disciplina', 'student', 'instructor', 'cidade'];
         const currentField = stepFields[currentStep];
 
         setFormData({
@@ -143,7 +149,7 @@ const Rewrite = () => {
                 Object.entries(formData).filter(([_, value]) => value.trim() !== '')
             );
 
-            
+            // Inclua o idioma ao enviar os dados
             socket.send(JSON.stringify({
                 tema,
                 user_id: userId,
@@ -191,7 +197,7 @@ const Rewrite = () => {
                                             type="text"
                                             value={inputValue}
                                             onChange={handleInputChange}
-                                            placeholder={['Instituto Medio de Ensino a Distancia', 'Insira nome da Disciplina', 'Insira nome do Aluno', 'Insira nome do Professor', 'Insira nome da sua cidade atual', 'Insira o idioma. Portugues é o padrão'][currentStep]}
+                                            placeholder={['Instituto Medio de Ensino a Distancia', 'Insira nome da Disciplina', 'Insira nome do Aluno', 'Insira nome do Professor', 'Insira nome da sua cidade atual' ][currentStep]}
                                         />
                                         <button type="button" onClick={handleNextStep}>Próximo</button>
                                     </div>
@@ -211,20 +217,17 @@ const Rewrite = () => {
                             </>
                         )}
                     </form>
-                </div>
-                <div 
-                    className="conclusao-div" 
-                    style={{ 
-                        display: progress === 100.00 ? 'block' : 'none' 
-                    }}
-                >
-                    <Link to="/topic" className="animated-button">
-                        Clique aqui para ter acesso ao trabalho completo
-                    </Link>
+                    <div className="messages-container">
+                        {messages.map((message, index) => (
+                            <div key={index} className="message">
+                                <p>{message}</p>
+                            </div>
+                        ))}
+                    </div>
                 </div>
             </main>
         </div>
     );
 };
 
-export default Rewrite; 
+export default Rewrite;

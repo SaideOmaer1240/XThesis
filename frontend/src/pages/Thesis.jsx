@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate  } from "react-router-dom";
 import Header from "../components/Header";
+import { Download } from 'phosphor-react';
 import SideBar from "../components/SideBar";
 import api from "../api";
 import "../assets/css/criar.css";
@@ -10,15 +11,16 @@ import "./criar.css";
 import "./modal.css";
 import "../assets/css/progresso.css";
 import "../assets/css/book.css";
-
+import  LoadingAnimation from  "../components/LoadingAnimation";
 function Thesis() {
   const { code } = useParams();
   const [thesis, setThesis] = useState([]);
   const [credentials, setCredentials] = useState({});
   const [modalMessage, setModalMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCredentials = async () => {
@@ -31,6 +33,9 @@ function Thesis() {
         });
         setCredentials(response.data);
       } catch (error) {
+        if (error.response && error.response.status === 401) {
+          navigate('/login');
+      }
         console.error("Erro ao buscar credenciais do trabalho:", error);
       }
     };
@@ -44,9 +49,13 @@ function Thesis() {
           },
         });
         setThesis(response.data);
-        setLoading(false);
       } catch (error) {
+        if (error.response && error.response.status === 401) {
+          navigate('/login');
+      }
         console.error("Erro ao buscar tese:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -132,22 +141,26 @@ function Thesis() {
             </>
           )}
           <div className="papel">
-            <div className="capax">
-              <div className="conteiner content">
-                <div className="conteiner duble">
-                  <h2>{credentials.institute}</h2>
-                  <h2>Trabalho de {credentials.disciplina}</h2>
-                  <h2>Tema: {credentials.topic}</h2>
-                  <div>
-                    <h2>Discente: {credentials.student}</h2>
-                    <h2>Docente: {credentials.instructor}</h2>
+            {!loading && (
+              <div className="capax">
+                <div className="conteiner content">
+                  <div className="conteiner duble">
+                    <h2>{credentials.institute}</h2>
+                    <h2>Trabalho de {credentials.disciplina}</h2>
+                    <h2>Tema: {credentials.topic}</h2>
+                    <div>
+                      <h2>Discente: {credentials.student}</h2>
+                      <h2>Docente: {credentials.instructor}</h2>
+                    </div>
+                    <h2>{credentials.city}, {credentials.month} de {credentials.year}</h2>
                   </div>
-                  <h2>{credentials.city}, {credentials.month} de {credentials.year}</h2>
                 </div>
               </div>
-            </div> 
+            )}
 
-            {loading ? <div>Carregando</div> : thesis.length > 0 ? (
+            {loading ? (
+              <div><LoadingAnimation/></div>
+            ) : thesis.length > 0 ? (
               thesis.map((t) => (
                 <div key={t.id} className="conteudo-wrapper">
                   <div className="papel-wrapper">
@@ -165,7 +178,7 @@ function Thesis() {
             <div className="text-center mt-6">
               <button onClick={handleDownload} className="downloadBtn">
                 <span>
-                  <i className="fa-solid fa-download" style={{ fontSize: "25px" }}></i>
+                   <Download weight="bold" size={28}/>
                 </span>
               </button>
             </div>

@@ -17,7 +17,7 @@ class GroqChatClient:
             'Você é uma IA chamada LeonIA, você responde perguntas com respostas simples e sem brincadeiras.\nSe caso o usuário pedir um código, deve escrever neste formato:\n```linguagem\n código \n```:\nExemplo: ```python\n print("Olá, Mundo!")\n```\n```javascrip \nconsole.log("Olá, Mundo!");\n``` \n',
         ),
         MessagesPlaceholder(variable_name="chat_history"),
-        ("human", "{question}"),
+        ("human", "{question}"), 
     ]
 )  
         self.chain = self.prompt_template | self.llm | self.parser 

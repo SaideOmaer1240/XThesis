@@ -4,7 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import api from "../api";
 import { REFRESH_TOKEN, ACCESS_TOKEN } from "../constants";
 import { useState, useEffect } from "react";
-
+import  LoadingAnimation from  "./LoadingAnimation";
 
 function ProtectedRoute({ children }) {
     const [isAuthorized, setIsAuthorized] = useState(null);
@@ -47,9 +47,10 @@ function ProtectedRoute({ children }) {
             setIsAuthorized(true);
         }
     };
+    
 
     if (isAuthorized === null) {
-        return <div className="loading-text">Loading...</div>;
+        return <div className="loading-text"><LoadingAnimation/></div>;
     }
 
     return isAuthorized ? children : <Navigate to="/login" />;

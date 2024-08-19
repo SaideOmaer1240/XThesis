@@ -1,4 +1,4 @@
-import os
+import os     
 from pathlib import Path
 from datetime import timedelta
 from decouple import config
@@ -74,8 +74,7 @@ LOGGING = {
         },
     },
 }
-
-
+ 
 # Configuração de URL raiz
 ROOT_URLCONF = 'core.urls'
 

@@ -10,10 +10,12 @@ import "./criar.css";
 import "../assets/css/progresso.css";
 import "../assets/css/cards.css";
 import "../assets/css/book.css";
+import  LoadingAnimation from  "../components/LoadingAnimation";
 function TopicList() {
   const [topics, setTopics] = useState([]);
   const navigate = useNavigate();
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchTopics = async () => {
@@ -26,7 +28,12 @@ function TopicList() {
         });
         setTopics(response.data);
       } catch (error) {
+        if (error.response && error.response.status === 401) {
+          navigate('/login');
+      }
         console.error("Erro ao buscar tópicos:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -40,44 +47,51 @@ function TopicList() {
   const destroyThesis = (code) => {
     navigate(`/delete/${code}`);
   };
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
-};
+  };
 
   return (
     <div className="layout">
-      
       <Header toggleSidebar={toggleSidebar} />
       <SideBar isSidebarOpen={isSidebarOpen} />
       <main className="main-content">
         <div className="conteiner-topic papel">
           <div className="conteiner-cards">
-            {topics.map((topic) => (
-              <div key={topic.id} className="card">
-                <div className="visualize">
-                  <div className="mb-8">
-                    <h3 className="titulo topic">{topic.topic}</h3>
-                    <p className=" data text-gray-700 text-base">
-                      {" "}
-                      <br></br>
-                      Autor: {topic.student}
-                      <br></br> Adicionado em:{" "}
-                      {new Date(topic.date_added).toLocaleDateString()}
-                    </p>
-                  </div>
-                  <div className="conter-btn">
-                  <button
-                    onClick={() => handleViewThesis(topic.code)}
-                    className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
-                  >
-                    Visualizar
-                  
-                  </button>
-                  <button className="destroy" onClick={() => destroyThesis(topic.code)}>Excluir</button>
+            {loading ? (
+              <LoadingAnimation/>
+            ) : (
+              topics.map((topic) => (
+                <div key={topic.id} className="card" >
+                  <div className="visualize">
+                    <div className="mb-8">
+                      <h3 className="titulo topic">{topic.topic}</h3>
+                      <p className="data text-gray-700 text-base">
+                        Autor: {topic.student}
+                        <br />
+                        Adicionado em:{" "}
+                        {new Date(topic.date_added).toLocaleDateString()}
+                      </p>
+                    </div>
+                    <div className="conter-btn">
+                      <button
+                        onClick={() => handleViewThesis(topic.code)}
+                        className="bg-blue-500 text-white font-bold py-2 px-4 rounded"
+                      >
+                        Visualizar
+                      </button>
+                      <button
+                        className="destroy"
+                        onClick={() => destroyThesis(topic.code)}
+                      >
+                        Excluir
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))
+            )}
           </div>
         </div>
       </main>

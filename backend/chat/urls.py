@@ -1,10 +1,10 @@
 from django.urls import path
-from .views import chatbot, get_messages, get_sessions, start_new_session
+from .views import ChatbotView, GetMessagesView, GetSessionsView, StartNewSessionView
 
 urlpatterns = [
-    path('chatbot/', chatbot, name='chatbot'),
-    path('get_messages/', get_messages, name='get_messages'),
-    path('get_sessions/', get_sessions, name='get_sessions'),
-    path('start_new_session/', start_new_session, name='start_new_session'),
-    
+    path('chatbot/', ChatbotView.as_view(), name='chatbot'),
+    path('get_messages/', GetMessagesView.as_view(), name='get_messages'),
+    path('get_sessions/', GetSessionsView.as_view(), name='get_sessions'),
+    path('start_new_session/', StartNewSessionView.as_view(), name='start_new_session'),
 ]
+

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Sidebar from '../layouts/Sidebar';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../layouts/Navbar';
 import SearchInput from "../layouts/Search";
 import api from '../../api';
@@ -14,6 +15,7 @@ const Home = () => {
     const [sessions, setSessions] = useState([]); 
     const [isLoading, setIsLoading] = useState(false);
     const messagesEndRef = useRef(null);
+    const navigate = useNavigate();
   
     useEffect(() => {
       fetchSessions();
@@ -37,6 +39,9 @@ const Home = () => {
         const response = await api.post('/api/chat/get_messages/', { session_id: sessionId });
         setMessages(response.data.messages);
       } catch (error) {
+        if (error.response && error.response.status === 401) {
+          navigate('/login');
+      }
         console.error('Error fetching messages:', error);
       }
     };
@@ -46,6 +51,9 @@ const Home = () => {
         const response = await api.get('/api/chat/get_sessions/');
         setSessions(response.data.sessions);
       } catch (error) {
+        if (error.response && error.response.status === 401) {
+          navigate('/login');
+      }
         console.error('Error fetching sessions:', error);
       }
     };
@@ -65,6 +73,9 @@ const Home = () => {
         setMessages((prevMessages) => [...prevMessages, { text: response.data.response, is_user: false }]);
         fetchSessions();
       } catch (error) {
+        if (error.response && error.response.status === 401) {
+          navigate('/login');
+      }
         console.error('Error sending message:', error);
         setIsLoading(false);
       }
@@ -79,6 +90,9 @@ const Home = () => {
         localStorage.setItem('sessionId', newSessionId);
         fetchSessions();
       } catch (error) {
+        if (error.response && error.response.status === 401) {
+          navigate('/login');
+      }
         console.error('Error starting new conversation:', error);
       }
     };
