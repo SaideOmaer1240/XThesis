@@ -120,30 +120,28 @@ class Translator:
          return texto_localizado 
      
   
-class CreateTitle:
+class TitleGenerator:
     def __init__(self):
         self.api_key = settings.GROQ_API_KEY
         self.model_name = settings.GROQ_MODEL_NAME
-        self.system_msg = """ Atue como um criador de títulos profissional especializado em gerar títulos cativantes e informativos para conversas. Sua tarefa é analisar o conteúdo da conversa fornecida e criar um título atraente que resuma o tema principal de forma clara e concisa. Certifique-se de que o título seja relevante e capture a essência da conversa.
-
+        self.system_msg = """Atue como um gerador de títulos para conversas entre um usuário e um modelo de linguagem (LLM). 
+                Sua tarefa é criar um título relevante e conciso que capture a essência da conversa. 
+                O título deve ser informativo e refletir o tema ou o objetivo principal da interação.
+                
                 **Formato de saída esperado:**
                 ```json
-                "titulo": "Título aqui"
-                ```
-
+                  "titulo": "Título gerado aqui" ```
                 **Instruções:**
-                1. Receba o conteúdo da conversa para a qual deseja criar um título.
-                2. Analise o tema principal e os pontos-chave da conversa.
-                3. Crie um título que seja cativante, claro e que resuma a essência da conversa.
-                4. Retorne o título no formato JSON conforme especificado.
-
+                1. Receba o texto da conversa e analise seu conteúdo.
+                2. Gere um título que resuma o objetivo ou tema principal da conversa.
+                3. Retorne o título no formato JSON conforme especificado.
                 **Exemplo de uso:**
-                Crie um titulo para a conversa: "Hoje discutimos estratégias de marketing digital para pequenas empresas, incluindo SEO, marketing de conteúdo e redes sociais."
+                Texto da conversa: "Usuário pergunta como integrar a API X no sistema Y."
                 **Saída esperada:**
-                ```json
-                "titulo": "Estratégias de Marketing Digital para Pequenas Empresas"
-                ```  **Importante:** Mantenha a estrutura JSON limpa e sem erros de sintaxe. 
-      
+                  ```json
+                  "titulo": "Integração da API X no Sistema Y" 
+                ```
+                **Importante:** Mantenha a estrutura JSON limpa e sem erros de sintaxe.
                    """
         self.llm = ChatGroq(temperature=0, groq_api_key=self.api_key, model_name=self.model_name)
         self.parser = StrOutputParser()
@@ -153,17 +151,16 @@ class CreateTitle:
                 (
                     "system", self.system_msg
                 ),  
-                MessagesPlaceholder(variable_name='chat'),
-                ("human", 'Crie um titulo para a conversa:') 
+                
+                ("human", 'Texto da conversa: {text}') 
             ]
         ) 
         self.chain = self.prompt_template | self.llm | self.parser 
     
-    def get_title(self, chat : list) -> str:
-        # Solicita ao modelo que forneça o titulo do texto
-         response = self.chain.invoke({'chat' : chat})
-         resultado = re.search(r'\"titulo\": \"(.*?)\"', response)
-         texto_localizado = resultado.group(1)
-         return texto_localizado 
-     
-  
+    def generate_title(self, text: str) -> str:
+        # Solicita ao modelo que gere o título da conversa
+        response = self.chain.invoke({"text":text})
+        resultado = re.search(r'\"titulo\": \"(.*?)\"', response)
+        titulo_gerado = resultado.group(1)
+        return titulo_gerado 
+ 

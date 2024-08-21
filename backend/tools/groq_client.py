@@ -29,5 +29,5 @@ class GroqChatClient:
         except Exception as e:
             # Log error or handle it accordingly
             print(f"Error getting response: {e}")
-            return "Erro ao processar a solicitação."
+            return f"Erro ao processar a solicitação.{e}"
  
