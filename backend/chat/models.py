@@ -11,6 +11,7 @@ class Message(models.Model):
     session_id = models.UUIDField(default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     session_title = models.CharField(max_length=255, blank=True, null=True)
+    image_path = models.CharField(max_length=500, blank=True, null=True) 
 
     def save(self, *args, **kwargs):
         # Salva a mensagem normalmente

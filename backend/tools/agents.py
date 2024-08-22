@@ -3,12 +3,26 @@ from langchain_groq import ChatGroq
 from langchain_core.output_parsers import StrOutputParser
 from django.conf import settings 
 from .prompt import ThesisIndexPrompt, ThesisDevelopmentPrompt
-
-import re  
-import os 
+import google.generativeai as genai
+import re   
 from langchain_google_genai import ChatGoogleGenerativeAI 
+import PIL.Image
 
+class Multimodal:
+    def __init__(self):
+        self.api_key = settings.GEMINI_API_KEY 
+        genai.configure(api_key=self.api_key)
+        self.llm = genai.GenerativeModel(model_name="gemini-1.5-flash")
+          
+    
+    def get_response(self, image_message):
+        img = PIL.Image.open(image_message)
+        system_msg = "Analise a imagem fornecida e descreva-a com o máximo de detalhes possível. Caso existam letras ou textos na imagem, transcreva-os integralmente. Garanta que todas as informações visuais relevantes sejam mencionadas, incluindo cores, formas, objetos, contextos e quaisquer outros elementos presentes. Se for codigo depois da descrição, escreva o codigo da respetiva linguaguem presente na imagem, se for problema matematico, depois da descrição resolva o problema e apresente a resposta."
+        response = self.llm.generate_content([system_msg, img])
+        return response.text
+    
 
+    
 index_prompt = ThesisIndexPrompt()
 prompt_title = ThesisDevelopmentPrompt()
 class Escritor:

@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView, RetrieveAPIView, ListAPIView
 from django.views.decorators.csrf import csrf_exempt
 from django.utils.decorators import method_decorator
-
+from rest_framework.parsers import MultiPartParser 
 import json
 import uuid
 import logging
@@ -12,10 +12,14 @@ from django.db.models import Max
 from .models import Message
 from tools.groq_client import GroqChatClient 
 from langchain_core.messages import HumanMessage, AIMessage
+from tools.agents import Multimodal
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
 
 logger = logging.getLogger(__name__)
 
 groq_client = GroqChatClient() 
+vision_model = Multimodal()
 
 class StartNewSessionView(CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -28,21 +32,24 @@ class StartNewSessionView(CreateAPIView):
             logger.error(f"Error in StartNewSessionView: {e}")
             return Response({'error': 'Erro interno do servidor'}, status=500)
 
+
+
 @method_decorator(csrf_exempt, name='dispatch')
 class ChatbotView(APIView):
     permission_classes = [permissions.IsAuthenticated]
+    parser_classes = [MultiPartParser]   
 
     def post(self, request, *args, **kwargs):
         try:
-            data = json.loads(request.body)
-            logger.debug(f"Data received: {data}")
-
-            user_message = data.get('message')
-            session_id = data.get('session_id') or str(uuid.uuid4())
+            # Extrair a mensagem do usuário
+            user_message = request.data.get('message')
+            session_id = request.data.get('session_id') or str(uuid.uuid4())
+            image = request.FILES.get('image')   
 
             if not user_message:
                 return Response({'error': 'Mensagem não fornecida'}, status=400)
 
+            # Processamento da mensagem e da imagem
             memoria = []
             previous_messages = Message.objects.filter(session_id=session_id).order_by('created_at')
             for msg in previous_messages:
@@ -50,27 +57,34 @@ class ChatbotView(APIView):
                     memoria.append(HumanMessage(content=msg.text))
                 else:
                     memoria.append(AIMessage(content=msg.text))
+
             titulo_recente = Message.get_session_title(session_id)
             if titulo_recente:
                 title = titulo_recente
             else:
-                title = 'Nova conversa' 
-                
-            Message.destroy_old_message(session_id)
-            response = groq_client.get_response(question=user_message, memoria=memoria)
+                title = 'Nova conversa'
+
+            Message.destroy_old_message(session_id) 
+            
+            if image:
+                logger.debug(f"Imagem recebida: {image.name}") 
+                # Salvar a imagem em um local temporário no servidor
+                path = default_storage.save(image.name, ContentFile(image.read()))
+                image_full_path = default_storage.path(path)
+                logger.debug(f"Imagem salva em: {image_full_path}")
+                response = vision_model.get_response(image_message=image_full_path)
+            else:
+            # Obtenha a resposta do chatbot
+                response = groq_client.get_response(question=user_message, memoria=memoria)
             user = request.user
             Message.objects.create(user=user, text=user_message, is_user=True, session_id=session_id, session_title=title)
             Message.objects.create(text=response, is_user=False, session_id=session_id, session_title=title)
 
             return Response({'response': response, 'session_id': session_id})
 
-        except json.JSONDecodeError:
-            logger.error("Invalid JSON")
-            return Response({'error': 'Dados fornecidos são inválidos'}, status=400)
         except Exception as e:
             logger.error(f"Error in ChatbotView: {e}")
             return Response({'error': 'Erro interno do servidor'}, status=500)
-
 @method_decorator(csrf_exempt, name='dispatch')
 class GetMessagesView(RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
