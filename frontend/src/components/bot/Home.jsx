@@ -11,20 +11,41 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 const Home = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
-  const [sessionId, setSessionId] = useState(null);
+  const [sessionId, setSessionId] = useState(localStorage.getItem('sessionId') || null);
   const [sessions, setSessions] = useState([]); 
   const [isLoading, setIsLoading] = useState(false);
+  const [userId, setUserId] = useState(null);
   const messagesEndRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const getUserInfo = async () => {
+      try {
+        const token = localStorage.getItem('token');
+        const response = await api.get('/api/user/info/', {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        const data = response.data;
+        setUserId(data.id);
+      } catch (error) {
+        console.error('Erro ao buscar informações do usuário:', error);
+        if (error.response && error.response.status === 401) {
+          navigate('/login');
+        }
+      }
+    };
+
+    getUserInfo();
+  }, [navigate]);
+
+  useEffect(() => {
     fetchSessions();
-    const savedSessionId = localStorage.getItem('sessionId');
-    if (savedSessionId) {
-      setSessionId(savedSessionId);
-      fetchMessages(savedSessionId);
+    if (sessionId) {
+      fetchMessages(sessionId);
     }
-  }, []);
+  }, [sessionId]);
 
   useEffect(() => {
     scrollToBottom();
@@ -39,10 +60,7 @@ const Home = () => {
       const response = await api.post('/api/chat/get_messages/', { session_id: sessionId });
       setMessages(response.data.messages);
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate('/login');
-      }
-      console.error('Error fetching messages:', error);
+      handleApiError(error);
     }
   };
 
@@ -51,11 +69,15 @@ const Home = () => {
       const response = await api.get('/api/chat/get_sessions/');
       setSessions(response.data.sessions);
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate('/login');
-      }
-      console.error('Error fetching sessions:', error);
+      handleApiError(error);
     }
+  };
+
+  const handleApiError = (error) => {
+    if (error.response && error.response.status === 401) {
+      navigate('/login');
+    }
+    console.error('Error:', error);
   };
 
   const handleSend = async (text, image, audio) => {
@@ -65,34 +87,28 @@ const Home = () => {
     setIsLoading(true);
 
     const formData = new FormData();
+    formData.append('userId', userId);
     formData.append('message', text);
-    if (image) {
-      formData.append('image', image);
-    }
-    if (audio) {
-      formData.append('audio', audio, 'recording.webm');
-    }
+    if (image) formData.append('image', image);
+    if (audio) formData.append('audio', audio, 'recording.webm');
+    
     const currentSessionId = sessionId || localStorage.getItem('sessionId') || null;
-    if (currentSessionId) {
-      formData.append('session_id', currentSessionId);
-    }
+    if (currentSessionId) formData.append('session_id', currentSessionId);
 
     try {
       const response = await api.post('/api/chat/chatbot/', formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
+        headers: { 'Content-Type': 'multipart/form-data' }
       });
       setSessionId(response.data.session_id);
       localStorage.setItem('sessionId', response.data.session_id);
       setIsLoading(false);
-      setMessages((prevMessages) => [...prevMessages, { text: response.data.response, is_user: false }]);
+      setMessages((prevMessages) => [
+        ...prevMessages, 
+        { text: response.data.response, is_user: false }
+      ]);
       fetchSessions();
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate('/login');
-      }
-      console.error('Error sending message:', error);
+      handleApiError(error);
       setIsLoading(false);
     }
   };
@@ -106,10 +122,7 @@ const Home = () => {
       localStorage.setItem('sessionId', newSessionId);
       fetchSessions();
     } catch (error) {
-      if (error.response && error.response.status === 401) {
-        navigate('/login');
-      }
-      console.error('Error starting new conversation:', error);
+      handleApiError(error);
     }
   };
 
@@ -121,9 +134,9 @@ const Home = () => {
   return (
     <div className='app-styled'>
       <Sidebar   
-          sessions={sessions}
-          selectSession={selectSession}
-          startNewConversation={startNewConversation}
+        sessions={sessions}
+        selectSession={selectSession}
+        startNewConversation={startNewConversation}
       />
       <div className='home-styled'>
         <Navbar/>
@@ -163,7 +176,7 @@ const Home = () => {
           inputValue={input}
           onInputChange={setInput}
           onSend={handleSend}
-          placeholder="Ingresa una instrucción aqui"
+          placeholder="Insira uma instrução aqui"
         />
       </div>
     </div>

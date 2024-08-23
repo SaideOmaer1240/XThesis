@@ -6,11 +6,12 @@ const SearchInput = ({ inputValue, onInputChange, onSend, placeholder }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const mediaRecorderRef = useRef(null);
+  
 
   const handleImageUpload = (event) => {
     setSelectedImage(event.target.files[0]);
   };
-
+  
   const handleSend = () => {
     onSend(inputValue, selectedImage, audioBlob);
     setSelectedImage(null);

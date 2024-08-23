@@ -15,9 +15,12 @@ from langchain_core.messages import HumanMessage, AIMessage
 from tools.agents import Multimodal, AudioTranscriber
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
-
+from tools.utils import UserName
+from django.conf import settings 
+import os
 logger = logging.getLogger(__name__)
 
+User = UserName()
 groq_client = GroqChatClient() 
 vision_model = Multimodal()
 audio_model = AudioTranscriber()
@@ -44,9 +47,13 @@ class ChatbotView(APIView):
         try:
             # Extrair a mensagem do usuário
             user_message = request.data.get('message')
+            userId = request.data.get('userId')
             session_id = request.data.get('session_id') or str(uuid.uuid4())
             image = request.FILES.get('image')   
-            audio = request.FILES.get('audio')   
+            audio = request.FILES.get('audio')
+            print(userId)
+            
+            username = User.get_user_by_id(userId)
 
             if not user_message:
                 return Response({'error': 'Mensagem não fornecida'}, status=400)
@@ -70,15 +77,32 @@ class ChatbotView(APIView):
             
             if image:
                 logger.debug(f"Imagem recebida: {image.name}") 
-                # Salvar a imagem em um local temporário no servidor
-                path = default_storage.save(image.name, ContentFile(image.read()))
+
+                # Crie o subdiretório com o nome do usuário se não existir
+                directory = os.path.join(settings.MEDIA_ROOT, 'recordings', str(username))
+                if not os.path.exists(directory):
+                    os.makedirs(directory)
+                
+                # Crie o caminho completo para o arquivo
+                file_path = os.path.join(directory, image.name)
+
+                # Salvar a imagem no servidor
+                path = default_storage.save(file_path, ContentFile(image.read()))
                 image_full_path = default_storage.path(path)
                 logger.debug(f"Imagem salva em: {image_full_path}")
+
+                # Usar o modelo de visão para processar a imagem
                 response = vision_model.get_response(image_message=image_full_path)
+
+                # Remover todos os arquivos no diretório após o processamento
+                for filename in os.listdir(directory): 
+                    os.remove(os.path.join(directory, filename))
+
             else:
             # Obtenha a resposta do chatbot
                 if audio:
-                    user_message = audio_model.get_response(audio)
+                    print(username)
+                    user_message = audio_model.get_response(audio, user=username)
                 response = groq_client.get_response(question=user_message, memoria=memoria)
             user = request.user
             Message.objects.create(user=user, text=user_message, is_user=True, session_id=session_id, session_title=title)
@@ -97,7 +121,7 @@ class GetMessagesView(RetrieveAPIView):
         try:
             data = json.loads(request.body)
             session_id = data.get('session_id')
-
+            
             if not session_id:
                 return Response({'error': 'ID da sessão não fornecido'}, status=400)
 

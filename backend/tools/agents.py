@@ -10,21 +10,30 @@ import os
 from langchain_google_genai import ChatGoogleGenerativeAI 
 import PIL.Image
 from django.core.files.storage import default_storage
+import os 
 
 class AudioTranscriber:
     def __init__(self):
         self.client = Groq(api_key=settings.GROQ_API_KEY)
 
-    def get_response(self, file):
+    def get_response(self, file, user):
+        # Pegue o nome do usuário
+        username = str(user) # Converta o objeto User para o nome do usuário
+
+        # Crie o subdiretório com o nome do usuário se não existir
+        directory = os.path.join(settings.MEDIA_ROOT, 'recordings', username)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+
         # Verifique se o arquivo tem o método temporary_file_path
         if hasattr(file, 'temporary_file_path'):
             file_path = file.temporary_file_path()
         else:
             # Caso contrário, salve o arquivo no sistema de arquivos
             file_name = file.name
-            file_path = default_storage.save(file_name, file)
+            file_path = default_storage.save(os.path.join(directory, file_name), file)
             file_path = default_storage.path(file_path)
-        
+
         # Abra o arquivo e faça a transcrição
         with open(file_path, "rb") as audio_file:
             transcription = self.client.audio.transcriptions.create(
@@ -35,13 +44,20 @@ class AudioTranscriber:
                 language="pt",
                 temperature=0.0
             )
-        
+
         # Limpe o arquivo temporário se necessário
         if not hasattr(file, 'temporary_file_path'):
-            os.remove(file_path) 
-        print(transcription)
+            os.remove(file_path)
+
+        # Elimine todos os arquivos com extensão .webm no diretório
+        for filename in os.listdir(directory):
+            if filename.endswith(".webm"):
+                os.remove(os.path.join(directory, filename))
+
         return transcription.text
-    
+
+
+ 
 class Multimodal:
     def __init__(self):
         self.api_key = settings.GEMINI_API_KEY 
