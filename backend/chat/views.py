@@ -12,7 +12,7 @@ from django.db.models import Max
 from .models import Message
 from tools.groq_client import GroqChatClient 
 from langchain_core.messages import HumanMessage, AIMessage
-from tools.agents import Multimodal
+from tools.agents import Multimodal, AudioTranscriber
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 
@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 
 groq_client = GroqChatClient() 
 vision_model = Multimodal()
+audio_model = AudioTranscriber()
 
 class StartNewSessionView(CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
@@ -45,6 +46,7 @@ class ChatbotView(APIView):
             user_message = request.data.get('message')
             session_id = request.data.get('session_id') or str(uuid.uuid4())
             image = request.FILES.get('image')   
+            audio = request.FILES.get('audio')   
 
             if not user_message:
                 return Response({'error': 'Mensagem não fornecida'}, status=400)
@@ -75,6 +77,8 @@ class ChatbotView(APIView):
                 response = vision_model.get_response(image_message=image_full_path)
             else:
             # Obtenha a resposta do chatbot
+                if audio:
+                    user_message = audio_model.get_response(audio)
                 response = groq_client.get_response(question=user_message, memoria=memoria)
             user = request.user
             Message.objects.create(user=user, text=user_message, is_user=True, session_id=session_id, session_title=title)
@@ -139,3 +143,4 @@ class GetSessionsView(ListAPIView):
         except Exception as e:
             logger.error(f"Error in GetSessionsView: {e}")
             return Response({'error': 'Erro interno do servidor'}, status=500)
+

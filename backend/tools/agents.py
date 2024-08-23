@@ -5,9 +5,43 @@ from django.conf import settings
 from .prompt import ThesisIndexPrompt, ThesisDevelopmentPrompt
 import google.generativeai as genai
 import re   
+from groq import Groq
+import os
 from langchain_google_genai import ChatGoogleGenerativeAI 
 import PIL.Image
+from django.core.files.storage import default_storage
 
+class AudioTranscriber:
+    def __init__(self):
+        self.client = Groq(api_key=settings.GROQ_API_KEY)
+
+    def get_response(self, file):
+        # Verifique se o arquivo tem o método temporary_file_path
+        if hasattr(file, 'temporary_file_path'):
+            file_path = file.temporary_file_path()
+        else:
+            # Caso contrário, salve o arquivo no sistema de arquivos
+            file_name = file.name
+            file_path = default_storage.save(file_name, file)
+            file_path = default_storage.path(file_path)
+        
+        # Abra o arquivo e faça a transcrição
+        with open(file_path, "rb") as audio_file:
+            transcription = self.client.audio.transcriptions.create(
+                file=(file.name, audio_file.read()),
+                model="whisper-large-v3",
+                prompt="Specify context or spelling",
+                response_format="json",
+                language="pt",
+                temperature=0.0
+            )
+        
+        # Limpe o arquivo temporário se necessário
+        if not hasattr(file, 'temporary_file_path'):
+            os.remove(file_path) 
+        print(transcription)
+        return transcription.text
+    
 class Multimodal:
     def __init__(self):
         self.api_key = settings.GEMINI_API_KEY 
