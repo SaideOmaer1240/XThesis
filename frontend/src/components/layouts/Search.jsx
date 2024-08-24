@@ -6,12 +6,12 @@ const SearchInput = ({ inputValue, onInputChange, onSend, placeholder }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState(null);
   const mediaRecorderRef = useRef(null);
-  
 
   const handleImageUpload = (event) => {
     setSelectedImage(event.target.files[0]);
+    onInputChange("Analisando a imagem"); // Exibe a mensagem ao selecionar uma imagem
   };
-  
+
   const handleSend = () => {
     onSend(inputValue, selectedImage, audioBlob);
     setSelectedImage(null);
@@ -29,6 +29,7 @@ const SearchInput = ({ inputValue, onInputChange, onSend, placeholder }) => {
 
         mediaRecorder.ondataavailable = (event) => {
           setAudioBlob(event.data);
+          onInputChange("Analisando áudio"); // Exibe a mensagem ao gravar um áudio
         };
 
         mediaRecorder.start();
@@ -38,16 +39,10 @@ const SearchInput = ({ inputValue, onInputChange, onSend, placeholder }) => {
   };
 
   useEffect(() => {
-    if (selectedImage) {
-      onInputChange("Analisar a imagem");
-    }
-  }, [selectedImage, onInputChange]);
-
-  useEffect(() => {
     if (audioBlob) {
-      onInputChange("Analisar o áudio");
+      handleSend(); // Envia automaticamente o áudio
     }
-  }, [audioBlob, onInputChange]);
+  }, [audioBlob]);
 
   return (
     <div className="search-styled">
@@ -67,7 +62,8 @@ const SearchInput = ({ inputValue, onInputChange, onSend, placeholder }) => {
           value={inputValue}
           onChange={(e) => onInputChange(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-          placeholder={selectedImage ? `Imagem selecionada: ${selectedImage.name}` : (placeholder || 'Digite sua mensagem aqui')} />
+          placeholder={placeholder || 'Digite sua mensagem aqui'} 
+        />
 
         <button onClick={handleSend} className="send-button">
           <PaperPlaneRight weight="bold" size={25} />
@@ -86,3 +82,4 @@ const SearchInput = ({ inputValue, onInputChange, onSend, placeholder }) => {
 };
 
 export default SearchInput;
+

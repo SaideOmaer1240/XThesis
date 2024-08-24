@@ -56,7 +56,7 @@ class ChatbotView(APIView):
             username = User.get_user_by_id(userId)
 
             if not user_message:
-                return Response({'error': 'Mensagem não fornecida'}, status=400)
+                return Response({'error': 'Mensagem não fornecida, ou qualquer arquivo para ser processado.'}, status=400)
 
             # Processamento da mensagem e da imagem
             memoria = []

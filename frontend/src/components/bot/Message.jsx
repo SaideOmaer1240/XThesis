@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, memo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './Message.css';
 import './bot.scss';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { Copy, Check} from 'phosphor-react';
+import { Copy, Check } from 'phosphor-react';
 
-const CodeBlock = ({ language, value }) => {
+const CodeBlock = memo(({ language, value }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -20,7 +20,12 @@ const CodeBlock = ({ language, value }) => {
       <div className="code-header">
         <span className="language">{language}</span>
         <CopyToClipboard text={value} onCopy={handleCopy}>
-          <button className="copy-button" style={{ display: 'flex' }}>
+          <button
+            className="copy-button"
+            style={{ display: 'flex' }}
+            aria-label={copied ? "Código copiado" : "Copiar código"}
+            aria-live="polite"
+          >
             {copied ? (
               <>
                 <Check weight="bold" size={18} /> Copiado
@@ -33,12 +38,17 @@ const CodeBlock = ({ language, value }) => {
           </button>
         </CopyToClipboard>
       </div>
-      <SyntaxHighlighter language={language} style={oneDark} customStyle={{ padding: '25px' }} className="codes">
+      <SyntaxHighlighter
+        language={language}
+        style={oneDark}
+        customStyle={{ padding: '25px' }}
+        className="codes"
+      >
         {value}
       </SyntaxHighlighter>
     </div>
   );
-};
+});
 
 const Message = ({ text, isUser }) => {
   return (
