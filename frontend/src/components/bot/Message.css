@@ -5,6 +5,13 @@
   max-width: 100%;
   word-wrap: break-word;
 }
+.math-block {
+  margin: 1em 0;
+  padding: 10px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  font-size: 1.1em;
+}
 
 :root {
   --primary-color: #5c48ee;

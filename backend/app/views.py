@@ -2,7 +2,7 @@ from rest_framework import viewsets, permissions
 from rest_framework.generics import DestroyAPIView
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from django.http import JsonResponse, HttpResponse
+from django.http import HttpResponse
 from django.conf import settings
 from docx import Document
 from docx.oxml.ns import nsdecls
@@ -13,6 +13,7 @@ from .serializers import ThesisSerializer
 from .permissions import IsAuthor
 from accounts.datetime import DateTime
 import re
+from tools.docFormatter import WordFormatter
 
 class TopicViewSet(viewsets.ModelViewSet):
     serializer_class = ThesisSerializer
@@ -88,27 +89,19 @@ class ThesisViewSet(viewsets.ModelViewSet):
         h2_matches = h2_pattern.findall(text)
         for i, part in enumerate(h2_matches):
             apply_formatting(part, bold=True if i % 2 == 1 else False)
-
+        
         # Procura por <p>
         p_pattern = re.compile(r'<p>(.*?)</p>')
         p_matches = p_pattern.findall(text)
-        for p_match in p_matches:
-            # Primeira iteração: procura por <strong>
-            strong_pattern = re.compile(r'<strong>(.*?)</strong>')
-            parts = strong_pattern.split(p_match)
-            for i, part in enumerate(parts):
-                # Segunda iteração: procura por <i> dentro das partes encontradas por <strong>
-                italic_pattern = re.compile(r'<i>(.*?)</i>')
-                italic_parts = italic_pattern.split(part)
-                for j, italic_part in enumerate(italic_parts):
-                    apply_formatting(italic_part, bold=False if i % 2 == 1 else False, italic=True if j % 2 == 1 else False)
+        for p_match in p_matches:  
+                apply_formatting(p_match)
 
         # Procura por <li>
         li_pattern = re.compile(r'<li>(.*?)</li>')
         li_matches = li_pattern.findall(text)
         for li_match in li_matches:
             apply_formatting(li_match)
-
+         
     def add_table(self, doc, text):
         rows = text.strip().split('\n')
         headers = rows[0].split('|')[1:-1]
@@ -233,7 +226,13 @@ class ThesisViewSet(viewsets.ModelViewSet):
         file_name = f'{first_thesis.topic}.docx'
         file_path = os.path.join(directory, file_name)
         doc.save(file_path)
-         
+        formatter = WordFormatter(file_path)
+        formatter.replace_strong_with_bold()
+        formatter.replace_i_with_italic()
+        formatter.replace_sub_with_subscript() 
+        formatter.replace_sup_with_superscript()
+        formatter.save()
+        
         with open(file_path, 'rb') as arquivo_aberto:
             response = HttpResponse(
                 arquivo_aberto.read(), 

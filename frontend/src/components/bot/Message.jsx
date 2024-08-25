@@ -2,6 +2,7 @@ import React, { useState, memo } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { MathComponent } from 'mathjax-react';
 import './Message.css';
 import './bot.scss';
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -50,6 +51,12 @@ const CodeBlock = memo(({ language, value }) => {
   );
 });
 
+const MathBlock = memo(({ formula }) => (
+  <div className="math-block">
+    <MathComponent tex={formula} />
+  </div>
+));
+
 const Message = ({ text, isUser }) => {
   return (
     <div className={`message ${isUser ? 'user' : 'bot'}`}>
@@ -66,6 +73,8 @@ const Message = ({ text, isUser }) => {
               </code>
             );
           },
+          math: ({ value }) => <MathBlock formula={value} />,
+          inlineMath: ({ value }) => <MathBlock formula={value} />,
         }}
       />
     </div>
@@ -73,3 +82,4 @@ const Message = ({ text, isUser }) => {
 };
 
 export default Message;
+
