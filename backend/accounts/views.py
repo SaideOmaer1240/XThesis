@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from app.permissions import IsAuthor
 from app.models import Thesis
-from . datetime import DateTime 
+from .datetimes import DateTime 
 from rest_framework import status
 from . models import UserData
 # Create your views here. 

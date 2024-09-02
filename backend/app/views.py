@@ -5,16 +5,14 @@ from rest_framework.response import Response
 from django.http import HttpResponse
 from django.conf import settings
 from docx import Document
-from docx.oxml.ns import nsdecls
-from docx.oxml import parse_xml
+from docx.enum.text import WD_BREAK
 import os  
 from .models import Thesis
 from .serializers import ThesisSerializer
 from .permissions import IsAuthor
-from accounts.datetime import DateTime
+from accounts.datetimes import DateTime 
+import pypandoc
 import re
-from tools.docFormatter import WordFormatter
-
 class TopicViewSet(viewsets.ModelViewSet):
     serializer_class = ThesisSerializer
     permission_classes = [permissions.IsAuthenticated, IsAuthor]
@@ -33,9 +31,8 @@ class TopicViewSet(viewsets.ModelViewSet):
         return unique_queryset
 
     def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
+        serializer.save(author=self.request.user) 
 
- 
 class ThesisViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.IsAuthenticated, IsAuthor]
     serializer_class = ThesisSerializer
@@ -71,57 +68,12 @@ class ThesisViewSet(viewsets.ModelViewSet):
         for paragraph in document.paragraphs:
             if texto in paragraph.text:
                 return paragraph
-        return None
-    
+        return None 
+
     def remover_paragrafo(self, doc, paragrafo):
         p = paragrafo._element
         p.getparent().remove(p)
         p._element = p._p = None
-
-    def add_formatted_text(self, paragraph, text):
-        def apply_formatting(part, bold=False, italic=False):
-            run = paragraph.add_run(part)
-            run.bold = bold
-            run.italic = italic
-
-        # Procura por <h2>
-        h2_pattern = re.compile(r'<h2>(.*?)</h2>')
-        h2_matches = h2_pattern.findall(text)
-        for i, part in enumerate(h2_matches):
-            apply_formatting(part, bold=True if i % 2 == 1 else False)
-        
-        # Procura por <p>
-        p_pattern = re.compile(r'<p>(.*?)</p>')
-        p_matches = p_pattern.findall(text)
-        for p_match in p_matches:  
-                apply_formatting(p_match)
-
-        # Procura por <li>
-        li_pattern = re.compile(r'<li>(.*?)</li>')
-        li_matches = li_pattern.findall(text)
-        for li_match in li_matches:
-            apply_formatting(li_match)
-         
-    def add_table(self, doc, text):
-        rows = text.strip().split('\n')
-        headers = rows[0].split('|')[1:-1]
-        
-        data = [row.split('|')[1:-1] for row in rows[1:] if '---' not in row]
-
-        table = doc.add_table(rows=len(data) + 1, cols=len(headers))
-        table.style = 'Table Grid'
-        
-        hdr_cells = table.rows[0].cells
-        for i, header in enumerate(headers):
-            hdr_cells[i].text = header.strip()
-
-        for row_idx, row_data in enumerate(data):
-            row_cells = table.rows[row_idx + 1].cells
-            for col_idx, cell_data in enumerate(row_data):
-                row_cells[col_idx].text = cell_data.strip()
-
-        for cell in table.rows[0].cells:
-            cell._element.get_or_add_tcPr().append(parse_xml(r'<w:shd {} w:fill="A7BFDE"/>'.format(nsdecls('w'))))
 
     def variable_content(self, institute, student, instructor, disciplina, topic, cidade):
         year = DateTime.year()
@@ -146,7 +98,7 @@ class ThesisViewSet(viewsets.ModelViewSet):
                     for i in range(len(inline)):
                         if key in inline[i].text:
                             inline[i].text = inline[i].text.replace(key, str(value))
-        
+
         for paragraph in doc.paragraphs:
             replace_in_paragraph(paragraph)
 
@@ -159,12 +111,12 @@ class ThesisViewSet(viewsets.ModelViewSet):
     def gerar_documento(self, request):
         user = request.user
         code = request.query_params.get('code')
-        
+
         if not code:
             return Response({'error': 'O parâmetro code é obrigatório.'}, status=400)
-        
+
         first_thesis = self.get_queryset().filter(code=code).first()
-        
+
         if first_thesis:
             cidade = first_thesis.cidade
             disciplina = first_thesis.disciplina
@@ -177,11 +129,11 @@ class ThesisViewSet(viewsets.ModelViewSet):
             institute = 'Escola Secundária Geral de Quelimane'
             instructor = 'Antonio'
             student = 'Saíde Omar Saíde'
-            
+
         theses = self.get_queryset().filter(code=code)
         if not theses.exists():
             return Response({'error': f'Tópico com código "{code}" não encontrado.'}, status=404)
-        
+
         doc = Document(os.path.join(settings.MEDIA_ROOT, 'modelo.docx'))
         credentials = self.variable_content(
             cidade=cidade,
@@ -191,56 +143,94 @@ class ThesisViewSet(viewsets.ModelViewSet):
             student=student,
             topic=first_thesis.topic,
         )
+
         
-        self.replace_text(doc, credentials)
-        
+
+        # Definir diretórios de documentos e arquivos temporários
+        directory_doc = os.path.join(settings.MEDIA_ROOT, 'documents', user.username)
+        directory_temp = os.path.join(settings.MEDIA_ROOT, 'tempFile', user.username)
+
+        # Verificar se os diretórios existem; se não, criar
+        os.makedirs(directory_doc, exist_ok=True)
+        os.makedirs(directory_temp, exist_ok=True)
+
+        # Remover arquivos antigos no diretório de documentos
+        for root, dirs, files in os.walk(directory_doc):
+            for file in files:
+                if file.lower().endswith('.docx'):
+                    os.remove(os.path.join(root, file))
+
+        new_file_name = f'{theses[0].topic}.docx'
+        file_path = os.path.join(directory_doc, new_file_name) 
+
+        # Iterar sobre cada tese para criar o documento
         for thesis in theses:
-            paragrafo_origem = self.localizar_paragrafo(doc, 'Copiar parágrafo')
-            if paragrafo_origem:
-                paragrafo_destino = doc.add_paragraph()
-                self.copiar_estilos(paragrafo_origem, paragrafo_destino)
-                paragrafo_destino.text = thesis.title
-            else:
-                self.add_formatted_text(doc.add_paragraph(), f'**{thesis.title}**')
-                
-            paragraphs = thesis.text.split('\n\n')
-            for paragraph in paragraphs:
-                if '|' in paragraph and '\n' in paragraph:
-                    self.add_table(doc, paragraph)
-                else:
-                    self.add_formatted_text(doc.add_paragraph(), paragraph)
-        
-        self.remover_paragrafo(doc, paragrafo_origem)
-        directory = os.path.join(settings.MEDIA_ROOT, 'documents/', user.username)
-        
-        if os.path.exists(directory):
-            for root, dirs, files in os.walk(directory):
+            # Remover arquivos antigos no diretório temporário
+            for root, dirs, files in os.walk(directory_temp):
                 for file in files:
                     if file.lower().endswith('.docx'):
-                        dir_file = os.path.join(root, file)
-                        os.remove(dir_file)                
-        else:
-            os.makedirs(directory)
+                        os.remove(os.path.join(root, file))
+            temp_docx = 'temp_docx.docx'
             
-        
-        file_name = f'{first_thesis.topic}.docx'
-        file_path = os.path.join(directory, file_name)
-        doc.save(file_path)
-        formatter = WordFormatter(file_path)
-        formatter.replace_strong_with_bold()
-        formatter.replace_i_with_italic()
-        formatter.replace_sub_with_subscript() 
-        formatter.replace_sup_with_superscript()
-        formatter.save()
-        
+            # Criar novo arquivo temporario
+            temp_docx_path = os.path.join(directory_temp, temp_docx)
+            latex = thesis.text
+
+            # Converter LaTeX para DOCX
+            pypandoc.convert_text(latex, 'docx', format='latex', outputfile=temp_docx_path)
+
+            temp_doc = Document(temp_docx_path) 
+            # Verificar se o arquivo final já existe e carregar o documento, caso contrário usar modelo
+            if os.path.isfile(file_path):
+                existing_doc = Document(file_path)
+            else:
+                existing_doc = Document(os.path.join(settings.MEDIA_ROOT, 'modelo.docx'))
+
+            # Adicionar conteúdo do documento temporário ao documento existente
+            for element in temp_doc.element.body:
+                existing_doc.element.body.append(element)
+
+            # Salvar o documento final
+            existing_doc.save(file_path)
+
+        # Reabrir o documento final para aplicar estilo aos parágrafos que iniciam com número seguido de ponto
+        final_doc = Document(file_path)
+        self.replace_text(final_doc, credentials)
+
+        # Localizar um determinado paragrafo para copiar o seu estilo
+        paragrafo_origem = self.localizar_paragrafo(final_doc, 'Copiar parágrafo')
+
+        if paragrafo_origem:
+            # Iterar sobre os parágrafos para encontrar o índice e aplicar alterações
+            for index, para in enumerate(final_doc.paragraphs):
+                # Verificar se o parágrafo corresponde ao padrão desejado
+                if re.match(r'^\d+\.', para.text.strip()) or re.match(r'Introdução', para.text.strip()) or re.match(r'Referências Bibliográficas', para.text.strip()):
+                    # Aplicar o estilo copiado ao parágrafo
+                    self.copiar_estilos(paragrafo_origem, para)  # Substitua com a implementação correta da função
+                    
+                    if '. Revisão de Literatura' in para.text:
+                        # Insere um novo parágrafo antes do parágrafo localizado
+                        new_paragraph = final_doc.paragraphs[index].insert_paragraph_before()
+                        # Adiciona uma quebra de página ao novo parágrafo
+                        new_paragraph.add_run().add_break(WD_BREAK.PAGE)
+                if re.match(r'Referências Bibliográficas', para.text.strip()): 
+                        new_paragra = final_doc.paragraphs[index].insert_paragraph_before() 
+                        new_paragra.add_run().add_break(WD_BREAK.PAGE)
+                    
+        self.remover_paragrafo(final_doc, paragrafo_origem)
+        # Salvar o documento final após a aplicação dos estilos
+        final_doc.save(file_path)
+
+        # Enviar o documento como resposta HTTP
         with open(file_path, 'rb') as arquivo_aberto:
             response = HttpResponse(
-                arquivo_aberto.read(), 
+                arquivo_aberto.read(),
                 content_type='application/vnd.openxmlformats-officedocument.wordprocessingml.document'
             )
-            response['Content-Disposition'] = f'attachment; filename="{file_name}"'
-             
-            return response
+            response['Content-Disposition'] = f'attachment; filename="{new_file_name}"'
+
+        return response
+        
 
 class DestroyAllTheses(DestroyAPIView):
     permission_classes = [permissions.IsAuthenticated, IsAuthor]
@@ -261,3 +251,4 @@ class DestroyOneThesis(DestroyAPIView):
         if code:
             queryset = queryset.filter(code=code)
             return queryset
+

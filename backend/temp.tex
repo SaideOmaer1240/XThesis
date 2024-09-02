@@ -1,36 +1,4 @@
-import subprocess
 
-class LaTeXToDocxConverter:
-    def __init__(self, pandoc_path):
-        self.pandoc_path = pandoc_path
-
-    def convert(self, latex_content, output_docx_path='output.docx'):
-        # Caminho temporário para o arquivo LaTeX
-        temp_tex_path = 'temp.tex'
-
-        # Escrever o conteúdo em LaTeX para um arquivo temporário
-        with open(temp_tex_path, 'w', encoding='utf-8') as f:
-            f.write(latex_content)
-
-        # Comando para converter o arquivo LaTeX para DOCX usando Pandoc
-        command = [
-            self.pandoc_path,
-            temp_tex_path,  # Arquivo de entrada
-            '-o', output_docx_path  # Arquivo de saída
-        ]
-
-        # Executar o comando
-        subprocess.run(command)
-
-        print(f"Conversão concluída. O arquivo {output_docx_path} foi criado.")
-
-# Uso da classe
-pandoc_path = 'C:/Users/Cristina Setimane/AppData/Local/Pandoc/pandoc.exe'
-converter = LaTeXToDocxConverter(pandoc_path)
-
-
-# Conteúdo LaTeX com cálculos verticais e Bhaskara
-latex_content = r"""
 \documentclass{article}
 \usepackage{amsmath}
 
@@ -149,7 +117,3 @@ x_2 = \frac{-(-3) - \sqrt{1}}{2 \cdot 1} = \frac{3 - 1}{2} = \frac{2}{2} = 1
 Portanto, as raízes da equação são \( x_1 = 2 \) e \( x_2 = 1 \).
 
 \end{document}
-"""
-
-# Converter para DOCX
-converter.convert(latex_content, 'exercicios_calculo_bhaskara_vertical.docx')

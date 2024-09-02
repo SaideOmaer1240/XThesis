@@ -1,10 +1,8 @@
-import os     
 from pathlib import Path
 from datetime import timedelta
 from decouple import config 
 # Diretório base do projeto
-BASE_DIR = Path(__file__).resolve().parent.parent
-
+BASE_DIR = Path(__file__).resolve().parent.parent 
 # Segurança
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)

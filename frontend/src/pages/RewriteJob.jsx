@@ -90,6 +90,11 @@ const Rewrite = () => {
                 } else {
                     console.log('Div não encontrada.');
                 }
+
+                // Aciona o MathJax para processar o novo conteúdo
+                if (window.MathJax) {
+                    window.MathJax.typesetPromise();
+                }
             }
 
             if (data.progress) {
@@ -111,6 +116,24 @@ const Rewrite = () => {
 
         return () => {
             ws.close();
+        };
+    }, []);
+
+    useEffect(() => {
+        // Adicionando MathJax dinamicamente
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.async = true;
+        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js';
+        script.onload = () => {
+            if (window.MathJax) {
+                window.MathJax.typesetPromise();
+            }
+        };
+        document.head.appendChild(script);
+
+        return () => {
+            document.head.removeChild(script);
         };
     }, []);
 

@@ -1,4 +1,5 @@
 import pypandoc
+from docx import Document
 
 # Texto em LaTeX que você deseja converter
 latex_text = r"""\documentclass{article}
@@ -154,29 +155,26 @@ As raízes da equação \(2x^2 + 3x - 5 = 0\) são:
     \item \(x_2 = -2.5\)
 \end{itemize} 
 
-  
 \end{document}
 """
-# Converter texto LaTeX para HTML com suporte a MathJax
-html_output = pypandoc.convert_text(latex_text, 'html', format='latex')
 
-# Adiciona MathJax para renderizar equações matemáticas
-mathjax_script = """
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js">
-</script>
-"""
+# Converter texto LaTeX para DOCX temporário
+temp_docx = 'temp_docx.docx'
+pypandoc.convert_text(latex_text, 'docx', format='latex', outputfile=temp_docx)
 
-def latex2html(text):
-    html_output = pypandoc.convert_text(text, 'html', format='latex')
-    return html_output
+# Abrir o documento existente e o temporário
+existing_doc = Document('C:/Users/Cristina Setimane/Documents/GitHub/XThesis/backend/tools/modelo.docx')
+ 
+   
+temp_doc = Document(temp_docx)
 
+# Adicionar o conteúdo do documento temporário ao documento existente
+for element in temp_doc.element.body:
+    existing_doc.element.body.append(element)
 
-# Inclui o script do MathJax no HTML
-html_output = f"{mathjax_script}\n{html_output}"
+# Salvar o documento combinado
+combined_docx = "documento_combinado.docx"
+existing_doc.save(combined_docx)
 
-# Escreve a saída em um arquivo HTML
-with open("Arquivo_html.html", "w", encoding='utf-8') as file:
-    file.write(html_output)
-
+print(f"Documento combinado gerado: {combined_docx}")
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link, useParams, useNavigate  } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header";
 import { Download } from 'phosphor-react';
 import SideBar from "../components/SideBar";
@@ -11,7 +11,8 @@ import "./criar.css";
 import "./modal.css";
 import "../assets/css/progresso.css";
 import "../assets/css/book.css";
-import  LoadingAnimation from  "../components/LoadingAnimation";
+import LoadingAnimation from "../components/LoadingAnimation";
+
 function Thesis() {
   const { code } = useParams();
   const [thesis, setThesis] = useState([]);
@@ -35,7 +36,7 @@ function Thesis() {
       } catch (error) {
         if (error.response && error.response.status === 401) {
           navigate('/login');
-      }
+        }
         console.error("Erro ao buscar credenciais do trabalho:", error);
       }
     };
@@ -49,10 +50,15 @@ function Thesis() {
           },
         });
         setThesis(response.data);
+
+        // Aciona o processamento do MathJax após carregar a tese
+        if (window.MathJax) {
+          window.MathJax.typesetPromise();
+        }
       } catch (error) {
         if (error.response && error.response.status === 401) {
           navigate('/login');
-      }
+        }
         console.error("Erro ao buscar tese:", error);
       } finally {
         setLoading(false);
@@ -61,7 +67,23 @@ function Thesis() {
 
     fetchCredentials();
     fetchThesis();
-  }, [code]);
+
+    // Adicionando MathJax
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.async = true;
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.0/es5/tex-mml-chtml.js';
+    script.onload = () => {
+      if (window.MathJax) {
+        window.MathJax.typesetPromise();
+      }
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      document.head.removeChild(script);
+    };
+  }, [code, navigate]);
 
   const handleDownload = async () => {
     const token = localStorage.getItem("token");
@@ -159,14 +181,15 @@ function Thesis() {
             )}
 
             {loading ? (
-              <div><LoadingAnimation/></div>
+              <div><LoadingAnimation /></div>
             ) : thesis.length > 0 ? (
               thesis.map((t) => (
                 <div key={t.id} className="conteudo-wrapper">
                   <div className="papel-wrapper">
                     <div className="r">
-                      <h3 className="text-2xl font-bold mb-4">{t.title}</h3>
-                      <p className="text-gray-700 text-base mb-4" dangerouslySetInnerHTML={{ __html: t.text }}></p>
+                      
+                      {/*<h3 className="text-2xl font-bold mb-4">{t.title}</h3>*/}
+                      <p className="text-gray-700 text-base mb-4" dangerouslySetInnerHTML={{ __html: t.html }}></p>
                     </div>
                   </div>
                 </div>
@@ -178,7 +201,7 @@ function Thesis() {
             <div className="text-center mt-6">
               <button onClick={handleDownload} className="downloadBtn">
                 <span>
-                   <Download weight="bold" size={28}/>
+                  <Download weight="bold" size={28} />
                 </span>
               </button>
             </div>

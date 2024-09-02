@@ -79,8 +79,8 @@ class Escritor:
     def __init__(self):
         self.api_key = settings.GROQ_API_KEY
         self.model_name = settings.GROQ_MODEL_NAME
-        #self.llm = ChatGroq(temperature=0, groq_api_key=self.api_key, model_name=self.model_name)
-        self.llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro",temperature=0, max_tokens=None,timeout=None,max_retries=2, google_api_key=settings.GEMINI_API_KEY)
+        self.llm = ChatGroq(temperature=0, groq_api_key=self.api_key, model_name=self.model_name)
+        #self.llm = ChatGoogleGenerativeAI(model="gemini-1.5-pro",temperature=0, max_tokens=None,timeout=None,max_retries=2, google_api_key=settings.GEMINI_API_KEY)
         self.parser = StrOutputParser()
         print("processado") 
          
@@ -110,27 +110,30 @@ class Escritor:
             matches = re.findall(r'\[(.*?)\]', text, re.DOTALL)
             content = str(matches[0])
             match  = re.findall(r'"(.*?)"', content)
-        
-            return match 
+            indice = [item for item in match if not (item.startswith("1.1") or any(item.startswith(f"1.{i}") for i in range(2, 10)))]
+            return indice
         except Exception as e:
            print(f"Erro ao tentar obter o índice para o trabalho: {topic}\n Tipo de erro: {e}")
            lista_vasia = []
            return lista_vasia
        
-    def generate_response(self, title : str, index : list, lang : str, image_base : list) -> str:
+    def generate_response(self, title : str, index : list, lang : str) -> str:
         system_msg = prompt_title.get_prompt(lang)
         prompt_template = ChatPromptTemplate.from_messages(
             [
                 (
                     "system"
-                    , system_msg
-                ) ,MessagesPlaceholder(variable_name='image_base'),
-                ("human", 'Este é o meu esboço:{index}. Desenvolva "{title}". texto deve ser escrita na lingua {lang} a sua resposta deve ser no maximo "405 palavras". "Não se esqueça das tags html". Caso voce julge necessario uso de imagem procurre no image_base uma url da imagem adequada ao assunto abordado') 
+                    , system_msg  
+                ) , 
+                ("human", 'Este é o meu esboço:{index}. ignore todas outras sessões e consentre-se em Desenvolver extritamente essa parte: "{title}". texto deve ser escrita na lingua {lang}') 
             ]
         )
         chain = prompt_template | self.llm | self.parser
         try:
-            response = chain.invoke({"title":title, "index":index, "lang":lang, "image_base":image_base})
+            response = chain.invoke({"title":title, "index":index, "lang":lang})
+            print(response)
+            import time
+            time.sleep(7)
             return response
         except Exception as e:
             print(f"Erro ao tentar gerar a resposta para o trabalho: {title}\nTipo de erro: {e}")
