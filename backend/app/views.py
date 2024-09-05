@@ -48,6 +48,8 @@ class ThesisViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+        
+            
 
     def copiar_estilos(self, origem, destino):
         destino.style = origem.style
@@ -214,11 +216,22 @@ class ThesisViewSet(viewsets.ModelViewSet):
                         # Adiciona uma quebra de página ao novo parágrafo
                         new_paragraph.add_run().add_break(WD_BREAK.PAGE)
                 if re.match(r'Referências Bibliográficas', para.text.strip()): 
-                        new_paragra = final_doc.paragraphs[index].insert_paragraph_before() 
-                        new_paragra.add_run().add_break(WD_BREAK.PAGE)
-                    
+                    para.add_run().add_break(WD_BREAK.PAGE)
+                    para.add_run().add_text("Referência Bibliográfica")
+                
+        
+        # Procurar e remover a repetição de "Referência Bibliográfica"
+        found = True
+        for  i, paragraph in enumerate(final_doc.paragraphs): 
+            if "Referências Bibliográficas" in paragraph.text:
+                if found:
+                    paragraph.text = paragraph.text.replace("Referências Bibliográficas", "")
+                    found = False 
+                new_paragraph = final_doc.paragraphs[i].insert_paragraph_before() 
+                new_paragraph.add_run().add_break(WD_BREAK.PAGE) 
+                
         self.remover_paragrafo(final_doc, paragrafo_origem)
-        # Salvar o documento final após a aplicação dos estilos
+        # Salvar o documento final após a aplicação dos estilos 
         final_doc.save(file_path)
 
         # Enviar o documento como resposta HTTP

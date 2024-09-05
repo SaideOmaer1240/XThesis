@@ -9,6 +9,7 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 GROQ_API_KEY = config('GROQ_API_KEY', default='') 
 GEMINI_API_KEY = config('GEMINI_API_KEY', default='')
 GROQ_MODEL_NAME = config('GROQ_MODEL_NAME', default='')
+
 # Hosts permitidos
 ALLOWED_HOSTS = ['*']
  
@@ -45,11 +46,11 @@ MIDDLEWARE = [
 
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173", 
+    "http://localhost:5173", "*",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",  
+    "http://localhost:5173",  "*",
 ]
 LOGGING = {
     'version': 1,
