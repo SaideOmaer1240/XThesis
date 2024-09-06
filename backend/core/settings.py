@@ -104,13 +104,18 @@ CHANNEL_LAYERS = {
     }
 } 
 
-# Configuração do banco de dados
+ 
 DATABASES = {
     'default': {
-        'ENGINE': config('DATABASE_ENGINE', default='django.db.backends.sqlite3'),
-        'NAME': BASE_DIR / config('DATABASE_NAME', default='db.sqlite3'),
+        'ENGINE': config('DATABASE_ENGINE', default='django.db.backends.postgresql'),
+        'NAME': config('DATABASE_NAME', default='postgres'),
+        'USER': config('DATABASE_USER', default='postgres'),
+        'PASSWORD': config('DATABASE_PASSWORD', default='password'),
+        'HOST': config('DATABASE_HOST', default='inaudibly-flashy-flatfish.data-1.use1.tembo.io'),
+        'PORT': config('DATABASE_PORT', default='5432'),
     }
 }
+
 
 # Configuração do Django REST Framework
 REST_FRAMEWORK = {

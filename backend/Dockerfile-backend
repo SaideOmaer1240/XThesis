@@ -1,0 +1,21 @@
+# Dockerfile-backend
+
+# Use uma imagem base com Python 3.12
+FROM python:3.12.3
+
+# Define o diretório de trabalho
+WORKDIR /app
+
+# Copia os arquivos do projeto para o diretório de trabalho
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
+
+COPY . .
+
+# Exponha a porta na qual o Django vai rodar
+EXPOSE 8000
+
+# Define o comando para iniciar o servidor Daphne
+CMD ["daphne", "-u", "/tmp/daphne.sock", "projeto.asgi:application"]
+
+

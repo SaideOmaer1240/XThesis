@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile-frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+    stdin_open: true
+    tty: true
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile-backend
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    environment:
+      - DATABASE_ENGINE=django.db.backends.postgresql
+      - DATABASE_NAME=postgres
+      - DATABASE_USER=postgres
+      - DATABASE_HOST=inaudibly-flashy-flatfish.data-1.use1.tembo.io
+      - DATABASE_PASSWORD=fNjEk6AZW4pz4vJx
+      - DATABASE_PORT=5432
+    stdin_open: true
+    tty: true
+
+  db:
+    image: postgres:15.8
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: fNjEk6AZW4pz4vJx
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
