@@ -1,18 +1,20 @@
 from pathlib import Path
 from datetime import timedelta
-from decouple import config 
+from decouple import config  
 # Diretório base do projeto
 BASE_DIR = Path(__file__).resolve().parent.parent 
+
 # Segurança
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 GROQ_API_KEY = config('GROQ_API_KEY', default='') 
 GEMINI_API_KEY = config('GEMINI_API_KEY', default='')
 GROQ_MODEL_NAME = config('GROQ_MODEL_NAME', default='')
-
+ALLOWED_HOST = config('ALLOWED_HOSTS', default='')
 # Hosts permitidos
-ALLOWED_HOSTS = ['*']
- 
+ALLOWED_HOSTS = [
+    ALLOWED_HOST ]
+
 # Aplicativos instalados
 INSTALLED_APPS = [
     'daphne',
@@ -20,6 +22,7 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
+    "django.contrib.sites",
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
@@ -27,10 +30,10 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'app',
-     'chat',
-     'tools',
+    'chat',
+    'tools',
 ]
- 
+
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -44,35 +47,17 @@ MIDDLEWARE = [
     'django_grip.GripMiddleware',
 ]
 
-
+# Configuração de CORS
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173", "*",
-]
+   ALLOWED_HOST ]
 
+CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=False, cast=bool)
+CORS_ALLOW_CREDENTIALS = config('CORS_ALLOW_CREDENTIALS', default=True, cast=bool)
+
+# Configuração de CSRF
 CSRF_TRUSTED_ORIGINS = [
-    "http://localhost:5173",  "*",
-]
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-        },
-        'file': {
-            'class': 'logging.FileHandler',
-            'filename': 'debug.log',
-        },
-    },
-    'loggers': {
-        '': {
-            'handlers': ['console', 'file'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-    },
-}
- 
+   ALLOWED_HOST ]
+
 # Configuração de URL raiz
 ROOT_URLCONF = 'core.urls'
 
@@ -100,11 +85,14 @@ ASGI_APPLICATION = 'core.asgi.application'
 # Configuração de camadas de canal
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels.layers.InMemoryChannelLayer"
-    }
-} 
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("xthesis-redis-1", 6379)],  # nome do contêiner Redis no Docker
+        },
+    },
+}
 
- 
+# Configuração do banco de dados
 DATABASES = {
     'default': {
         'ENGINE': config('DATABASE_ENGINE', default='django.db.backends.postgresql'),
@@ -114,8 +102,7 @@ DATABASES = {
         'HOST': config('DATABASE_HOST', default='inaudibly-flashy-flatfish.data-1.use1.tembo.io'),
         'PORT': config('DATABASE_PORT', default='5432'),
     }
-}
-
+} 
 
 # Configuração do Django REST Framework
 REST_FRAMEWORK = {
@@ -155,15 +142,14 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Arquivos estáticos e de mídia
-STATIC_URL = 'static/'
+# Arquivos estáticos e de mídia 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+STATIC_URL = '/static/' 
+STATIC_ROOT = '/app/staticfiles'
 
 # Campo de chave primária padrão
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Configuração de CORS adicional
-CORS_ALLOW_ALL_ORIGINS = config('CORS_ALLOW_ALL_ORIGINS', default=True, cast=bool)
-CORS_ALLOW_CREDENTIALS = config('CORS_ALLOW_CREDENTIALS', default=True, cast=bool)
-AUTHENTICATION_BACKENDS =['accounts.backends.AuthBackend']
+# Configuração adicional
+AUTHENTICATION_BACKENDS = ['accounts.backends.AuthBackend']

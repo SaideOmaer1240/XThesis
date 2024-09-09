@@ -3,12 +3,11 @@ import react from '@vitejs/plugin-react';
 
 export default defineConfig({
   plugins: [react()],
-  define: {
-    'process.env': process.env
+  build: {
+    outDir: 'dist', // Gera a pasta de build correta
   },
-  resolve: {
-    alias: {
-      '@': '/src',
-    },
-  },
+  server: {
+    historyApiFallback: true, // Garante que rotas sejam tratadas corretamente
+  }
 });
+

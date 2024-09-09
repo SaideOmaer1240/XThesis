@@ -8,7 +8,6 @@ from asgiref.sync import sync_to_async
 from .models import Thesis
 from accounts.models import UserData 
 from tools.agents import Escritor, Translator
-from learnfetch import Pesquisador
 import uuid 
 import pypandoc
 
